@@ -1,4 +1,4 @@
-var weapon, flame, boss_life = 5, ship_life = 2;
+var weapon, flame, sound;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -11,6 +11,7 @@ demo.battle.prototype = {
         game.load.image('boss', 'assets/sprites/Enemy.png');
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png')
+        game.load.audio('shot', 'assets/sounds/blaster.mp3');
     },
     create:function(){
         addChangeStateEventListeners();
@@ -23,6 +24,9 @@ demo.battle.prototype = {
         ship.scale.setTo(0.7, 0.7);
         boss.anchor.setTo(0.5, 0.5);
         boss.scale.setTo(-1, 1);
+        
+        sound = game.add.audio('shot');
+        sound.addMarker('pew', 0, 1)
         
         weapon = game.add.weapon(50, 'bullet');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -64,7 +68,10 @@ demo.battle.prototype = {
         }
         if (fireButton.isDown){
             if (ship.alive == true){
-                 weapon.fire();
+                weapon.fire();
+                weapon.onFire.add(function(){
+                    sound.play('pew');
+                })
             }
         }
         if (boss.x < ship.x){
@@ -88,13 +95,13 @@ function hitEnemy(boss, bullet){
     bullet.kill();
     boss_life -= 1;
     if (boss_life <= 0){
-        boss.kill()
+        boss.kill();
     }
 }
 function hitShip(ship, bullet){
     bullet.kill();
     ship_life -=1;
     if (ship_life <= 0){
-        ship.kill()
+        ship.kill();
     }
 }
