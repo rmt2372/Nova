@@ -1,5 +1,5 @@
 var demo = {};
-var centerX = 1024/2, centerY = 576/2, nova, boss, speed = 4;
+var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4;
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
