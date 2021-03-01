@@ -16,7 +16,7 @@ demo.battle.prototype = {
     create:function(){
         addChangeStateEventListeners();
         var skyBG = game.add.sprite(0, 0, 'sky');
-        game.world.setBounds(0, 0, 1024, 576);
+        game.world.setBounds(0, 0, 2048, 576);
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
         var map = game.add.tilemap('map');
@@ -51,11 +51,12 @@ demo.battle.prototype = {
         flame.trackSprite(boss, 0, 0, true)
         flame.autofire = true;
         
+        
         game.physics.enable(ship);
         game.physics.enable(boss);
         ship.body.collideWorldBounds = true;
         boss.body.collideWorldBounds = true;
-        
+        game.camera.follow(ship);
         
     },
     update: function(){
