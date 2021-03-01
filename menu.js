@@ -1,5 +1,5 @@
 var demo = {};
-var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4;
+var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4, boss_life = 5, ship_life = 2;
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
@@ -20,6 +20,8 @@ function changeState(i, stateNum){
         game.state.start("menu");
     } else if (stateNum == 'b'){
         console.log('battle');
+        boss_life = 5;
+        ship_life = 2;
         game.state.start('battle');
     }
 }
