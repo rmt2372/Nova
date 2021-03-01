@@ -62,11 +62,11 @@
         {
          "columns":2,
          "firstgid":9,
-         "image":"map_sky_night2 .png",
+         "image":"map_sky_night2.png",
          "imageheight":64,
          "imagewidth":64,
          "margin":0,
-         "name":"map_sky_night2 ",
+         "name":"map_sky_night2",
          "spacing":0,
          "tilecount":4,
          "tileheight":32,

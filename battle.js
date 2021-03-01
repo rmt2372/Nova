@@ -2,11 +2,11 @@ var weapon, flame, sound;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
+        game.load.tilemap('map', 'assets/map/map.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('sky', 'assets/map/map_sky_night.png');
-        game.load.image('sky2', 'assets/map/map_sky_night2.png');
-        game.load.image('sky', 'assets/map/map_sky_night2.png');
-        game.load.image('sky', 'assets/map/map_sky_night2.png');
-        game.load.image('sky', 'assets/map/map_sky_night2.png');
+        game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
+        game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
+        game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
         game.load.image('ship', 'assets/sprites/spaceship.png');
         game.load.image('boss', 'assets/sprites/Enemy.png');
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
@@ -18,6 +18,15 @@ demo.battle.prototype = {
         var skyBG = game.add.sprite(0, 0, 'sky');
         game.world.setBounds(0, 0, 1024, 576);
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        var map = game.add.tilemap('map');
+        map.addTilesetImage('map_sky_night2');
+        map.addTilesetImage('map_ground_dirt');
+        map.addTilesetImage('map_ground_grass');
+        
+        sky = map.createLayer("sky")
+        ground = map.createLayer("Ground")
+        
         ship = game.add.sprite(256, 200, 'ship');
         boss = game.add.sprite(768, 200, 'boss');
         ship.anchor.setTo(0.5, 0.5);
