@@ -1,4 +1,4 @@
-var weapon, flame, sound;
+var weapon, flame, sound, ground, map, sky, ship;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -16,16 +16,18 @@ demo.battle.prototype = {
     create:function(){
         addChangeStateEventListeners();
         var skyBG = game.add.sprite(0, 0, 'sky');
-        game.world.setBounds(0, 0, 2048, 576);
+        game.world.setBounds(0, 0, 2048, 480);
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        var map = game.add.tilemap('map');
+        map = game.add.tilemap('map');
         map.addTilesetImage('map_sky_night2');
         map.addTilesetImage('map_ground_dirt');
         map.addTilesetImage('map_ground_grass');
         
-        sky = map.createLayer("sky")
-        ground = map.createLayer("Ground")
+        
+        sky = map.createLayer("sky");
+        ground = map.createLayer("Ground");
+        
         
         ship = game.add.sprite(256, 200, 'ship');
         boss = game.add.sprite(768, 200, 'boss');
@@ -60,6 +62,8 @@ demo.battle.prototype = {
         
     },
     update: function(){
+        
+        
         if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
             ship.x += speed;
             ship.scale.setTo(0.7, 0.7);
