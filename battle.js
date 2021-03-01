@@ -2,6 +2,10 @@ var weapon, flame, boss_life = 5, ship_life = 2;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
+        game.load.image('sky', 'assets/map/map_sky_night.png');
+        game.load.image('sky2', 'assets/map/map_sky_night2.png');
+        game.load.image('sky', 'assets/map/map_sky_night2.png');
+        game.load.image('sky', 'assets/map/map_sky_night2.png');
         game.load.image('sky', 'assets/map/map_sky_night2.png');
         game.load.image('ship', 'assets/sprites/spaceship.png');
         game.load.image('boss', 'assets/sprites/Enemy.png');
