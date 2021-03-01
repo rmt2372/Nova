@@ -100,7 +100,7 @@ demo.battle.prototype = {
             flame.autofire = false;
         }
         game.physics.arcade.overlap(ship, flame.bullets, hitShip, null, this)
-        game.physics.arcade.overlap(ship, boss, hitShip, null, this)
+        game.physics.arcade.overlap(ship, boss, hitBoss, null, this)
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this)
         game.physics.arcade.moveToObject(boss, ship, null, 3000);
     }
@@ -117,5 +117,11 @@ function hitShip(ship, bullet){
     ship_life -=1;
     if (ship_life <= 0){
         ship.kill();
+    }
+}
+function hitBoss(ship, boss){
+    ship_life -= 1;
+    if(ship_life <= 0){
+        ship.kill()
     }
 }
