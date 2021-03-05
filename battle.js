@@ -1,4 +1,4 @@
-var weapon, flame, sound, ground, map, sky, ship;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -46,12 +46,29 @@ demo.battle.prototype = {
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(ship, 0, 0, true);
         
-        flame = game.add.weapon (10, 'flame');
-        flame.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-        flame.fireRate = 2000;
-        flame.bulletSpeed = -500;
-        flame.trackSprite(boss, 0, 0, true)
-        flame.autofire = true;
+        flame1 = game.add.weapon (10, 'flame');
+        flame1.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        flame1.fireRate = 2000;
+        flame1.bulletSpeed = 500;
+        flame1.fireAngle = 360;
+        flame1.trackSprite(boss, 0, 0, false)
+        flame1.autofire = true;
+        
+        flame2 = game.add.weapon (10, 'flame');
+        flame2.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        flame2.fireRate = 2000;
+        flame2.bulletSpeed = 500;
+        flame2.fireAngle = 345;
+        flame2.trackSprite(boss, 0, 0, false)
+        flame2.autofire = true;
+        
+        flame3 = game.add.weapon (10, 'flame');
+        flame3.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        flame3.fireRate = 2000;
+        flame3.bulletSpeed = 500;
+        flame3.fireAngle = 13;
+        flame3.trackSprite(boss, 0, 0, false)
+        flame3.autofire = true;
         
         
         game.physics.enable(ship);
@@ -89,17 +106,23 @@ demo.battle.prototype = {
             }
         }
         if (boss.x < ship.x){
-            flame.bulletSpeed = 500;
+            flame1.bulletSpeed = 500;
+            flame2.bulletSpeed = 500;
+            flame3.bulletSpeed = 500;
             boss.scale.setTo(1, 1);
         }
         else if(boss.x > ship.x){
-            flame.bulletSpeed = -500
+            flame1.bulletSpeed = -500;
+            flame2.bulletSpeed = -500;
+            flame3.bulletSpeed = -500;
             boss.scale.setTo(-1, 1);
         }
         if (boss.alive == false || ship.alive == false){
-            flame.autofire = false;
+            flame1.autofire = false;
         }
-        game.physics.arcade.overlap(ship, flame.bullets, hitShip, null, this)
+        game.physics.arcade.overlap(ship, flame1.bullets, hitShip, null, this)
+        game.physics.arcade.overlap(ship, flame2.bullets, hitShip, null, this)
+        game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this)
         game.physics.arcade.overlap(ship, boss, hitBoss, null, this)
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this)
         game.physics.arcade.moveToObject(boss, ship, null, 3000);
