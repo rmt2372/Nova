@@ -126,7 +126,7 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this)
         game.physics.arcade.overlap(ship, boss, hitBoss, null, this)
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this)
-        //game.physics.arcade.moveToObject(boss, ship, null, 3000);
+        game.physics.arcade.moveToObject(boss, ship, null, 3000);
     }
 }
 function hitEnemy(boss, bullet){
@@ -159,7 +159,14 @@ function hitBoss(ship, boss){
      if(ship.invincibility == false){
         toggleInvincibility();
         ship_life -=1;
-        game.time.events.add(Phaser.Timer.SECOND * 2, toggleInvincibility, this)
+        game.time.events.add(Phaser.Timer.SECOND * 2, toggleInvincibility, this);
+        game.time.events.add(250, tweenTintHelper, this, 1);
+        game.time.events.add(500, tweenTintHelper, this, 0);
+        game.time.events.add(750, tweenTintHelper, this, 1);
+        game.time.events.add(1000, tweenTintHelper, this, 0);
+        game.time.events.add(1250, tweenTintHelper, this, 1);
+        game.time.events.add(1500, tweenTintHelper, this, 0);
+        game.time.events.add(1750, tweenTintHelper, this, 1);
     } 
     if (ship_life <= 0){
         endGame();
