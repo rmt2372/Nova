@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -10,7 +10,7 @@ demo.battle.prototype = {
         game.load.image('ship', 'assets/sprites/spaceship.png');
         game.load.image('boss', 'assets/sprites/Enemy.png');
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
-        game.load.image('flame', 'assets/sprites/bullet_fire.png')
+        game.load.image('flame', 'assets/sprites/bullet_fire.png');
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
     },
     create:function(){
@@ -35,6 +35,7 @@ demo.battle.prototype = {
         ship.scale.setTo(0.7, 0.7);
         boss.anchor.setTo(0.5, 0.5);
         boss.scale.setTo(-1, 1);
+        ship.invincibility = false;
         
         sound = game.add.audio('shot');
         sound.addMarker('pew', 0, 1)
@@ -125,7 +126,7 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this)
         game.physics.arcade.overlap(ship, boss, hitBoss, null, this)
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this)
-        game.physics.arcade.moveToObject(boss, ship, null, 3000);
+        //game.physics.arcade.moveToObject(boss, ship, null, 3000);
     }
 }
 function hitEnemy(boss, bullet){
@@ -136,15 +137,55 @@ function hitEnemy(boss, bullet){
     }
 }
 function hitShip(ship, bullet){
-    bullet.kill();
-    ship_life -=1;
+    if(ship.invincibility == false){
+        bullet.kill();
+        toggleInvincibility();
+        ship_life -=1;
+        game.time.events.add(2000, toggleInvincibility, this);
+        tweenTintHelper(0);
+        game.time.events.add(250, tweenTintHelper, this, 1);
+        game.time.events.add(500, tweenTintHelper, this, 0);
+        game.time.events.add(750, tweenTintHelper, this, 1);
+        game.time.events.add(1000, tweenTintHelper, this, 0);
+        game.time.events.add(1250, tweenTintHelper, this, 1);
+        game.time.events.add(1500, tweenTintHelper, this, 0);
+        game.time.events.add(1750, tweenTintHelper, this, 1);
+    } 
     if (ship_life <= 0){
-        ship.kill();
+        endGame()
     }
 }
 function hitBoss(ship, boss){
-    ship_life -= 1;
-    if(ship_life <= 0){
-        ship.kill()
+     if(ship.invincibility == false){
+        toggleInvincibility();
+        ship_life -=1;
+        game.time.events.add(Phaser.Timer.SECOND * 2, toggleInvincibility, this)
+    } 
+    if (ship_life <= 0){
+        endGame();
     }
+}
+function toggleInvincibility(){
+    ship.invincibility = !ship.invincibility
+}
+function tweenTint(obj, startColor, endColor, time){
+    var colorBlend = {step: 0};
+    var colorTween = game.add.tween(colorBlend).to({step: 100}, time);
+    colorTween.onUpdateCallback(function() {obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);});
+    obj.tint = startColor;
+    colorTween.start();
+}
+function tweenTintHelper(num){
+    if (num == 0){
+        tweenTint(ship, 0xffffff, 0xbbbbbb, 250);
+    }
+    if (num == 1){
+        tweenTint(ship, 0xbbbbbb, 0xffffff, 250);
+    }
+}
+function endGame(){
+    ship.kill()
+    flame1.autofire = false;
+    flame2.autofire = false;
+    flame3.autofire = false;
 }
