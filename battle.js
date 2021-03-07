@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, music;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -8,10 +8,11 @@ demo.battle.prototype = {
         game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
         game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
         game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet.png', 100, 100);
-        game.load.image('boss', 'assets/sprites/Enemy.png');
+        game.load.image('boss', 'assets/sprites/Villian.png');
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
+        game.load.audio('music', 'assets/sounds/Sommarfgel.wav');
     },
     create:function(){
         addChangeStateEventListeners();
@@ -41,6 +42,11 @@ demo.battle.prototype = {
         
         sound = game.add.audio('shot');
         sound.addMarker('pew', 0, 1)
+        music = game.add.audio('music');
+        music.addMarker('fight', 82, 140, 0.1, true);
+        if (game.state.getCurrentState().key == 'battle'){
+            music.play('fight');
+        }
         
         weapon = game.add.weapon(50, 'bullet');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -54,7 +60,7 @@ demo.battle.prototype = {
         flame1.fireRate = 2000;
         flame1.bulletSpeed = 500;
         flame1.fireAngle = 360;
-        flame1.trackSprite(boss, 0, 0, false)
+        flame1.trackSprite(boss, -75, -25, false)
         flame1.autofire = true;
         
         flame2 = game.add.weapon (10, 'flame');
@@ -62,7 +68,7 @@ demo.battle.prototype = {
         flame2.fireRate = 2000;
         flame2.bulletSpeed = 500;
         flame2.fireAngle = 345;
-        flame2.trackSprite(boss, 0, 0, false)
+        flame2.trackSprite(boss, -75, -25, false)
         flame2.autofire = true;
         
         flame3 = game.add.weapon (10, 'flame');
@@ -70,7 +76,7 @@ demo.battle.prototype = {
         flame3.fireRate = 2000;
         flame3.bulletSpeed = 500;
         flame3.fireAngle = 13;
-        flame3.trackSprite(boss, 0, 0, false)
+        flame3.trackSprite(boss, -75, -25, false)
         flame3.autofire = true;
         
         
@@ -95,6 +101,9 @@ demo.battle.prototype = {
             ship.x -= speed;
             weapon.bulletSpeed = -500;
             ship.animations.play('walk', 12, true);
+        }
+        else{
+            ship.animations.stop('walk');
         }
         if (game.input.keyboard.isDown(Phaser.Keyboard.UP)){
             ship.y -= speed;
@@ -124,13 +133,15 @@ demo.battle.prototype = {
         }
         if (boss.alive == false || ship.alive == false){
             flame1.autofire = false;
+            flame2.autofire = false;
+            flame3.autofire = false;
         }
-        game.physics.arcade.overlap(ship, flame1.bullets, hitShip, null, this)
-        game.physics.arcade.overlap(ship, flame2.bullets, hitShip, null, this)
-        game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this)
-        game.physics.arcade.overlap(ship, boss, hitBoss, null, this)
-        game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this)
-        game.physics.arcade.moveToObject(boss, ship, null, 3000);
+        game.physics.arcade.overlap(ship, flame1.bullets, hitShip, null, this);
+        game.physics.arcade.overlap(ship, flame2.bullets, hitShip, null, this);
+        game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this);
+        game.physics.arcade.overlap(ship, boss, hitBoss, null, this);
+        game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this);
+        //game.physics.arcade.moveToObject(boss, ship, null, 3000);
     }
 }
 function hitEnemy(boss, bullet){
@@ -196,6 +207,7 @@ function tweenTintHelper(num){
 }
 function endGame(){
     ship.kill()
+    music.pause();
     flame1.autofire = false;
     flame2.autofire = false;
     flame3.autofire = false;
