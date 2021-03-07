@@ -7,7 +7,7 @@ demo.battle.prototype = {
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
         game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
         game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
-        game.load.image('ship', 'assets/sprites/spaceship.png');
+        game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet.png', 100, 100);
         game.load.image('boss', 'assets/sprites/Enemy.png');
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
@@ -35,7 +35,9 @@ demo.battle.prototype = {
         ship.scale.setTo(0.7, 0.7);
         boss.anchor.setTo(0.5, 0.5);
         boss.scale.setTo(-1, 1);
+        ship.animations.add('walk', [0, 1]);
         ship.invincibility = false;
+        
         
         sound = game.add.audio('shot');
         sound.addMarker('pew', 0, 1)
@@ -86,11 +88,13 @@ demo.battle.prototype = {
             ship.x += speed;
             ship.scale.setTo(0.7, 0.7);
             weapon.bulletSpeed = 500;
+            ship.animations.play('walk', 12, true);
         } 
         else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
             ship.scale.setTo(-0.7, 0.7);
             ship.x -= speed;
             weapon.bulletSpeed = -500;
+            ship.animations.play('walk', 12, true);
         }
         if (game.input.keyboard.isDown(Phaser.Keyboard.UP)){
             ship.y -= speed;
