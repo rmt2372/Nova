@@ -31,7 +31,7 @@ demo.battle.prototype = {
         ground = map.createLayer("Ground");
         
         
-        ship = game.add.sprite(256, 200, 'ship');
+        ship = game.add.sprite(156, 200, 'ship');
         boss = game.add.sprite(768, 200, 'boss');
         ship.anchor.setTo(0.5, 0.5);
         ship.scale.setTo(0.7, 0.7);
@@ -40,7 +40,7 @@ demo.battle.prototype = {
         ship.animations.add('walk', [0, 1]);
         ship.invincibility = false;
         
-        boss.animations.add('attack', [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        boss.animations.add('attack', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         
         
         sound = game.add.audio('shot');
@@ -62,24 +62,24 @@ demo.battle.prototype = {
         flame1.fireRate = 2000;
         flame1.bulletSpeed = 500;
         flame1.fireAngle = 360;
-        flame1.trackSprite(boss, -75, -25, false)
-        flame1.autofire = true;
+        flame1.trackSprite(boss, -70, -30, false)
+        flame1.autofire = false;
         
         flame2 = game.add.weapon (10, 'flame');
         flame2.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         flame2.fireRate = 2000;
         flame2.bulletSpeed = 500;
         flame2.fireAngle = 345;
-        flame2.trackSprite(boss, -75, -25, false)
-        flame2.autofire = true;
+        flame2.trackSprite(boss, -70, -30, false)
+        flame2.autofire = false;
         
         flame3 = game.add.weapon (10, 'flame');
         flame3.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         flame3.fireRate = 2000;
         flame3.bulletSpeed = 500;
         flame3.fireAngle = 13;
-        flame3.trackSprite(boss, -75, -25, false)
-        flame3.autofire = true;
+        flame3.trackSprite(boss, -70, -30, false)
+        flame3.autofire = false;
         
         
         game.physics.enable(ship);
@@ -92,9 +92,9 @@ demo.battle.prototype = {
         
     },
     update: function(){
-        
+        game.time.events.add(2000, toggleAutoFire, this);
         if (boss.alive == true){
-            boss.animations.play('attack', 6, true);
+            boss.animations.play('attack', 10, true);
         }
         
         if (cursors.right.isDown){
@@ -130,12 +130,18 @@ demo.battle.prototype = {
             flame1.bulletSpeed = 500;
             flame2.bulletSpeed = 500;
             flame3.bulletSpeed = 500;
+            flame1.trackSprite(boss, 70, -30, false)
+            flame2.trackSprite(boss, 70, -30, false)
+            flame3.trackSprite(boss, 70, -30, false)
             boss.scale.setTo(1, 1);
         }
         else if(boss.x > ship.x){
             flame1.bulletSpeed = -500;
             flame2.bulletSpeed = -500;
             flame3.bulletSpeed = -500;
+            flame1.trackSprite(boss, -70, -30, false)
+            flame2.trackSprite(boss, -70, -30, false)
+            flame3.trackSprite(boss, -70, -30, false)
             boss.scale.setTo(-1, 1);
         }
         flame1.onFire.add(function(){
@@ -168,11 +174,11 @@ function hitShip(ship, bullet){
         ship_life -=1;
         game.time.events.add(2000, toggleInvincibility, this);
         tweenTintHelper(0);
-        game.time.events.add(250, tweenTintHelper, this, 1);
+        game.time.events.add(300, tweenTintHelper, this, 1);
         game.time.events.add(500, tweenTintHelper, this, 0);
         game.time.events.add(750, tweenTintHelper, this, 1);
         game.time.events.add(1000, tweenTintHelper, this, 0);
-        game.time.events.add(1250, tweenTintHelper, this, 1);
+        game.time.events.add(1300, tweenTintHelper, this, 1);
         game.time.events.add(1500, tweenTintHelper, this, 0);
         game.time.events.add(1750, tweenTintHelper, this, 1);
     } 
@@ -185,11 +191,11 @@ function hitBoss(ship, boss){
         toggleInvincibility();
         ship_life -=1;
         game.time.events.add(Phaser.Timer.SECOND * 2, toggleInvincibility, this);
-        game.time.events.add(250, tweenTintHelper, this, 1);
+        game.time.events.add(300, tweenTintHelper, this, 1);
         game.time.events.add(500, tweenTintHelper, this, 0);
         game.time.events.add(750, tweenTintHelper, this, 1);
         game.time.events.add(1000, tweenTintHelper, this, 0);
-        game.time.events.add(1250, tweenTintHelper, this, 1);
+        game.time.events.add(1300, tweenTintHelper, this, 1);
         game.time.events.add(1500, tweenTintHelper, this, 0);
         game.time.events.add(1750, tweenTintHelper, this, 1);
     } 
@@ -209,10 +215,10 @@ function tweenTint(obj, startColor, endColor, time){
 }
 function tweenTintHelper(num){
     if (num == 0){
-        tweenTint(ship, 0xffffff, 0xbbbbbb, 250);
+        tweenTint(ship, 0xffffff, 0xbbbbbb, 300);
     }
     if (num == 1){
-        tweenTint(ship, 0xbbbbbb, 0xffffff, 250);
+        tweenTint(ship, 0xbbbbbb, 0xffffff, 300);
     }
 }
 function endGame(){
@@ -221,4 +227,9 @@ function endGame(){
     flame1.autofire = false;
     flame2.autofire = false;
     flame3.autofire = false;
+}
+function toggleAutoFire(){
+    flame1.autofire = true;
+    flame2.autofire = true;
+    flame3.autofire = true;
 }
