@@ -61,6 +61,9 @@ demo.levelSelect.prototype = {
         else if (currentSpeed < 0){
             currentSpeed += 5;
         }
+        if (currentSpeed == 0){
+            game.physics.arcade.velocityFromRotation(ship.rotation, currentSpeed, ship.body.velocity);
+        }
         if (currentSpeed > 0){
             game.physics.arcade.velocityFromRotation(ship.rotation, currentSpeed, ship.body.velocity);
         }
