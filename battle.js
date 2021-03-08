@@ -44,7 +44,6 @@ demo.battle.prototype = {
         
         
         sound = game.add.audio('shot');
-        sound.addMarker('pew', 0, 1)
         
         fire = game.add.audio('fire');
         fightSong = game.add.audio('fightSong');
@@ -122,11 +121,11 @@ demo.battle.prototype = {
         if (fireButton.isDown){
             if (ship.alive == true){
                 weapon.fire();
-                weapon.onFire.add(function(){
-                    sound.play('pew');
-                })
             }
         }
+        weapon.onFire.add(function(){
+            sound.play();
+        })
         if (boss.x < ship.x){
             flame1.bulletSpeed = 500;
             flame2.bulletSpeed = 500;
