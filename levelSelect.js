@@ -1,8 +1,11 @@
-
+var selectSong;
 demo.levelSelect = function(){};
 demo.levelSelect.prototype = {
     preload: function(){
         addChangeStateEventListeners();
+        
+        game.load.audio('selectSong', 'assets/sounds/Vastanberg.wav');
+        
         game.world.setBounds(0, 0, 1600, 1600);
 
         
@@ -19,6 +22,10 @@ demo.levelSelect.prototype = {
         
         sky = map.createLayer("sky");
         planets = map.createLayer("planets");
+        
+        selectSong = game.add.audio('selectSong');
+        selectSong.addMarker('select', 0.5, 22.5, 0.1, true);
+        selectSong.play('select');
         
     },
     update: function(){}

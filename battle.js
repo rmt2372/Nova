@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, music;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -12,7 +12,7 @@ demo.battle.prototype = {
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
-        game.load.audio('music', 'assets/sounds/Sommarfgel.wav');
+        game.load.audio('fightSong', 'assets/sounds/Sommarfgel.wav');
     },
     create:function(){
         addChangeStateEventListeners();
@@ -42,11 +42,9 @@ demo.battle.prototype = {
         
         sound = game.add.audio('shot');
         sound.addMarker('pew', 0, 1)
-        music = game.add.audio('music');
-        music.addMarker('fight', 82, 140, 0.1, true);
-        if (game.state.getCurrentState().key == 'battle'){
-            music.play('fight');
-        }
+        fightSong = game.add.audio('fightSong');
+        fightSong.addMarker('fight', 82, 140, 0.1, true);
+        fightSong.play('fight');
         
         weapon = game.add.weapon(50, 'bullet');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -207,7 +205,7 @@ function tweenTintHelper(num){
 }
 function endGame(){
     ship.kill()
-    music.pause();
+    fightSong.stop();
     flame1.autofire = false;
     flame2.autofire = false;
     flame3.autofire = false;
