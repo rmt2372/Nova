@@ -92,7 +92,7 @@ demo.battle.prototype = {
         
     },
     update: function(){
-        game.time.events.add(2000, toggleAutoFire, this);
+        game.time.events.add(1000, toggleAutoFire, this);
         if (boss.alive == true){
             boss.animations.play('attack', 10, true);
         }
@@ -157,7 +157,6 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this);
         game.physics.arcade.overlap(ship, boss, hitBoss, null, this);
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this);
-        game.physics.arcade.moveToObject(boss, ship, null, 3000);
     }
 }
 function hitEnemy(boss, bullet){
@@ -229,6 +228,7 @@ function endGame(){
     flame3.autofire = false;
 }
 function toggleAutoFire(){
+    game.physics.arcade.moveToObject(boss, ship, null, 3000);
     flame1.autofire = true;
     flame2.autofire = true;
     flame3.autofire = true;
