@@ -36,6 +36,8 @@ demo.levelSelect.prototype = {
         ship.animations.add('walk', [0, 1]);
         game.physics.enable(ship);
         
+        game.camer.follow(ship)
+        
         cursors = game.input.keyboard.createCursorKeys();
         
     },
