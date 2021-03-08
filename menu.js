@@ -1,5 +1,5 @@
 var demo = {};
-var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4, boss_life = 5, ship_life = 2, music;
+var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4, boss_life = 5, ship_life = 2;
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
@@ -12,11 +12,11 @@ demo.menu.prototype = {
         var txt = game.add.text(centerX, centerY, 'press "b" to get to battle', {fontSize: 50 + 'px', fill: '#00FFFF'});
         txt.anchor.setTo(0.5, 0.5);
         
-        
     },
     update: function(){}
 }
 function changeState(i, stateNum){
+    game.sound.stopAll();
     if (stateNum == 'm'){
         console.log("menu");
         score = 0;
