@@ -8,10 +8,11 @@ demo.battle.prototype = {
         game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
         game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
         game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet.png', 100, 100);
-        game.load.image('boss', 'assets/sprites/Villian.png');
+        game.load.spritesheet('boss', 'assets/sprites/Villian_attack.png', 132, 178);
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
+        game.load.audio('fire', 'assets/sounds/fire.mp3');
         game.load.audio('fightSong', 'assets/sounds/Sommarfgel.wav');
     },
     create:function(){
@@ -39,9 +40,13 @@ demo.battle.prototype = {
         ship.animations.add('walk', [0, 1]);
         ship.invincibility = false;
         
+        boss.animations.add('attack', [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        
         
         sound = game.add.audio('shot');
         sound.addMarker('pew', 0, 1)
+        
+        fire = game.add.audio('fire');
         fightSong = game.add.audio('fightSong');
         fightSong.addMarker('fight', 82, 140, 0.1, true);
         fightSong.play('fight');
@@ -84,17 +89,22 @@ demo.battle.prototype = {
         boss.body.collideWorldBounds = true;
         game.camera.follow(ship);
         
+        cursors = game.input.keyboard.createCursorKeys();
+        
     },
     update: function(){
         
+        if (boss.alive == true){
+            boss.animations.play('attack', 6, true);
+        }
         
-        if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+        if (cursors.right.isDown){
             ship.x += speed;
             ship.scale.setTo(0.7, 0.7);
             weapon.bulletSpeed = 500;
             ship.animations.play('walk', 12, true);
         } 
-        else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+        else if (cursors.left.isDown){
             ship.scale.setTo(-0.7, 0.7);
             ship.x -= speed;
             weapon.bulletSpeed = -500;
@@ -103,10 +113,10 @@ demo.battle.prototype = {
         else{
             ship.animations.stop('walk');
         }
-        if (game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+        if (cursors.up.isDown){
             ship.y -= speed;
         }
-        else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+        else if(cursors.down.isDown){
             ship.y += speed;
         }
         if (fireButton.isDown){
@@ -129,6 +139,9 @@ demo.battle.prototype = {
             flame3.bulletSpeed = -500;
             boss.scale.setTo(-1, 1);
         }
+        flame1.onFire.add(function(){
+            fire.play();
+        })
         if (boss.alive == false || ship.alive == false){
             flame1.autofire = false;
             flame2.autofire = false;
@@ -139,7 +152,7 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this);
         game.physics.arcade.overlap(ship, boss, hitBoss, null, this);
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this);
-        //game.physics.arcade.moveToObject(boss, ship, null, 3000);
+        game.physics.arcade.moveToObject(boss, ship, null, 3000);
     }
 }
 function hitEnemy(boss, bullet){
