@@ -2,6 +2,10 @@
 demo.levelSelect = function(){};
 demo.levelSelect.prototype = {
     preload: function(){
+        addChangeStateEventListeners();
+        game.world.setBounds(0, 0, 1600, 1600);
+
+        
         game.load.tilemap('map', 'assets/map/open_world_map.json',null,Phaser.Tilemap.TILED_JSON);
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
         game.load.image('map_sky_planets', 'assets/map/map_sky_planets.png');
