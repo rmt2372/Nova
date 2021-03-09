@@ -26,6 +26,8 @@ demo.levelSelect.prototype = {
         sky = map.createLayer("sky");
         planets = map.createLayer("planets");
         
+        map.setCollisionBetween(13,265,true,"planets");
+        
         selectSong = game.add.audio('selectSong');
         selectSong.addMarker('select', 0.5, 22.5, 0.1, true);
         selectSong.play('select');
@@ -42,6 +44,8 @@ demo.levelSelect.prototype = {
         
     },
     update: function(){
+        game.physics.arcade.collide(ship, planets);
+        
         if (cursors.left.isDown){
             ship.angle -= 2;
         }
