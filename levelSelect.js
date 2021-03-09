@@ -44,7 +44,7 @@ demo.levelSelect.prototype = {
         
     },
     update: function(){
-        game.physics.arcade.collide(ship, planets);
+        game.physics.arcade.collide(ship, planets, changeLevel);
         
         if (cursors.left.isDown){
             ship.angle -= 2;
@@ -77,5 +77,12 @@ demo.levelSelect.prototype = {
         if (cursors.up.isDown == false){
             ship.animations.stop('walk');
         }
+    }
+}
+function changeLevel(){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
+        game.sound.stopAll();
+        resetHealth();
+        game.state.start('battle');
     }
 }
