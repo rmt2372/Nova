@@ -68,3 +68,7 @@ function addChangeStateEventListeners(){
     addKeyCallback(Phaser.Keyboard.THREE, changeState, 3);
     addKeyCallback(Phaser.Keyboard.FOUR, changeState, 4);
 }
+function resetHealth(){
+    ship_life = 2;
+    boss_life = 2;
+}
