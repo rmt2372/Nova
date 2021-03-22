@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam, outline, fill;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -13,6 +13,8 @@ demo.battle.prototype = {
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
         game.load.image('wave', 'assets/sprites/Wave.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
+        game.load.image('healthOutline', 'assets/sprites/enemyHealthOutline.png');
+        game.load.image('healthFill', 'assets/sprites/enemyHealthFill.png');
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
         game.load.audio('fire', 'assets/sounds/fire.mp3');
         game.load.audio('fightSong', 'assets/sounds/Sommarfgel.wav');
@@ -32,6 +34,13 @@ demo.battle.prototype = {
         sky = map.createLayer("sky");
         ground = map.createLayer("Ground");
         
+        fill = game.add.sprite(768 - 100, 50, 'healthFill');
+        fill.anchor.setTo(0, 0.5);
+        fill.scale.setTo(2, 2);
+        
+        outline = game.add.sprite(768 - 100, 50, 'healthOutline');
+        outline.anchor.setTo(0, 0.5);
+        outline.scale.setTo(2.2, 2);
         
         ship = game.add.sprite(156, 200, 'ship');
         boss = game.add.sprite(768, 200, 'boss');
@@ -224,6 +233,7 @@ demo.battle.prototype = {
 function missleHit(boss, bullet){
     bullet.kill();
     boss_life -= 2;
+    fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
     if (boss_life <= 0){
         boss.kill();
     }
@@ -232,6 +242,7 @@ function hitEnemy(boss, bullet){
     bullet.kill();
     boss_life -= 1;
     counter += 1;
+    fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
     if (boss_life <= 0){
         boss.kill();
     }
@@ -308,6 +319,8 @@ function endGame(){
 }
 function toggleAutoFire(){
     game.physics.arcade.moveToObject(boss, ship, null, 3000);
+    fill.x = boss.x - 100;
+    outline.x = boss.x - 100;
     flame1.autofire = true;
     flame2.autofire = true;
     flame3.autofire = true;

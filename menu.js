@@ -1,5 +1,5 @@
 var demo = {};
-var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4, boss_life = 20, ship_life = 2, title, missle = false, laser = false, shield = false, burst = false, counter = 0, start_boss_life = 20, nova;
+var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4, boss_life = 20, ship_life = 5, title, missle = false, laser = false, shield = false, burst = false, counter = 0, nova_life = 2, start_boss_life = 20, nova;
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
@@ -33,8 +33,7 @@ function changeState(i, stateNum){
         game.state.start("menu");
     } if (stateNum == 'b'){
         console.log('battle');
-        boss_life = 20;
-        ship_life = 2;
+        resetHealth();
         counter = 0;
         game.state.start('battle');
     } if (stateNum == 'l'){
@@ -42,6 +41,7 @@ function changeState(i, stateNum){
         game.state.start('levelSelect');
     } if (stateNum == '1'){
         console.log('planet1');
+        resetHealth();
         game.state.start('planet1');
     } if (stateNum == '2'){
         console.log('planet2');
@@ -70,6 +70,7 @@ function addChangeStateEventListeners(){
     addKeyCallback(Phaser.Keyboard.FOUR, changeState, 4);
 }
 function resetHealth(){
-    ship_life = 2;
+    ship_life = 5;
     boss_life = 20;
+    nova_life = 2;
 }
