@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -8,6 +8,7 @@ demo.battle.prototype = {
         game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
         game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
         game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet.png', 100, 100);
+        game.load.spritesheet('missle', 'assets/sprites/Smart_missle.png', 75, 75);
         game.load.spritesheet('boss', 'assets/sprites/Villian_attack.png', 132, 178);
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
@@ -42,7 +43,6 @@ demo.battle.prototype = {
         
         boss.animations.add('attack', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         
-        
         sound = game.add.audio('shot');
         
         fire = game.add.audio('fire');
@@ -56,6 +56,22 @@ demo.battle.prototype = {
         weapon.bulletSpeed = 500;
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(ship, 0, 0, true);
+        
+        
+        beam = game.add.weapon(1000, 'bullet');
+        beam.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        beam.fireRate = 45;
+        beam.bulletSpeed = 1000;
+        beamFire = this.input.keyboard.addKey(Phaser.KeyCode.X);
+        beam.trackSprite(ship, 0, 0, true);
+        
+        smart_missle = game.add.weapon(1, 'missle');
+        smart_missle.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        smart_missle.fireRate = 400;
+        smart_missle.bulletSpeed = 700;
+        missle_fire = this.input.keyboard.addKey(Phaser.KeyCode.Z);
+        smart_missle.trackSprite(ship, 0, 0, true);
+        
         
         flame1 = game.add.weapon (10, 'flame');
         flame1.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -84,6 +100,7 @@ demo.battle.prototype = {
         
         game.physics.enable(ship);
         game.physics.enable(boss);
+        game.physics.enable(smart_missle);
         ship.body.collideWorldBounds = true;
         boss.body.collideWorldBounds = true;
         game.camera.follow(ship);
@@ -101,12 +118,14 @@ demo.battle.prototype = {
             ship.x += speed;
             ship.scale.setTo(0.7, 0.7);
             weapon.bulletSpeed = 500;
+            beam.bulletSpeed = 1000;
             ship.animations.play('walk', 12, true);
         } 
         else if (cursors.left.isDown){
             ship.scale.setTo(-0.7, 0.7);
             ship.x -= speed;
             weapon.bulletSpeed = -500;
+            beam.bulletSpeed = -1000;
             ship.animations.play('walk', 12, true);
         }
         else{
@@ -126,6 +145,13 @@ demo.battle.prototype = {
         weapon.onFire.add(function(){
             sound.play();
         })
+    
+        if(missle_fire.isDown && missle == true){
+            smart_missle.fireAtSprite(boss);
+        }
+        if(beamFire.isDown && laser == true){
+            beam.fire();
+        }
         if (boss.x < ship.x){
             flame1.bulletSpeed = 500;
             flame2.bulletSpeed = 500;
@@ -157,6 +183,14 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this);
         game.physics.arcade.overlap(ship, boss, hitBoss, null, this);
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this);
+        game.physics.arcade.overlap(boss, smart_missle.bullets, missleHit, null, this);
+    }
+}
+function missleHit(boss, bullet){
+    bullet.kill();
+    boss_life -= 5;
+    if (boss_life <= 0){
+        boss.kill();
     }
 }
 function hitEnemy(boss, bullet){
@@ -228,7 +262,7 @@ function endGame(){
     flame3.autofire = false;
 }
 function toggleAutoFire(){
-    game.physics.arcade.moveToObject(boss, ship, null, 3000);
+    //game.physics.arcade.moveToObject(boss, ship, null, 3000);
     flame1.autofire = true;
     flame2.autofire = true;
     flame3.autofire = true;

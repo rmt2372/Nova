@@ -1,5 +1,5 @@
 var demo = {};
-var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4, boss_life = 5, ship_life = 2, title;
+var centerX = 1024/2, centerY = 576/2, ship, boss, speed = 4, boss_life = 10, ship_life = 2, title, missle = true, laser = true, shield = false, burst = false;
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
@@ -33,7 +33,7 @@ function changeState(i, stateNum){
         game.state.start("menu");
     } if (stateNum == 'b'){
         console.log('battle');
-        boss_life = 5;
+        boss_life = 10;
         ship_life = 2;
         game.state.start('battle');
     } if (stateNum == 'l'){
@@ -70,5 +70,5 @@ function addChangeStateEventListeners(){
 }
 function resetHealth(){
     ship_life = 2;
-    boss_life = 2;
+    boss_life = 10;
 }
