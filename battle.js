@@ -11,6 +11,7 @@ demo.battle.prototype = {
         game.load.spritesheet('missle', 'assets/sprites/Smart_missle.png', 75, 75);
         game.load.spritesheet('boss', 'assets/sprites/Villian_attack.png', 132, 178);
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
+        game.load.image('wave', 'assets/sprites/Wave.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
         game.load.audio('fire', 'assets/sounds/fire.mp3');
@@ -72,6 +73,14 @@ demo.battle.prototype = {
         missle_fire = this.input.keyboard.addKey(Phaser.KeyCode.Z);
         smart_missle.trackSprite(ship, 0, 0, true);
         
+        wave = game.add.weapon(1, 'wave');
+        wave.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        wave.fireRate = 400;
+        wave.bulletSpeed = 250;
+        wave_fire = this.input.keyboard.addKey(Phaser.KeyCode.V);
+        wave.trackSprite(ship, 0, 0, true);
+        
+        shield_active = this.input.keyboard.addKey(Phaser.KeyCode.C);
         
         flame1 = game.add.weapon (10, 'flame');
         flame1.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -139,6 +148,7 @@ demo.battle.prototype = {
         }
         if (fireButton.isDown){
             if (ship.alive == true){
+                toggleInvincibility();
                 weapon.fire();
             }
         }
@@ -146,11 +156,29 @@ demo.battle.prototype = {
             sound.play();
         })
     
-        if(missle_fire.isDown && missle == true){
+        if(missle_fire.isDown && missle == true && counter >= 5){
             smart_missle.fireAtSprite(boss);
+            counter = 0;
         }
-        if(beamFire.isDown && laser == true){
+        if(beamFire.isDown && laser == true && counter >= 5){
             beam.fire();
+        }
+        if(shield_active.isDown && shield == true && counter >= 5){
+            counter = 0;
+            toggleInvincibility()
+            tweenTintHelper(2);
+            game.time.events.add(2000, toggleInvincibility, this);
+            game.time.events.add(300, tweenTintHelper, this, 3);
+            game.time.events.add(500, tweenTintHelper, this, 2);
+            game.time.events.add(750, tweenTintHelper, this, 3);
+            game.time.events.add(1000, tweenTintHelper, this, 2);
+            game.time.events.add(1300, tweenTintHelper, this, 3);
+            game.time.events.add(1500, tweenTintHelper, this, 2);
+            game.time.events.add(1750, tweenTintHelper, this, 3);
+        }
+        if(wave_fire.isDown && burst == true && counter >= 5){
+            wave.fire();
+            counter = 0;
         }
         if (boss.x < ship.x){
             flame1.bulletSpeed = 500;
@@ -178,12 +206,21 @@ demo.battle.prototype = {
             flame2.autofire = false;
             flame3.autofire = false;
         }
+        if (boss_life <= start_boss_life / 2){
+            flame1.fireRate = 1000;
+            flame2.fireRate = 1000;
+            flame3.fireRate = 1000;
+            boss_vel = 2000;
+        }
         game.physics.arcade.overlap(ship, flame1.bullets, hitShip, null, this);
         game.physics.arcade.overlap(ship, flame2.bullets, hitShip, null, this);
         game.physics.arcade.overlap(ship, flame3.bullets, hitShip, null, this);
         game.physics.arcade.overlap(ship, boss, hitBoss, null, this);
         game.physics.arcade.overlap(boss, weapon.bullets, hitEnemy, null, this);
         game.physics.arcade.overlap(boss, smart_missle.bullets, missleHit, null, this);
+        game.physics.arcade.overlap(wave.bullets, flame1.bullets, hitWave, null, this);
+        game.physics.arcade.overlap(wave.bullets, flame2.bullets, hitWave, null, this);
+        game.physics.arcade.overlap(wave.bullets, flame3.bullets, hitWave, null, this);
     }
 }
 function missleHit(boss, bullet){
@@ -196,9 +233,13 @@ function missleHit(boss, bullet){
 function hitEnemy(boss, bullet){
     bullet.kill();
     boss_life -= 1;
+    counter += 1;
     if (boss_life <= 0){
         boss.kill();
     }
+}
+function hitWave(wave, bullet){
+    bullet.kill();
 }
 function hitShip(ship, bullet){
     if(ship.invincibility == false){
@@ -253,6 +294,12 @@ function tweenTintHelper(num){
     if (num == 1){
         tweenTint(ship, 0xbbbbbb, 0xffffff, 300);
     }
+    if (num == 2){
+        tweenTint(ship, 0xffffff, 0x00FFFF, 300);
+    }
+    if (num == 3){
+        tweenTint(ship, 0x00FFFF, 0xffffff, 300);
+    }
 }
 function endGame(){
     ship.kill()
@@ -262,7 +309,7 @@ function endGame(){
     flame3.autofire = false;
 }
 function toggleAutoFire(){
-    //game.physics.arcade.moveToObject(boss, ship, null, 3000);
+    game.physics.arcade.moveToObject(boss, ship, null, 3000);
     flame1.autofire = true;
     flame2.autofire = true;
     flame3.autofire = true;
