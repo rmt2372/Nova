@@ -148,7 +148,6 @@ demo.battle.prototype = {
         }
         if (fireButton.isDown){
             if (ship.alive == true){
-                toggleInvincibility();
                 weapon.fire();
             }
         }
@@ -210,7 +209,6 @@ demo.battle.prototype = {
             flame1.fireRate = 1000;
             flame2.fireRate = 1000;
             flame3.fireRate = 1000;
-            boss_vel = 2000;
         }
         game.physics.arcade.overlap(ship, flame1.bullets, hitShip, null, this);
         game.physics.arcade.overlap(ship, flame2.bullets, hitShip, null, this);
@@ -225,7 +223,7 @@ demo.battle.prototype = {
 }
 function missleHit(boss, bullet){
     bullet.kill();
-    boss_life -= 5;
+    boss_life -= 2;
     if (boss_life <= 0){
         boss.kill();
     }
