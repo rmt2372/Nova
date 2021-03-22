@@ -38,6 +38,7 @@ demo.planet1.prototype = {
         nova.body.bounce.y = 0.2;
         nova.body.gravity.y = 500;
         
+        
         cursors = game.input.keyboard.createCursorKeys();
         
         laser_cannon = game.add.sprite(500, 200, 'laser');
@@ -71,6 +72,8 @@ demo.planet1.prototype = {
         game.physics.enable(plants);
         var plant = frogs.create(350, 450, 'plant');
         plant.scale.setTo(0.5, 0.5);
+        
+        game.camera.follow(nova);
         
         song1 = game.add.audio('level1Song');
         song1.addMarker('song1', 0, 235, 0.1, true);
