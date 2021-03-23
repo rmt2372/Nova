@@ -137,6 +137,7 @@ demo.battle.prototype = {
             ship.scale.setTo(0.7, 0.7);
             weapon.bulletSpeed = 500;
             beam.bulletSpeed = 1000;
+            wave.bulletSpeed = 250;
             ship.animations.play('walk', 12, true);
         } 
         else if (cursors.left.isDown){
@@ -144,6 +145,7 @@ demo.battle.prototype = {
             ship.x -= speed;
             weapon.bulletSpeed = -500;
             beam.bulletSpeed = -1000;
+            wave.bulletSpeed = -250;
             ship.animations.play('walk', 12, true);
         }
         else{
@@ -173,16 +175,18 @@ demo.battle.prototype = {
         }
         if(shield_active.isDown && shield == true && counter >= 5){
             counter = 0;
-            toggleInvincibility()
-            tweenTintHelper(2);
-            game.time.events.add(2000, toggleInvincibility, this);
-            game.time.events.add(300, tweenTintHelper, this, 3);
-            game.time.events.add(500, tweenTintHelper, this, 2);
-            game.time.events.add(750, tweenTintHelper, this, 3);
-            game.time.events.add(1000, tweenTintHelper, this, 2);
-            game.time.events.add(1300, tweenTintHelper, this, 3);
-            game.time.events.add(1500, tweenTintHelper, this, 2);
-            game.time.events.add(1750, tweenTintHelper, this, 3);
+            if(ship.invincibility == false){
+                toggleInvincibility()
+                tweenTintHelper(2);
+                game.time.events.add(2000, toggleInvincibility, this);
+                game.time.events.add(300, tweenTintHelper, this, 3);
+                game.time.events.add(500, tweenTintHelper, this, 2);
+                game.time.events.add(750, tweenTintHelper, this, 3);
+                game.time.events.add(1000, tweenTintHelper, this, 2);
+                game.time.events.add(1300, tweenTintHelper, this, 3);
+                game.time.events.add(1500, tweenTintHelper, this, 2);
+                game.time.events.add(1750, tweenTintHelper, this, 3);
+            }
         }
         if(wave_fire.isDown && burst == true && counter >= 5){
             wave.fire();
