@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam, outline, fill;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam, outline, fill, wave;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
