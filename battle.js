@@ -137,7 +137,6 @@ demo.battle.prototype = {
             ship.scale.setTo(0.7, 0.7);
             weapon.bulletSpeed = 500;
             beam.bulletSpeed = 1000;
-            wave.bulletSpeed = 250;
             ship.animations.play('walk', 12, true);
         } 
         else if (cursors.left.isDown){
@@ -145,7 +144,6 @@ demo.battle.prototype = {
             ship.x -= speed;
             weapon.bulletSpeed = -500;
             beam.bulletSpeed = -1000;
-            wave.bulletSpeed = -250;
             ship.animations.play('walk', 12, true);
         }
         else{
