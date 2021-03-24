@@ -5,7 +5,8 @@ demo.levelSelect.prototype = {
         addChangeStateEventListeners();
         
         game.load.audio('selectSong', 'assets/sounds/Vastanberg.wav');
-        game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet.png', 100, 100);
+        game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet2.png', 98, 94);
+        game.load.image('blackhole', 'assets/sprites/blackHole.png');
         
         game.world.setBounds(0, 0, 1600, 1600);
 
@@ -25,6 +26,11 @@ demo.levelSelect.prototype = {
         
         sky = map.createLayer("sky");
         planets = map.createLayer("planets");
+        blackhole = game.add.sprite(750, 800, 'blackhole');
+        blackhole.scale.setTo(2, 2);
+        blackhole.anchor.setTo(0.5, 0.5);
+        game.physics.arcade.enable(blackhole);
+        blackhole.body.immovable = true;
         
         map.setCollisionBetween(13,265,true,"planets");
         
@@ -35,7 +41,7 @@ demo.levelSelect.prototype = {
         ship = game.add.sprite(256, 200, 'ship');
         ship.anchor.setTo(0.5, 0.5);
         ship.scale.setTo(1, 1);
-        ship.animations.add('walk', [0, 1]);
+        ship.animations.add('walk', [1, 2]);
         game.physics.enable(ship);
         
         game.camera.follow(ship)
@@ -45,6 +51,7 @@ demo.levelSelect.prototype = {
     },
     update: function(){
         game.physics.arcade.collide(ship, planets, changeLevel);
+        game.physics.arcade.collide(ship, blackhole, bossBattle);
         
         if (cursors.left.isDown){
             ship.angle -= 2;
@@ -58,6 +65,8 @@ demo.levelSelect.prototype = {
         } 
         else if(currentSpeed > 0) {
             currentSpeed -= 5;
+            ship.animations.stop('walk');
+            ship.frame = 0;
         }
         if (cursors.down.isDown){
             currentSpeed = -200;
@@ -81,8 +90,33 @@ demo.levelSelect.prototype = {
 }
 function changeLevel(){
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
-        game.sound.stopAll();
-        resetHealth();
-        game.state.start('battle');
+        if (ship.x < 500 && ship.y < 800){
+            game.sound.stopAll();
+            resetHealth();
+            game.state.start('planet2');
+            console.log('planet2');
+        }
+        if (ship.x < 500 && ship.y > 800){
+            game.sound.stopAll();
+            resetHealth();
+            game.state.start('planet1'); 
+        }
+        if (ship.x > 800 && ship.y < 800){
+            game.sound.stopAll();
+            resetHealth();
+            game.state.start('planet3');
+            console.log('planet3');
+        }
+        if (ship.x > 800 && ship.y > 800){
+            game.sound.stopAll();
+            resetHealth();
+            game.state.start('planet4');
+            console.log('planet4');
+        }
     }
+}
+function bossBattle(){
+    game.sound.stopAll();
+    resetHealth();
+    game.state.start('battle');
 }

@@ -17,6 +17,7 @@ demo.planet1.prototype = {
         game.load.audio('level1Song', 'assets/sounds/Starmachine.wav');
     },
     create: function(){
+        game.physics.startSystem(Phaser.Physics.ARCADE);
         addChangeStateEventListeners();
         
         map = game.add.tilemap('map');
@@ -28,7 +29,6 @@ demo.planet1.prototype = {
         
         map.setCollisionBetween(13,265,true,"ground");
         
-        game.physics.startSystem(Phaser.Physics.ARCADE);
         
         nova = game.add.sprite(25, 475, 'nova');
         nova.scale.setTo(0.2, 0.2);
