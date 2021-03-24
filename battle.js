@@ -7,7 +7,7 @@ demo.battle.prototype = {
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
         game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
         game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
-        game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet.png', 100, 100);
+        game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet2.png', 98, 94);
         game.load.spritesheet('missle', 'assets/sprites/Smart_missle.png', 75, 75);
         game.load.spritesheet('boss', 'assets/sprites/Villian_attack.png', 132, 178);
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
@@ -48,7 +48,7 @@ demo.battle.prototype = {
         ship.scale.setTo(0.7, 0.7);
         boss.anchor.setTo(0.5, 0.5);
         boss.scale.setTo(-1, 1);
-        ship.animations.add('walk', [0, 1]);
+        ship.animations.add('walk', [1, 2]);
         ship.invincibility = false;
         
         boss.animations.add('attack', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -88,6 +88,7 @@ demo.battle.prototype = {
         wave.bulletSpeed = 250;
         wave_fire = this.input.keyboard.addKey(Phaser.KeyCode.V);
         wave.trackSprite(ship, 0, 0, true);
+        wave.bulletRotateToVelocity = true;
         
         shield_active = this.input.keyboard.addKey(Phaser.KeyCode.C);
         
@@ -98,6 +99,7 @@ demo.battle.prototype = {
         flame1.fireAngle = 360;
         flame1.trackSprite(boss, -70, -30, false)
         flame1.autofire = false;
+        flame1.bulletRotateToVelocity = true;
         
         flame2 = game.add.weapon (10, 'flame');
         flame2.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -106,6 +108,7 @@ demo.battle.prototype = {
         flame2.fireAngle = 345;
         flame2.trackSprite(boss, -70, -30, false)
         flame2.autofire = false;
+        flame2.bulletRotateToVelocity = true;
         
         flame3 = game.add.weapon (10, 'flame');
         flame3.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -114,6 +117,7 @@ demo.battle.prototype = {
         flame3.fireAngle = 13;
         flame3.trackSprite(boss, -70, -30, false)
         flame3.autofire = false;
+        flame3.bulletRotateToVelocity = true;
         
         
         game.physics.enable(ship);
@@ -150,11 +154,14 @@ demo.battle.prototype = {
         }
         else{
             ship.animations.stop('walk');
+            ship.frame = 0;
         }
         if (cursors.up.isDown){
+            ship.animations.play('walk', 12, true)
             ship.y -= speed;
         }
         else if(cursors.down.isDown){
+            ship.animations.play('walk', 12, true)
             ship.y += speed;
         }
         if (fireButton.isDown){
@@ -176,7 +183,9 @@ demo.battle.prototype = {
         if(shield_active.isDown && shield == true && counter >= 5){
             counter = 0;
             if(ship.invincibility == false){
-                toggleInvincibility()
+                speed = 6;
+                game.time.events.add(2000, toggleSpeed, this);
+                toggleInvincibility();
                 tweenTintHelper(2);
                 game.time.events.add(2000, toggleInvincibility, this);
                 game.time.events.add(300, tweenTintHelper, this, 3);
@@ -292,6 +301,9 @@ function hitBoss(ship, boss){
 }
 function toggleInvincibility(){
     ship.invincibility = !ship.invincibility
+}
+function toggleSpeed(){
+    speed = 4;
 }
 function tweenTint(obj, startColor, endColor, time){
     var colorBlend = {step: 0};
