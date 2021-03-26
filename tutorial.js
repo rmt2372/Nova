@@ -17,6 +17,12 @@ demo.tutorial.prototype = {
         nova.body.gravity.y = 500;
         
         cursors = game.input.keyboard.createCursorKeys();
+        
+        game.camera.follow(nova);
+        
+        var txt = game.add.text(50, 200, 'Move with Arrow keys \nand Jump with up arrow', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        
+        var txt = game.add.text(325, 200, 'Shoot with Spacebar', {fontSize: 20 + 'px', fill: '#00FFFF'});
     },
     update:function(){
         nova.body.velocity.x = 0;

@@ -368,11 +368,13 @@ function toggleAutoFire(){
     flame3.autofire = true;
 }
 function fireBeam(){
-    beam.fire();
+    if (ship.alive == true){
+        beam.fire();
+    }
 }
 function beamHit(boss, bullet){
     bullet.kill()
-    boss_life -= 0.2;
+    boss_life -= 0.1;
     if (boss_life > 0){
         fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
     }

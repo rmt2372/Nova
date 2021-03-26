@@ -43,6 +43,7 @@ demo.levelSelect.prototype = {
         ship.scale.setTo(1, 1);
         ship.animations.add('walk', [1, 2]);
         game.physics.enable(ship);
+        ship.body.collideWorldBounds = true;
         
         game.camera.follow(ship)
         
