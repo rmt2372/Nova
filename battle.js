@@ -15,6 +15,7 @@ demo.battle.prototype = {
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
         game.load.image('healthOutline', 'assets/sprites/enemyHealthOutline.png');
         game.load.image('healthFill', 'assets/sprites/enemyHealthFill.png');
+        game.load.image('superMeter', 'assets/sprites/superMeter.png');
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
         game.load.audio('fire', 'assets/sounds/fire.mp3');
         game.load.audio('fightSong', 'assets/sounds/Sommarfgel.wav');
@@ -37,10 +38,22 @@ demo.battle.prototype = {
         fill = game.add.sprite(768 - 100, 50, 'healthFill');
         fill.anchor.setTo(0, 0.5);
         fill.scale.setTo(2, 2);
+        fill.fixedToCamera = true;
         
         outline = game.add.sprite(768 - 100, 50, 'healthOutline');
         outline.anchor.setTo(0, 0.5);
         outline.scale.setTo(2.2, 2);
+        outline.fixedToCamera = true;
+        
+        superOutline = game.add.sprite(100, 50, 'healthOutline');
+        superOutline.anchor.setTo(0, 0.5);
+        superOutline.scale.setTo(2.2, 1);
+        superOutline.fixedToCamera = true;
+        
+        superMeter = game.add.sprite(100, 50, 'superMeter');
+        superMeter.anchor.setTo(0, 0.5);
+        superMeter.scale.setTo(0, 1);
+        superMeter.fixedToCamera = true;
         
         ship = game.add.sprite(156, 200, 'ship');
         boss = game.add.sprite(768, 200, 'boss');
@@ -176,12 +189,14 @@ demo.battle.prototype = {
         if(missle_fire.isDown && missle == true && counter >= 5){
             smart_missle.fireAtSprite(boss);
             counter = 0;
+            superMeter.scale.setTo(0, 1);
         }
         if(beamFire.isDown && laser == true && counter >= 5){
             beam.fire();
         }
         if(shield_active.isDown && shield == true && counter >= 5){
             counter = 0;
+            superMeter.scale.setTo(0, 1);
             if(ship.invincibility == false){
                 speed = 6;
                 game.time.events.add(2000, toggleSpeed, this);
@@ -200,6 +215,8 @@ demo.battle.prototype = {
         if(wave_fire.isDown && burst == true && counter >= 5){
             wave.fire();
             counter = 0;
+            superMeter.scale.setTo(0, 1);
+            
         }
         if (boss.x < ship.x){
             flame1.bulletSpeed = 500;
@@ -254,8 +271,11 @@ function missleHit(boss, bullet){
 function hitEnemy(boss, bullet){
     bullet.kill();
     boss_life -= 1;
-    counter += 1;
-    fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    if (counter < 5){
+        counter += 1;
+        superMeter.scale.setTo((counter / 5) * 2, 1);
+    }
+    fill.scale.setTo((boss_life/ start_boss_life) * 2, 2);
     if (boss_life <= 0){
         boss.kill();
     }
@@ -335,8 +355,6 @@ function endGame(){
 }
 function toggleAutoFire(){
     game.physics.arcade.moveToObject(boss, ship, null, 3000);
-    fill.x = boss.x - 100;
-    outline.x = boss.x - 100;
     flame1.autofire = true;
     flame2.autofire = true;
     flame3.autofire = true;

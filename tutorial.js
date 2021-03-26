@@ -19,6 +19,7 @@ demo.tutorial.prototype = {
         cursors = game.input.keyboard.createCursorKeys();
     },
     update:function(){
+        nova.body.velocity.x = 0;
         if(cursors.left.isDown){
             nova.scale.setTo(-0.2, 0.2)
             nova.body.velocity.x = -200;
@@ -27,7 +28,7 @@ demo.tutorial.prototype = {
             nova.scale.setTo(0.2, 0.2)
             nova.body.velocity.x = 200;
         }
-        if(cursors.up.isDown){
+        if(cursors.up.isDown && nova.body.touching.down){
             nova.body.velocity.y = -425;
         }
     }
