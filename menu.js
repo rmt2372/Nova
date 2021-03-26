@@ -18,7 +18,7 @@ demo.menu.prototype = {
         title.anchor.setTo(0.5, 0.5);
         
         var start = game.add.button(centerX, 325, 'start', function(){
-            changeState(null, 'l')
+            changeState(null, 't')
         });
         start.anchor.setTo(0.5, 0.5);
         start.scale.setTo(0.7, 0.7);
@@ -52,6 +52,9 @@ function changeState(i, stateNum){
     } if (stateNum == '4'){
         console.log('planet4');
         game.state.start('planet4');
+    } if (stateNum == 't'){
+        console.log('tutorial');
+        game.state.start('tutorial');
     }
     
 }
