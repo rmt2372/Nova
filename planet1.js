@@ -39,6 +39,7 @@ demo.planet1.prototype = {
         nova.body.collideWorldBounds = true;
         nova.body.bounce.y = 0.2;
         nova.body.gravity.y = 500;
+        nova.invincibility = false;
         
         
         cursors = game.input.keyboard.createCursorKeys();
@@ -66,14 +67,18 @@ demo.planet1.prototype = {
         frogs = game.add.group();
         frogs.enableBody = true;
         game.physics.enable(frogs);
-        var frog = frogs.create(200, 475, 'frog');
+        //frog.body.gravity.y = 500;
+        var frog = frogs.create(200, 425, 'frog');
         frog.scale.setTo(-0.5, 0.5);
+        frog.body.gravity.y = 500;
         
         plants = game.add.group();
         plants.enableBody = true;
         game.physics.enable(plants);
-        var plant = frogs.create(350, 450, 'plant');
+        //plants.body.gravity.y = 500;
+        var plant = plants.create(350, 425, 'plant');
         plant.scale.setTo(0.5, 0.5);
+        plant.body.gravity.y = 500;
         
         game.camera.follow(nova);
         
@@ -84,12 +89,15 @@ demo.planet1.prototype = {
     update:function(){
         game.physics.arcade.collide(nova, planets);
         game.physics.arcade.collide(frogs, planets);
+        game.physics.arcade.collide(plants, planets);
         game.physics.arcade.overlap(nova, laser_cannon, collectLaser, null, this);
         game.physics.arcade.overlap(nova, bub_shield, collectShield, null, this);
         game.physics.arcade.overlap(nova, mis, collectMissle, null, this);
         game.physics.arcade.overlap(nova, wave_burst, collectWave, null, this);
         game.physics.arcade.overlap(weapon.bullets, frogs, hitVil, null, this);
         game.physics.arcade.overlap(weapon.bullets, plants, hitVil, null, this);
+        game.physics.arcade.overlap(nova, frogs, hitNova, null, this);
+        game.physics.arcade.overlap(nova, plants, hitNova, null, this);
         nova.body.velocity.x = 0;
         if(cursors.left.isDown){
             nova.scale.setTo(-0.2, 0.2)
@@ -130,4 +138,49 @@ function collectWave(nova, wave_burst){
 function hitVil(shot, villain){
     shot.kill();
     villain.kill();
+}
+function hitNova(nova, enemy){
+    console.log(nova_life);
+     if(nova.invincibility == false){
+        toggleNovaInvincibility();
+        nova_life -=1;
+        game.time.events.add(Phaser.Timer.SECOND * 2, toggleNovaInvincibility, this);
+        game.time.events.add(300, tweenTintHelperNova, this, 1);
+        game.time.events.add(500, tweenTintHelperNova, this, 0);
+        game.time.events.add(750, tweenTintHelperNova, this, 1);
+        game.time.events.add(1000, tweenTintHelperNova, this, 0);
+        game.time.events.add(1300, tweenTintHelperNova, this, 1);
+        game.time.events.add(1500, tweenTintHelperNova, this, 0);
+        game.time.events.add(1750, tweenTintHelperNova, this, 1);
+    } 
+    if (nova_life <= 0){
+        endGameLevel();
+    }
+}
+function toggleNovaInvincibility(){
+    nova.invincibility = !nova.invincibility;
+}
+function tweenTintNova(obj, startColor, endColor, time){
+    var colorBlend = {step: 0};
+    var colorTween = game.add.tween(colorBlend).to({step: 100}, time);
+    colorTween.onUpdateCallback(function() {obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);});
+    obj.tint = startColor;
+    colorTween.start();
+}
+function tweenTintHelperNova(num){
+    if (num == 0){
+        tweenTint(nova, 0xffffff, 0xbbbbbb, 300);
+    }
+    if (num == 1){
+        tweenTint(nova, 0xbbbbbb, 0xffffff, 300);
+    }
+    if (num == 2){
+        tweenTint(nova, 0xffffff, 0x00FFFF, 300);
+    }
+    if (num == 3){
+        tweenTint(nova, 0x00FFFF, 0xffffff, 300);
+    }
+}
+function endGameLevel(){
+    nova.kill();
 }
