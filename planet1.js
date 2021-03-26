@@ -101,8 +101,8 @@ demo.planet1.prototype = {
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
         }
-        if(cursors.up.isDown){
-            nova.body.velocity.y = -425;
+        if(cursors.up.isDown && nova.body.blocked.down){
+            nova.body.velocity.y = -510;
         }
         if (fireButton.isDown){
             if (nova.alive == true){
