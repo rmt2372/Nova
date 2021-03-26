@@ -11,6 +11,7 @@ demo.battle.prototype = {
         game.load.spritesheet('missle', 'assets/sprites/Smart_missle.png', 75, 75);
         game.load.spritesheet('boss', 'assets/sprites/Villian_attack.png', 132, 178);
         game.load.image('bullet', 'assets/sprites/bullet_beam.png');
+        game.load.image('beam', 'assets/sprites/laserBeam.png');
         game.load.image('wave', 'assets/sprites/Wave.png');
         game.load.image('flame', 'assets/sprites/bullet_fire.png');
         game.load.image('healthOutline', 'assets/sprites/enemyHealthOutline.png');
@@ -81,9 +82,9 @@ demo.battle.prototype = {
         weapon.trackSprite(ship, 0, 0, true);
         
         
-        beam = game.add.weapon(1000, 'bullet');
+        beam = game.add.weapon(1000, 'beam');
         beam.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-        beam.fireRate = 45;
+        beam.fireRate = 25;
         beam.bulletSpeed = 1000;
         beamFire = this.input.keyboard.addKey(Phaser.KeyCode.X);
         beam.trackSprite(ship, 0, 0, true);
@@ -192,7 +193,9 @@ demo.battle.prototype = {
             superMeter.scale.setTo(0, 1);
         }
         if(beamFire.isDown && laser == true && counter >= 5){
-            beam.fire();
+            game.time.events.repeat(0, 75, fireBeam, this);
+            counter = 0;
+            superMeter.scale.setTo(0, 1);
         }
         if(shield_active.isDown && shield == true && counter >= 5){
             counter = 0;
@@ -258,12 +261,15 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(wave.bullets, flame1.bullets, hitWave, null, this);
         game.physics.arcade.overlap(wave.bullets, flame2.bullets, hitWave, null, this);
         game.physics.arcade.overlap(wave.bullets, flame3.bullets, hitWave, null, this);
+        game.physics.arcade.overlap(boss, beam.bullets, beamHit, null, this);
     }
 }
 function missleHit(boss, bullet){
     bullet.kill();
     boss_life -= 2;
-    fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    if (boss_life > 0){
+        fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    }
     if (boss_life <= 0){
         boss.kill();
     }
@@ -275,7 +281,9 @@ function hitEnemy(boss, bullet){
         counter += 1;
         superMeter.scale.setTo((counter / 5) * 2, 1);
     }
-    fill.scale.setTo((boss_life/ start_boss_life) * 2, 2);
+    if (boss_life > 0){
+        fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    }
     if (boss_life <= 0){
         boss.kill();
     }
@@ -358,4 +366,17 @@ function toggleAutoFire(){
     flame1.autofire = true;
     flame2.autofire = true;
     flame3.autofire = true;
+}
+function fireBeam(){
+    beam.fire();
+}
+function beamHit(boss, bullet){
+    bullet.kill()
+    boss_life -= 0.2;
+    if (boss_life > 0){
+        fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    }
+    if (boss_life <= 0){
+        boss.kill();
+    }
 }
