@@ -142,10 +142,13 @@ demo.battle.prototype = {
         game.camera.follow(ship);
         
         cursors = game.input.keyboard.createCursorKeys();
+        text = game.add.text(0, 0, 'Lives ' + ship_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
+        text.fixedToCamera = true;
         
     },
     update: function(){
         game.time.events.add(1000, toggleAutoFire, this);
+        text.setText('Lives ' + ship_life);
         if (boss.alive == true){
             boss.animations.play('attack', 10, true);
         }

@@ -2,7 +2,7 @@ var laser_cannon, bub_shield, wave_burst, mis, frogs, plants, song1, content1, l
 demo.planet1 = function(){};
 demo.planet1.prototype = {
     preload: function(){
-        game.load.image('nova', 'assets/sprites/Nova.png');
+        game.load.spritesheet('nova', 'assets/sprites/nova_.png', 91, 110);
         game.load.image('bubble_shield', 'assets/sprites/Bubble_shield.png');
         game.load.image('laser', 'assets/sprites/Laser_cannon.png');
         game.load.spritesheet('missle', 'assets/sprites/Smart_missle.png', 75, 75);
@@ -33,13 +33,17 @@ demo.planet1.prototype = {
         
         
         nova = game.add.sprite(25, 475, 'nova');
-        nova.scale.setTo(0.2, 0.2);
+        nova.scale.setTo(0.7, 0.7);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
         nova.body.bounce.y = 0.2;
         nova.body.gravity.y = 500;
         nova.invincibility = false;
+        nova.animations.add('idle', [0, 1]);
+        nova.animations.add('move', [2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        nova.animations.add('shoot_move', [20, 21, 22, 23, 24, 25]);
+        nova.animations.add('shoot', [15, 16, 17]);
         
         
         cursors = game.input.keyboard.createCursorKeys();
@@ -61,7 +65,7 @@ demo.planet1.prototype = {
         
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-        weapon.fireRate = 400;
+        weapon.fireRate = 600;
         weapon.bulletSpeed = 500;
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(nova, 0, 0, true);
@@ -116,14 +120,30 @@ demo.planet1.prototype = {
         game.physics.arcade.overlap(nova, plants, hitNova, null, this);
         nova.body.velocity.x = 0;
         if(cursors.left.isDown){
-            nova.scale.setTo(-0.2, 0.2)
+            nova.scale.setTo(-0.7, 0.7)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
+            if (fireButton.isDown){
+                nova.animations.play('shoot_move', 8, true);
+            }
+            else{
+                nova.animations.play('move', 12, true);
+            }
         }
         else if(cursors.right.isDown){
-            nova.scale.setTo(0.2, 0.2)
+            nova.scale.setTo(0.7, 0.7)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
+            if (fireButton.isDown){
+                nova.animations.play('shoot_move', 8, true);
+            }
+            else{
+                nova.animations.play('move', 12, true);
+            }
+        }
+        else{
+            nova.animations.stop('move');
+            nova.animations.play('idle', 3, true);
         }
         if(cursors.up.isDown && nova.body.blocked.down){
             nova.body.velocity.y = -510;
@@ -131,6 +151,9 @@ demo.planet1.prototype = {
         if (fireButton.isDown){
             if (nova.alive == true){
                 weapon.fire();
+                if (cursors.left.isDown == false && cursors.right.isDown == false){
+                    nova.animations.play('shoot', 5, false);
+                }
             }
         }
         if (misCount == 0){

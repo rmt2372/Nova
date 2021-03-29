@@ -1,5 +1,5 @@
 var demo = {};
-var centerX = 1024/2, centerY = 576/2, boss, speed = 4, boss_life = 20, ship_life = 5, max_ship_life = 5, title, missle = false, laser = true, shield = false, burst = false, counter = 0, nova_life = 2, start_boss_life = 20, nova, supers = 0;
+var centerX = 1024/2, centerY = 576/2, boss, speed = 4, boss_life = 20, ship_life = 5, max_ship_life = 5, title, missle = false, laser = false, shield = false, burst = false, counter = 0, nova_life = 2, start_boss_life = 20, nova, supers = 0;
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
