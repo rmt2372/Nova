@@ -1,4 +1,4 @@
-var laser_cannon, bub_shield, wave_burst, mis, frogs, plants, song1;
+var laser_cannon, bub_shield, wave_burst, mis, frogs, plants, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1;
 demo.planet1 = function(){};
 demo.planet1.prototype = {
     preload: function(){
@@ -50,7 +50,9 @@ demo.planet1.prototype = {
         game.physics.enable(bub_shield);
         wave_burst = game.add.sprite(750, 200, 'burst');
         game.physics.enable(wave_burst);
-        mis = game.add.sprite(400, 200, 'missle');
+        mis = game.add.sprite(3017, 460, 'missle');
+        mis.anchor.setTo(0.5, 0.5);
+        mis.scale.setTo(1.3);
         game.physics.enable(mis);
         laser_cannon.enableBody = true;
         bub_shield.enableBody = true;
@@ -85,8 +87,22 @@ demo.planet1.prototype = {
         song1 = game.add.audio('level1Song');
         song1.addMarker('song1', 0, 235, 0.1, true);
         song1.play('song1');
+        
+        content1 = ['You have collected the smart missle.', 'In the final fight, after building up the super meter press Z to fire the tracker missle for extra damage.', 'Press Enter to get back to level select!'];
+
+        line1 = [];
+
+        wordIndex1 = 0;
+        lineIndex1 = 0;
+
+        wordDelay1 = 120;
+        lineDelay1 = 400;
+        text1 = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
+        text1.fixedToCamera = true;
     },
     update:function(){
+        console.log(nova.x);
+        console.log(nova.y);
         game.physics.arcade.collide(nova, planets);
         game.physics.arcade.collide(frogs, planets);
         game.physics.arcade.collide(plants, planets);
@@ -117,6 +133,9 @@ demo.planet1.prototype = {
                 weapon.fire();
             }
         }
+        if (misCount == 0){
+            pauseGame1();
+        }
     }
 }
 function collectLaser(nova, laser_cannon){
@@ -126,6 +145,9 @@ function collectLaser(nova, laser_cannon){
 function collectMissle(nova, mis){
     mis.kill();
     missle = true;
+    supers += 1;
+    misCount -= 1;
+    nextLine1();
 }
 function collectShield(nova, bub_shield){
     bub_shield.kill();
@@ -183,4 +205,53 @@ function tweenTintHelperNova(num){
 }
 function endGameLevel(){
     nova.kill();
+}
+function nextLine1() {
+
+    if (lineIndex1 === content1.length)
+    {
+        //  We're finished
+        return;
+    }
+
+    //  Split the current line on spaces, so one word per array element
+    line1 = content1[lineIndex1].split(' ');
+
+    //  Reset the word index to zero (the first word in the line)
+    wordIndex1 = 0;
+
+    //  Call the 'nextWord' function once for each word in the line (line.length)
+    game.time.events.repeat(wordDelay1, line1.length, nextWord1, this);
+
+    //  Advance to the next line
+    lineIndex1++;
+
+}
+
+function nextWord1() {
+
+    //  Add the next word onto the text string, followed by a space
+    text1.text = text1.text.concat(line1[wordIndex1] + " ");
+
+    //  Advance the word index to the next word in the line
+    wordIndex1++;
+
+    //  Last word?
+    if (wordIndex1 === line1.length)
+    {
+        //  Add a carriage return
+        text1.text = text1.text.concat("\n");
+
+        //  Get the next line after the lineDelay amount of ms has elapsed
+        game.time.events.add(lineDelay1, nextLine1, this);
+    }
+
+}
+function pauseGame1 (){
+    nova.body.velocity.x = 0;
+    nova.body.velocity.y = 0;
+    //nextLine1();
+    if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
+        changeState(null, 'l');
+    }
 }
