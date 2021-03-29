@@ -267,8 +267,11 @@ demo.battle.prototype = {
 function missleHit(boss, bullet){
     bullet.kill();
     boss_life -= 2;
-    if (boss_life > 0){
+    if (boss_life >= 0){
         fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    }
+    if (boss_life < 0){
+        fill.scale.setTo(0, 2)
     }
     if (boss_life <= 0){
         boss.kill();
@@ -281,8 +284,11 @@ function hitEnemy(boss, bullet){
         counter += 1;
         superMeter.scale.setTo((counter / 5) * 2, 1);
     }
-    if (boss_life > 0){
+    if (boss_life >= 0){
         fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    }
+    if (boss_life < 0){
+        fill.scale.setTo(0, 2)
     }
     if (boss_life <= 0){
         boss.kill();
@@ -375,8 +381,11 @@ function fireBeam(){
 function beamHit(boss, bullet){
     bullet.kill()
     boss_life -= 0.1;
-    if (boss_life > 0){
+    if (boss_life >= 0){
         fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
+    }
+    if (boss_life < 0){
+        fill.scale.setTo(0, 2)
     }
     if (boss_life <= 0){
         boss.kill();
