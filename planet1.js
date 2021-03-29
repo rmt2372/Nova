@@ -12,7 +12,7 @@ demo.planet1.prototype = {
         game.load.tilemap('map', 'assets/map/level_1_map.json',null,Phaser.Tilemap.TILED_JSON);
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
         game.load.image('level_1_Ground', 'assets/map/level_1_Ground.png');
-        game.load.image('frog', 'assets/sprites/Frog_villan.png');
+        game.load.spritesheet('frog', 'assets/sprites/Frog_villan_jump.png', 132, 138);
         game.load.image('plant', 'assets/sprites/plant_enemy.png');
         game.load.audio('level1Song', 'assets/sounds/Starmachine.wav');
     },
@@ -77,9 +77,10 @@ demo.planet1.prototype = {
         frogs.enableBody = true;
         game.physics.enable(frogs);
         //frog.body.gravity.y = 500;
-        var frog = frogs.create(200, 425, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
-        frog.body.gravity.y = 500;
+        frog1 = frogs.create(200, 425, 'frog');
+        frog1.scale.setTo(-0.5, 0.5);
+        frog1.body.gravity.y = 500;
+        frog1.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         frog = frogs.create(1000, 0, 'frog');
         frog.scale.setTo(-0.5, 0.5);
@@ -98,9 +99,9 @@ demo.planet1.prototype = {
         plants.enableBody = true;
         game.physics.enable(plants);
         //plants.body.gravity.y = 500;
-        var plant = plants.create(350, 425, 'plant');
-        plant.scale.setTo(0.5, 0.5);
-        plant.body.gravity.y = 500;
+        plant1 = plants.create(350, 300, 'plant');
+        plant1.scale.setTo(0.5, 0.5);
+        plant1.body.gravity.y = 500;
         plant = plants.create(1250, 425, 'plant');
         plant.scale.setTo(0.5, 0.5);
         plant.body.gravity.y = 500;
@@ -134,6 +135,7 @@ demo.planet1.prototype = {
         
         text2 = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
         text2.fixedToCamera = true;
+        game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
     },
     update:function(){
     
@@ -150,6 +152,13 @@ demo.planet1.prototype = {
         game.physics.arcade.overlap(nova, frogs, hitNova, null, this);
         game.physics.arcade.overlap(nova, plants, hitNova, null, this);
         nova.body.velocity.x = 0;
+        
+        if (nova.x > plant1.x){
+            plant1.scale.setTo(-0.5, 0.5);
+        }
+        else if(nova.x < plant1.x){
+            plant1.scale.setTo(0.5, 0.5);
+        }
         if(cursors.left.isDown){
             nova.scale.setTo(-0.7, 0.7)
             nova.body.velocity.x = -200;
@@ -189,6 +198,10 @@ demo.planet1.prototype = {
         }
         if (misCount == 0){
             pauseGame1();
+        }
+        if(frog1.body.blocked.down){
+            frog1.body.velocity.y = -300;
+            frog1.animations.play('hop', 6, false);
         }
     }
 }
@@ -309,3 +322,5 @@ function pauseGame1 (){
         changeState(null, 'l');
     }
 }
+
+
