@@ -2,7 +2,7 @@ var enemies = 0, content, lineIndex, wordIndex, wordDelay, lineDelay;
 demo.tutorial = function(){};
 demo.tutorial.prototype = {
     preload: function(){
-        game.load.image('nova', 'assets/sprites/Nova.png');
+        game.load.spritesheet('nova', 'assets/sprites/nova_.png', 91, 110);
         game.load.image('frog', 'assets/sprites/Frog_villan.png');
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
 
@@ -14,13 +14,17 @@ demo.tutorial.prototype = {
         game.paused = false;
         
         nova = game.add.sprite(25, 475, 'nova');
-        nova.scale.setTo(0.2, 0.2);
+        nova.scale.setTo(0.7, 0.7);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
         nova.body.bounce.y = 0.2;
         nova.body.gravity.y = 500;
         nova.invincibility = false;
+        nova.animations.add('idle', [0, 1]);
+        nova.animations.add('move', [2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        nova.animations.add('shoot', [15, 16, 17]);
+        nova.animations.add('shoot_move', [20, 21, 22, 23, 24, 25]);
         
         cursors = game.input.keyboard.createCursorKeys();
         
@@ -43,7 +47,7 @@ demo.tutorial.prototype = {
         
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-        weapon.fireRate = 400;
+        weapon.fireRate = 600;
         weapon.bulletSpeed = 500;
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(nova, 0, 0, true);
@@ -65,14 +69,30 @@ demo.tutorial.prototype = {
         game.physics.arcade.overlap(weapon.bullets, frogs, hitVilTut, null, this);
         nova.body.velocity.x = 0;
         if(cursors.left.isDown){
-            nova.scale.setTo(-0.2, 0.2)
+            nova.scale.setTo(-0.7, 0.7)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
+            if (fireButton.isDown){
+                nova.animations.play('shoot_move', 8, true);
+            }
+            else{
+                nova.animations.play('move', 12, true);
+            }
         }
         else if(cursors.right.isDown){
-            nova.scale.setTo(0.2, 0.2)
+            nova.scale.setTo(0.7, 0.7)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
+            if (fireButton.isDown){
+                nova.animations.play('shoot_move', 8, true);
+            }
+            else{
+                nova.animations.play('move', 12, true);
+            }
+        }
+        else{
+            nova.animations.stop('move');
+            nova.animations.play('idle', 3, true);
         }
         if(cursors.up.isDown){
             nova.body.velocity.y = -425;
@@ -80,6 +100,9 @@ demo.tutorial.prototype = {
         if (fireButton.isDown){
             if (nova.alive == true){
                 weapon.fire();
+                if (cursors.left.isDown == false && cursors.right.isDown == false){
+                    nova.animations.play('shoot', 5, false);
+                }
             }
         }
         if (enemies == 0){
