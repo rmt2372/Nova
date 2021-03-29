@@ -47,21 +47,24 @@ demo.planet1.prototype = {
         
         
         cursors = game.input.keyboard.createCursorKeys();
-        
+        /*
         laser_cannon = game.add.sprite(500, 200, 'laser');
         game.physics.enable(laser_cannon);
         bub_shield = game.add.sprite(650, 200, 'bubble_shield');
         game.physics.enable(bub_shield);
         wave_burst = game.add.sprite(750, 200, 'burst');
         game.physics.enable(wave_burst);
+        */
         mis = game.add.sprite(3017, 460, 'missle');
         mis.anchor.setTo(0.5, 0.5);
         mis.scale.setTo(1.3);
         game.physics.enable(mis);
+        /*
         laser_cannon.enableBody = true;
         bub_shield.enableBody = true;
         wave_burst.enableBody = true;
         mis.enableBody = true;
+        */
         
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -78,11 +81,36 @@ demo.planet1.prototype = {
         frog.scale.setTo(-0.5, 0.5);
         frog.body.gravity.y = 500;
         
+        frog = frogs.create(1000, 0, 'frog');
+        frog.scale.setTo(-0.5, 0.5);
+        frog.body.gravity.y = 500;
+        frog = frogs.create(1500, 0, 'frog');
+        frog.scale.setTo(-0.5, 0.5);
+        frog.body.gravity.y = 500;
+        frog = frogs.create(2000, 0, 'frog');
+        frog.scale.setTo(-0.5, 0.5);
+        frog.body.gravity.y = 500;
+        frog = frogs.create(2500, 0, 'frog');
+        frog.scale.setTo(-0.5, 0.5);
+        frog.body.gravity.y = 500;
+        
         plants = game.add.group();
         plants.enableBody = true;
         game.physics.enable(plants);
         //plants.body.gravity.y = 500;
         var plant = plants.create(350, 425, 'plant');
+        plant.scale.setTo(0.5, 0.5);
+        plant.body.gravity.y = 500;
+        plant = plants.create(1250, 425, 'plant');
+        plant.scale.setTo(0.5, 0.5);
+        plant.body.gravity.y = 500;
+        plant = plants.create(1750, 0, 'plant');
+        plant.scale.setTo(0.5, 0.5);
+        plant.body.gravity.y = 500;
+        plant = plants.create(2250, 0, 'plant');
+        plant.scale.setTo(0.5, 0.5);
+        plant.body.gravity.y = 500;
+        plant = plants.create(2750, 0, 'plant');
         plant.scale.setTo(0.5, 0.5);
         plant.body.gravity.y = 500;
         
@@ -103,10 +131,13 @@ demo.planet1.prototype = {
         lineDelay1 = 400;
         text1 = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
         text1.fixedToCamera = true;
+        
+        text2 = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
+        text2.fixedToCamera = true;
     },
     update:function(){
-        console.log(nova.x);
-        console.log(nova.y);
+    
+        text2.setText('Lives ' + nova_life);
         game.physics.arcade.collide(nova, planets);
         game.physics.arcade.collide(frogs, planets);
         game.physics.arcade.collide(plants, planets);

@@ -11,8 +11,8 @@ demo.menu.prototype = {
     create: function(){
         addChangeStateEventListeners();
         var skyBG = game.add.sprite(0, 0, 'sky');
-        var txt = game.add.text(centerX, 500, 'press "b" to get to battle', {fontSize: 50 + 'px', fill: '#00FFFF'});
-        txt.anchor.setTo(0.5, 0.5);
+        //var txt = game.add.text(centerX, 500, 'press "b" to get to battle', {fontSize: 50 + 'px', fill: '#00FFFF'});
+        //txt.anchor.setTo(0.5, 0.5);
         
         title = game.add.sprite(centerX, 200, 'title');
         title.anchor.setTo(0.5, 0.5);

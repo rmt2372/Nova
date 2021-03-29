@@ -37,6 +37,16 @@ demo.tutorial.prototype = {
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
         enemies += 1;
+        frog = frogs.create(750, 425, 'frog');
+        frog.scale.setTo(-0.5, 0.5);
+        frog.body.gravity.y = 500;
+        frog.body.collideWorldBounds = true;
+        enemies += 1;
+        frog = frogs.create(1000, 425, 'frog');
+        frog.scale.setTo(-0.5, 0.5);
+        frog.body.gravity.y = 500;
+        frog.body.collideWorldBounds = true;
+        enemies += 1;
         
         game.camera.follow(nova);
         
@@ -61,7 +71,7 @@ demo.tutorial.prototype = {
 
         wordDelay = 120;
         lineDelay = 400;
-        text = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
+        text = game.add.text(32, 32, '', { font: "15px Arial", fill: '#00FFFF' });
         
     },
     update:function(){
@@ -107,6 +117,7 @@ demo.tutorial.prototype = {
         }
         if (enemies == 0){
             pauseGame();
+            nextLine();
         }
     }
 }
