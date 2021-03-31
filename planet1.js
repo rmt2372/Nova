@@ -12,7 +12,7 @@ demo.planet1.prototype = {
         game.load.tilemap('map', 'assets/map/level_1_map.json',null,Phaser.Tilemap.TILED_JSON);
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
         game.load.image('level_1_Ground', 'assets/map/level_1_Ground.png');
-        game.load.spritesheet('frog', 'assets/sprites/Frog_villan_jump.png', 132, 138);
+        game.load.spritesheet('frog', 'assets/sprites/Frog_villan_jump2.png', 132, 138);
         game.load.image('plant', 'assets/sprites/plant_enemy.png');
         game.load.audio('level1Song', 'assets/sounds/Starmachine.wav');
     },
@@ -31,8 +31,7 @@ demo.planet1.prototype = {
         
         map.setCollisionBetween(1,34,true,"ground");
         
-        
-        nova = game.add.sprite(25, 475, 'nova');
+        nova = game.add.sprite(31, 1017, 'nova');
         nova.scale.setTo(0.7, 0.7);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
@@ -55,7 +54,7 @@ demo.planet1.prototype = {
         wave_burst = game.add.sprite(750, 200, 'burst');
         game.physics.enable(wave_burst);
         */
-        mis = game.add.sprite(3017, 460, 'missle');
+        mis = game.add.sprite(3017, 1000, 'missle');
         mis.anchor.setTo(0.5, 0.5);
         mis.scale.setTo(1.3);
         game.physics.enable(mis);
@@ -77,43 +76,54 @@ demo.planet1.prototype = {
         frogs.enableBody = true;
         game.physics.enable(frogs);
         //frog.body.gravity.y = 500;
-        frog1 = frogs.create(200, 425, 'frog');
+        frog1 = frogs.create(200, 1000, 'frog');
         frog1.scale.setTo(-0.5, 0.5);
         frog1.body.gravity.y = 500;
         frog1.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        frog = frogs.create(1000, 0, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
-        frog.body.gravity.y = 500;
-        frog = frogs.create(1500, 0, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
-        frog.body.gravity.y = 500;
-        frog = frogs.create(2000, 0, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
-        frog.body.gravity.y = 500;
-        frog = frogs.create(2500, 0, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
-        frog.body.gravity.y = 500;
+        frog2 = frogs.create(1000, 825, 'frog');
+        frog2.scale.setTo(-0.5, 0.5);
+        frog2.body.gravity.y = 500;
+        frog2.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog3 = frogs.create(1500, 970, 'frog');
+        frog3.scale.setTo(-0.5, 0.5);
+        frog3.body.gravity.y = 500;
+        frog3.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog4 = frogs.create(2000, 970, 'frog');
+        frog4.scale.setTo(-0.5, 0.5);
+        frog4.body.gravity.y = 500;
+        frog4.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog5 = frogs.create(2500, 775, 'frog');
+        frog5.scale.setTo(-0.5, 0.5);
+        frog5.body.gravity.y = 500;
+        frog5.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         plants = game.add.group();
         plants.enableBody = true;
         game.physics.enable(plants);
         //plants.body.gravity.y = 500;
-        plant1 = plants.create(350, 300, 'plant');
+        plant1 = plants.create(350, 990, 'plant');
         plant1.scale.setTo(0.5, 0.5);
         plant1.body.gravity.y = 500;
-        plant = plants.create(1250, 425, 'plant');
-        plant.scale.setTo(0.5, 0.5);
-        plant.body.gravity.y = 500;
-        plant = plants.create(1750, 0, 'plant');
-        plant.scale.setTo(0.5, 0.5);
-        plant.body.gravity.y = 500;
-        plant = plants.create(2250, 0, 'plant');
-        plant.scale.setTo(0.5, 0.5);
-        plant.body.gravity.y = 500;
-        plant = plants.create(2750, 0, 'plant');
-        plant.scale.setTo(0.5, 0.5);
-        plant.body.gravity.y = 500;
+        
+        plant2 = plants.create(1250, 990, 'plant');
+        plant2.scale.setTo(0.5, 0.5);
+        plant2.body.gravity.y = 500;
+        
+        plant3 = plants.create(1750, 990, 'plant');
+        plant3.scale.setTo(0.5, 0.5);
+        plant3.body.gravity.y = 500;
+        
+        plant4 = plants.create(2250, 700, 'plant');
+        plant4.scale.setTo(0.5, 0.5);
+        plant4.body.gravity.y = 500;
+        
+        plant5 = plants.create(2750, 890, 'plant');
+        plant5.scale.setTo(0.5, 0.5);
+        plant5.body.gravity.y = 500;
         
         game.camera.follow(nova);
         
@@ -135,10 +145,18 @@ demo.planet1.prototype = {
         
         text2 = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
         text2.fixedToCamera = true;
+        
         game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant2).to({x: '+50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant3).to({x: '+100'}, 600, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant4).to({x: '+20'}, 700, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
+        
     },
     update:function(){
-    
+        
+        console.log(nova.x);
+        console.log(nova.y);
         text2.setText('Lives ' + nova_life);
         game.physics.arcade.collide(nova, planets);
         game.physics.arcade.collide(frogs, planets);
@@ -159,6 +177,31 @@ demo.planet1.prototype = {
         else if(nova.x < plant1.x){
             plant1.scale.setTo(0.5, 0.5);
         }
+        if (nova.x > plant2.x){
+            plant2.scale.setTo(-0.5, 0.5);
+        }
+        else if(nova.x < plant2.x){
+            plant2.scale.setTo(0.5, 0.5);
+        }
+        if (nova.x > plant3.x){
+            plant3.scale.setTo(-0.5, 0.5);
+        }
+        else if(nova.x < plant3.x){
+            plant3.scale.setTo(0.5, 0.5);
+        }
+        if (nova.x > plant4.x){
+            plant4.scale.setTo(-0.5, 0.5);
+        }
+        else if(nova.x < plant4.x){
+            plant4.scale.setTo(0.5, 0.5);
+        }
+        if (nova.x > plant5.x){
+            plant5.scale.setTo(-0.5, 0.5);
+        }
+        else if(nova.x < plant5.x){
+            plant5.scale.setTo(0.5, 0.5);
+        }
+        
         if(cursors.left.isDown){
             nova.scale.setTo(-0.7, 0.7)
             nova.body.velocity.x = -200;
@@ -202,6 +245,22 @@ demo.planet1.prototype = {
         if(frog1.body.blocked.down){
             frog1.body.velocity.y = -300;
             frog1.animations.play('hop', 6, false);
+        }
+        if(frog2.body.blocked.down){
+            frog2.body.velocity.y = -300;
+            frog2.animations.play('hop', 6, false);
+        }
+        if(frog3.body.blocked.down){
+            frog3.body.velocity.y = -300;
+            frog3.animations.play('hop', 6, false);
+        }
+        if(frog4.body.blocked.down){
+            frog4.body.velocity.y = -300;
+            frog4.animations.play('hop', 6, false);
+        }
+        if(frog5.body.blocked.down){
+            frog5.body.velocity.y = -300;
+            frog5.animations.play('hop', 6, false);
         }
     }
 }
@@ -315,9 +374,6 @@ function nextWord1() {
 
 }
 function pauseGame1 (){
-    nova.body.velocity.x = 0;
-    nova.body.velocity.y = 0;
-    //nextLine1();
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
         changeState(null, 'l');
     }
