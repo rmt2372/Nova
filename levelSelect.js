@@ -25,14 +25,49 @@ demo.levelSelect.prototype = {
         map.addTilesetImage('map_sky_planets');
         
         sky = map.createLayer("sky");
-        planets = map.createLayer("planets");
+        planet_1 = map.createLayer("planet_1");
+        planet_2 = map.createLayer("planet_2");
+        planet_3 = map.createLayer("planet_3");
+        planet_4 = map.createLayer("planet_4");
         blackhole = game.add.sprite(750, 800, 'blackhole');
         blackhole.scale.setTo(2, 2);
         blackhole.anchor.setTo(0.5, 0.5);
         game.physics.arcade.enable(blackhole);
         blackhole.body.immovable = true;
         
-        map.setCollisionBetween(13,265,true,"planets");
+        //Planet 1 collision
+        map.setCollisionBetween(13,18,true,"planet_1");
+        map.setCollisionBetween(31,36,true,"planet_1");
+        map.setCollisionBetween(49,54,true,"planet_1");
+        map.setCollisionBetween(67,72,true,"planet_1");
+        map.setCollisionBetween(85,90,true,"planet_1");
+        map.setCollisionBetween(103,108,true,"planet_1");
+        
+        //Planet 2 Collision
+        map.setCollisionBetween(21,24,true,"planet_2");
+        map.setCollisionBetween(39,42,true,"planet_2");
+        map.setCollisionBetween(57,60,true,"planet_2");
+        map.setCollisionBetween(75,78,true,"planet_2");
+        
+        //Planet 3 Collision
+        map.setCollisionBetween(159,164,true,"planet_3");
+        map.setCollisionBetween(177,182,true,"planet_3");
+        map.setCollisionBetween(195,200,true,"planet_3");
+        map.setCollisionBetween(213,218,true,"planet_3");
+        map.setCollisionBetween(231,236,true,"planet_3");
+        map.setCollisionBetween(249,254,true,"planet_3");
+        
+        //Planet 4 Collision
+        map.setCollisionBetween(131,138,true,"planet_4");
+        map.setCollisionBetween(149,156,true,"planet_4");
+        map.setCollisionBetween(167,174,true,"planet_4");
+        map.setCollisionBetween(185,192,true,"planet_4");
+        map.setCollisionBetween(203,210,true,"planet_4");
+        map.setCollisionBetween(221,228,true,"planet_4");
+        map.setCollisionBetween(239,246,true,"planet_4");
+        map.setCollisionBetween(257,264,true,"planet_4");
+        map.setCollisionBetween(275,282,true,"planet_4");
+        
         
         selectSong = game.add.audio('selectSong');
         selectSong.addMarker('select', 0.5, 22.5, 0.1, true);
@@ -52,7 +87,10 @@ demo.levelSelect.prototype = {
         
     },
     update: function(){
-        game.physics.arcade.collide(ship, planets, changeLevel);
+        game.physics.arcade.collide(ship, planet_1, changeLevel);
+        game.physics.arcade.collide(ship, planet_2, changeLevel);
+        game.physics.arcade.collide(ship, planet_3, changeLevel);
+        game.physics.arcade.collide(ship, planet_4, changeLevel);
         game.physics.arcade.collide(ship, blackhole, bossBattle);
         
         if (cursors.left.isDown){
@@ -90,8 +128,13 @@ demo.levelSelect.prototype = {
         }
     }
 }
-function changeLevel(){
+function changeLevel(n){
+    
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
+        
+        console.log(n);
+        
+        /*
         if (ship.x < 500 && ship.y < 800){
             game.sound.stopAll();
             resetHealth();
@@ -115,6 +158,7 @@ function changeLevel(){
             game.state.start('planet4');
             console.log('planet4');
         }
+        */
     }
 }
 function bossBattle(){
