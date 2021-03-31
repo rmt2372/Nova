@@ -128,37 +128,37 @@ demo.levelSelect.prototype = {
         }
     }
 }
-function changeLevel(n){
+function changeLevel(n, m){
     
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
         
-        console.log(n);
+        console.log(m.layer.name);
         
-        /*
-        if (ship.x < 500 && ship.y < 800){
+        
+        if (m.layer.name == 'planet_1'){
+            game.sound.stopAll();
+            resetHealth();
+            game.state.start('planet1');
+            console.log('planet1');
+        }
+        if (m.layer.name == 'planet_2'){
             game.sound.stopAll();
             resetHealth();
             game.state.start('planet2');
             console.log('planet2');
         }
-        if (ship.x < 500 && ship.y > 800){
-            game.sound.stopAll();
-            resetHealth();
-            game.state.start('planet1'); 
-        }
-        if (ship.x > 800 && ship.y < 800){
+        if (m.layer.name == 'planet_3'){
             game.sound.stopAll();
             resetHealth();
             game.state.start('planet3');
             console.log('planet3');
         }
-        if (ship.x > 800 && ship.y > 800){
+        if (m.layer.name == 'planet_4'){
             game.sound.stopAll();
             resetHealth();
             game.state.start('planet4');
             console.log('planet4');
         }
-        */
     }
 }
 function bossBattle(){
