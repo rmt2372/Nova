@@ -19,7 +19,7 @@ demo.tutorial.prototype = {
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
         nova.body.bounce.y = 0.2;
-        nova.body.gravity.y = 500;
+        nova.body.gravity.y = 900;
         nova.invincibility = false;
         nova.animations.add('idle', [0, 1]);
         nova.animations.add('move', [2, 3, 4, 5, 6, 7, 8, 9, 10]);
