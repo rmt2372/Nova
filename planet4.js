@@ -7,6 +7,8 @@ demo.planet4.prototype = {
         game.load.image("Level_4_Ground","assets/map/level_4_Ground.png");
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
         game.load.spritesheet('nova', 'assets/sprites/nova_.png', 91, 110);
+        game.load.image('laser', 'assets/sprites/Laser_cannon.png');
+        
     },
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -22,7 +24,7 @@ demo.planet4.prototype = {
         map.setCollisionBetween(14,15,true,"ground");
         map.setCollisionBetween(22,23,true,"ground");
         
-        nova = game.add.sprite(0, 0, 'nova');
+        nova = game.add.sprite(128, 1015, 'nova');
         nova.scale.setTo(0.7, 0.7);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
@@ -42,14 +44,30 @@ demo.planet4.prototype = {
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(nova, 0, 0, true);
         
+        laser_cannon = game.add.sprite(7965, 345, 'laser');
+        laser_cannon.anchor.setTo(0.5, 0.5);
+        game.physics.enable(laser_cannon);
+        
+        enemies = game.add.group();
+        enemies.enableBody = true;
+        game.physics.enable(enemies);
         
         game.camera.follow(nova);
         
         cursors = game.input.keyboard.createCursorKeys();
     },
     update:function(){
+        console.log(nova.x);
+        console.log(nova.y);
+        
         game.physics.arcade.collide(nova, ground);
+        game.physics.arcade.overlap(nova, laser_cannon, collectLaser, null, this);
+        game.physics.arcade.collide(enemies, ground);
+        game.physics.arcade.collide(weapon.bullets, ground, killBull);
+        game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
+        game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         nova.body.velocity.x = 0;
+        
         if(cursors.left.isDown){
             nova.scale.setTo(-0.7, 0.7)
             nova.body.velocity.x = -200;

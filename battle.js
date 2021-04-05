@@ -323,7 +323,10 @@ function hitBoss(ship, boss){
      if(ship.invincibility == false){
         toggleInvincibility();
         ship_life -=1;
+        
         game.time.events.add(Phaser.Timer.SECOND * 2, toggleInvincibility, this);
+        
+        tweenTintHelper(0);
         game.time.events.add(300, tweenTintHelper, this, 1);
         game.time.events.add(500, tweenTintHelper, this, 0);
         game.time.events.add(750, tweenTintHelper, this, 1);
@@ -331,6 +334,7 @@ function hitBoss(ship, boss){
         game.time.events.add(1300, tweenTintHelper, this, 1);
         game.time.events.add(1500, tweenTintHelper, this, 0);
         game.time.events.add(1750, tweenTintHelper, this, 1);
+        
     } 
     if (ship_life <= 0){
         endGame();

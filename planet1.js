@@ -55,16 +55,10 @@ demo.planet1.prototype = {
         wave_burst = game.add.sprite(750, 200, 'burst');
         game.physics.enable(wave_burst);
         */
-        mis = game.add.sprite(3017, 1000, 'missle');
+        mis = game.add.sprite(4760, 920, 'missle');
         mis.anchor.setTo(0.5, 0.5);
         mis.scale.setTo(1.3);
         game.physics.enable(mis);
-        /*
-        laser_cannon.enableBody = true;
-        bub_shield.enableBody = true;
-        wave_burst.enableBody = true;
-        mis.enableBody = true;
-        */
         
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -76,7 +70,7 @@ demo.planet1.prototype = {
         enemies = game.add.group();
         enemies.enableBody = true;
         game.physics.enable(enemies);
-        //frog.body.gravity.y = 500;
+
         frog1 = enemies.create(200, 1000, 'frog');
         frog1.scale.setTo(-0.5, 0.5);
         frog1.body.gravity.y = 500;
@@ -97,18 +91,28 @@ demo.planet1.prototype = {
         frog4.body.gravity.y = 500;
         frog4.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        frog5 = enemies.create(2500, 775, 'frog');
+        frog5 = enemies.create(2165, 825, 'frog');
         frog5.scale.setTo(-0.5, 0.5);
         frog5.body.gravity.y = 500;
         frog5.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
+        frog6 = enemies.create(3224, 925, 'frog');
+        frog6.scale.setTo(-0.5, 0.5);
+        frog6.body.gravity.y = 500;
+        frog6.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog7 = enemies.create(4650, 925, 'frog');
+        frog7.scale.setTo(-0.5, 0.5);
+        frog7.body.gravity.y = 500;
+        frog7.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
         game.physics.enable(enemies);
         //enemies.body.gravity.y = 500;
-        plant1 = enemies.create(350, 990, 'plant');
+        plant1 = enemies.create(350, 800, 'plant');
         plant1.scale.setTo(0.5, 0.5);
         plant1.body.gravity.y = 500;
         
-        plant2 = enemies.create(1250, 990, 'plant');
+        plant2 = enemies.create(575, 700, 'plant');
         plant2.scale.setTo(0.5, 0.5);
         plant2.body.gravity.y = 500;
         
@@ -120,9 +124,17 @@ demo.planet1.prototype = {
         plant4.scale.setTo(0.5, 0.5);
         plant4.body.gravity.y = 500;
         
-        plant5 = enemies.create(2750, 890, 'plant');
+        plant5 = enemies.create(2785, 875, 'plant');
         plant5.scale.setTo(0.5, 0.5);
         plant5.body.gravity.y = 500;
+        
+        plant7 = enemies.create(4125, 865, 'plant');
+        plant7.scale.setTo(0.5, 0.5);
+        plant7.body.gravity.y = 500;
+        
+        plant6 = enemies.create(3470, 930, 'plant');
+        plant6.scale.setTo(0.5, 0.5);
+        plant6.body.gravity.y = 500;
         
         birds = game.add.group();
         birds.enableBody = true;
@@ -155,9 +167,11 @@ demo.planet1.prototype = {
         
         game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
         game.add.tween(plant2).to({x: '+50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant3).to({x: '+100'}, 600, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant3).to({x: '+25'}, 750, 'Linear', 'true', 0, false, true).loop(true);
         game.add.tween(plant4).to({x: '+20'}, 700, 'Linear', 'true', 0, false, true).loop(true);
         game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant6).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant7).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
         
     },
     update:function(){
@@ -167,15 +181,12 @@ demo.planet1.prototype = {
         text2.setText('Lives ' + nova_life);
 
         game.physics.arcade.collide(nova, ground);
-        //game.physics.arcade.collide(enemies, ground);
+    
         game.physics.arcade.collide(enemies, ground);
-        game.physics.arcade.overlap(nova, laser_cannon, collectLaser, null, this);
-        game.physics.arcade.overlap(nova, bub_shield, collectShield, null, this);
+        game.physics.arcade.collide(weapon.bullets, ground, killBull);
         game.physics.arcade.overlap(nova, mis, collectMissle, null, this);
         game.physics.arcade.overlap(nova, wave_burst, collectWave, null, this);
         game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
-        //game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
-        //game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         nova.body.velocity.x = 0;
         
@@ -208,6 +219,12 @@ demo.planet1.prototype = {
         }
         else if(nova.x < plant5.x){
             plant5.scale.setTo(0.5, 0.5);
+        }
+        if (nova.x > plant6.x){
+            plant6.scale.setTo(-0.5, 0.5);
+        }
+        else if(nova.x < plant5.x){
+            plant6.scale.setTo(0.5, 0.5);
         }
         
         if(cursors.left.isDown){
@@ -270,9 +287,17 @@ demo.planet1.prototype = {
             frog5.body.velocity.y = -300;
             frog5.animations.play('hop', 6, false);
         }
+        if(frog6.body.blocked.down){
+            frog6.body.velocity.y = -300;
+            frog6.animations.play('hop', 6, false);
+        }
+        if(frog7.body.blocked.down){
+            frog7.body.velocity.y = -300;
+            frog7.animations.play('hop', 6, false);
+        }
         if(bird1.inCamera){
             bird1.animations.play('fly', 12, true);
-            game.physics.arcade.moveToObject(bird1, nova, null, 4000);
+            game.physics.arcade.moveToObject(bird1, nova, null, 3000);
         }
     }
 }
@@ -384,6 +409,9 @@ function nextWord1() {
         game.time.events.add(lineDelay1, nextLine1, this);
     }
 
+}
+function killBull(shot){
+    shot.kill()
 }
 function pauseGame1 (){
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
