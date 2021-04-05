@@ -25,7 +25,7 @@ demo.planet1.prototype = {
         map.addTilesetImage('level_1_Ground');
         
         sky = map.createLayer("sky");
-        planets = map.createLayer("ground");
+        ground = map.createLayer("ground");
         
         sky.resizeWorld();
         
@@ -158,9 +158,9 @@ demo.planet1.prototype = {
         console.log(nova.x);
         console.log(nova.y);
         text2.setText('Lives ' + nova_life);
-        game.physics.arcade.collide(nova, planets);
-        game.physics.arcade.collide(frogs, planets);
-        game.physics.arcade.collide(plants, planets);
+        game.physics.arcade.collide(nova, ground);
+        game.physics.arcade.collide(frogs, ground);
+        game.physics.arcade.collide(plants, ground);
         game.physics.arcade.overlap(nova, laser_cannon, collectLaser, null, this);
         game.physics.arcade.overlap(nova, bub_shield, collectShield, null, this);
         game.physics.arcade.overlap(nova, mis, collectMissle, null, this);
