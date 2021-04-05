@@ -44,6 +44,9 @@ demo.planet3.prototype = {
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(nova, 0, 0, true);
         
+        enemies = game.add.group();
+        enemies.enableBody = true;
+        game.physics.enable(enemies);
         
         game.camera.follow(nova);
         
@@ -51,7 +54,11 @@ demo.planet3.prototype = {
         
     },
     update:function(){
+        console.log(nova.x);
+        console.log(nova.y);
+        
         game.physics.arcade.collide(nova, ground);
+        
         nova.body.velocity.x = 0;
         if(cursors.left.isDown){
             nova.scale.setTo(-0.7, 0.7)
