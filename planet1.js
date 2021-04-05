@@ -1,4 +1,4 @@
-var laser_cannon, bub_shield, wave_burst, mis, frogs, plants, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1;
+var laser_cannon, bub_shield, wave_burst, mis, enemies, enemies, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1;
 demo.planet1 = function(){};
 demo.planet1.prototype = {
     preload: function(){
@@ -13,6 +13,7 @@ demo.planet1.prototype = {
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
         game.load.image('level_1_Ground', 'assets/map/level_1_Ground.png');
         game.load.spritesheet('frog', 'assets/sprites/Frog_villan_jump2.png', 132, 138);
+        game.load.spritesheet('bird', 'assets/sprites/bird_enemy.png', 56, 52);
         game.load.image('plant', 'assets/sprites/plant_enemy.png');
         game.load.audio('level1Song', 'assets/sounds/Starmachine.wav');
     },
@@ -72,58 +73,64 @@ demo.planet1.prototype = {
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(nova, 0, 0, true);
         
-        frogs = game.add.group();
-        frogs.enableBody = true;
-        game.physics.enable(frogs);
+        enemies = game.add.group();
+        enemies.enableBody = true;
+        game.physics.enable(enemies);
         //frog.body.gravity.y = 500;
-        frog1 = frogs.create(200, 1000, 'frog');
+        frog1 = enemies.create(200, 1000, 'frog');
         frog1.scale.setTo(-0.5, 0.5);
         frog1.body.gravity.y = 500;
         frog1.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        frog2 = frogs.create(1000, 825, 'frog');
+        frog2 = enemies.create(1000, 825, 'frog');
         frog2.scale.setTo(-0.5, 0.5);
         frog2.body.gravity.y = 500;
         frog2.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        frog3 = frogs.create(1500, 970, 'frog');
+        frog3 = enemies.create(1500, 970, 'frog');
         frog3.scale.setTo(-0.5, 0.5);
         frog3.body.gravity.y = 500;
         frog3.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        frog4 = frogs.create(2000, 970, 'frog');
+        frog4 = enemies.create(2000, 970, 'frog');
         frog4.scale.setTo(-0.5, 0.5);
         frog4.body.gravity.y = 500;
         frog4.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        frog5 = frogs.create(2500, 775, 'frog');
+        frog5 = enemies.create(2500, 775, 'frog');
         frog5.scale.setTo(-0.5, 0.5);
         frog5.body.gravity.y = 500;
         frog5.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        plants = game.add.group();
-        plants.enableBody = true;
-        game.physics.enable(plants);
-        //plants.body.gravity.y = 500;
-        plant1 = plants.create(350, 990, 'plant');
+        game.physics.enable(enemies);
+        //enemies.body.gravity.y = 500;
+        plant1 = enemies.create(350, 990, 'plant');
         plant1.scale.setTo(0.5, 0.5);
         plant1.body.gravity.y = 500;
         
-        plant2 = plants.create(1250, 990, 'plant');
+        plant2 = enemies.create(1250, 990, 'plant');
         plant2.scale.setTo(0.5, 0.5);
         plant2.body.gravity.y = 500;
         
-        plant3 = plants.create(1750, 990, 'plant');
+        plant3 = enemies.create(1750, 990, 'plant');
         plant3.scale.setTo(0.5, 0.5);
         plant3.body.gravity.y = 500;
         
-        plant4 = plants.create(2250, 700, 'plant');
+        plant4 = enemies.create(2250, 700, 'plant');
         plant4.scale.setTo(0.5, 0.5);
         plant4.body.gravity.y = 500;
         
-        plant5 = plants.create(2750, 890, 'plant');
+        plant5 = enemies.create(2750, 890, 'plant');
         plant5.scale.setTo(0.5, 0.5);
         plant5.body.gravity.y = 500;
+        
+        birds = game.add.group();
+        birds.enableBody = true;
+        game.physics.enable(birds);
+        
+        bird1 = enemies.create(1500, 750, 'bird');
+        bird1.scale.setTo(1, 1);
+        bird1.animations.add('fly', [0, 1, 2, 3]);
         
         game.camera.follow(nova);
         
@@ -159,16 +166,16 @@ demo.planet1.prototype = {
         console.log(nova.y);
         text2.setText('Lives ' + nova_life);
         game.physics.arcade.collide(nova, planets);
-        game.physics.arcade.collide(frogs, planets);
-        game.physics.arcade.collide(plants, planets);
+        //game.physics.arcade.collide(enemies, planets);
+        game.physics.arcade.collide(enemies, planets);
         game.physics.arcade.overlap(nova, laser_cannon, collectLaser, null, this);
         game.physics.arcade.overlap(nova, bub_shield, collectShield, null, this);
         game.physics.arcade.overlap(nova, mis, collectMissle, null, this);
         game.physics.arcade.overlap(nova, wave_burst, collectWave, null, this);
-        game.physics.arcade.overlap(weapon.bullets, frogs, hitVil, null, this);
-        game.physics.arcade.overlap(weapon.bullets, plants, hitVil, null, this);
-        game.physics.arcade.overlap(nova, frogs, hitNova, null, this);
-        game.physics.arcade.overlap(nova, plants, hitNova, null, this);
+        game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
+        //game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
+        //game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
+        game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         nova.body.velocity.x = 0;
         
         if (nova.x > plant1.x){
@@ -261,6 +268,10 @@ demo.planet1.prototype = {
         if(frog5.body.blocked.down){
             frog5.body.velocity.y = -300;
             frog5.animations.play('hop', 6, false);
+        }
+        if(bird1.inCamera){
+            bird1.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird1, nova, null, 4000);
         }
     }
 }
