@@ -18,6 +18,10 @@ demo.planet3.prototype = {
         ground = map.createLayer("ground");
         
         sky.resizeWorld();
+        
+        map.setCollisionBetween(14,15,true,"ground");
+        map.setCollisionBetween(22,23,true,"ground");
+        
     },
     update:function(){}
 }
