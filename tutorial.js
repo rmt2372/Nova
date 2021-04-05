@@ -1,4 +1,4 @@
-var enemies = 0, content, lineIndex, wordIndex, wordDelay, lineDelay;
+var enemy_num = 0, content, lineIndex, wordIndex, wordDelay, lineDelay;
 demo.tutorial = function(){};
 demo.tutorial.prototype = {
     preload: function(){
@@ -36,17 +36,17 @@ demo.tutorial.prototype = {
         frog.scale.setTo(-0.5, 0.5);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
-        enemies += 1;
+        enemy_num += 1;
         frog = frogs.create(750, 425, 'frog');
         frog.scale.setTo(-0.5, 0.5);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
-        enemies += 1;
+        enemy_num += 1;
         frog = frogs.create(1000, 425, 'frog');
         frog.scale.setTo(-0.5, 0.5);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
-        enemies += 1;
+        enemy_num += 1;
         
         game.camera.follow(nova);
         
@@ -115,7 +115,7 @@ demo.tutorial.prototype = {
                 }
             }
         }
-        if (enemies == 0){
+        if (enemy_num == 0){
             pauseGame();
             nextLine();
         }
@@ -124,7 +124,7 @@ demo.tutorial.prototype = {
 function hitVilTut(shot, villain){
     shot.kill();
     villain.kill();
-    enemies -= 1;
+    enemy_num -= 1;
 }
 function pauseGame (){
     nova.body.velocity.x = 0;
