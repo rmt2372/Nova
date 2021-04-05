@@ -144,6 +144,30 @@ demo.planet1.prototype = {
         bird1.scale.setTo(1, 1);
         bird1.animations.add('fly', [0, 1, 2, 3]);
         
+        bird2 = enemies.create(2000, 600, 'bird');
+        bird2.scale.setTo(1, 1);
+        bird2.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird3 = enemies.create(2500, 600, 'bird');
+        bird3.scale.setTo(1, 1);
+        bird3.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird4 = enemies.create(3000, 600, 'bird');
+        bird4.scale.setTo(1, 1);
+        bird4.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird5 = enemies.create(3500, 600, 'bird');
+        bird5.scale.setTo(1, 1);
+        bird5.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird6 = enemies.create(4000, 600, 'bird');
+        bird6.scale.setTo(1, 1);
+        bird6.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird7 = enemies.create(4500, 600, 'bird');
+        bird7.scale.setTo(1, 1);
+        bird7.animations.add('fly', [0, 1, 2, 3]);
+        
         game.camera.follow(nova);
         
         song1 = game.add.audio('level1Song');
@@ -297,14 +321,35 @@ demo.planet1.prototype = {
         }
         if(bird1.inCamera){
             bird1.animations.play('fly', 12, true);
-            game.physics.arcade.moveToObject(bird1, nova, null, 3000);
+            game.physics.arcade.moveToObject(bird1, nova, 120, null);
+        }
+        if(bird2.inCamera){
+            bird2.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird2, nova, 120, null);
+        }
+        if(bird3.inCamera){
+            bird3.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird3, nova, 120, null);
+        }
+        if(bird4.inCamera){
+            bird4.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird4, nova, 120, null);
+        }
+        if(bird5.inCamera){
+            bird5.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird5, nova, 120, null);
+        }
+        if(bird6.inCamera){
+            bird6.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird6, nova, 120, null);
+        }
+        if(bird7.inCamera){
+            bird7.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird7, nova, 120, null);
         }
     }
 }
-function collectLaser(nova, laser_cannon){
-    laser_cannon.kill();
-    laser = true;
-}
+
 function collectMissle(nova, mis){
     mis.kill();
     missle = true;
@@ -312,10 +357,7 @@ function collectMissle(nova, mis){
     misCount -= 1;
     nextLine1();
 }
-function collectShield(nova, bub_shield){
-    bub_shield.kill();
-    shield = true;
-}
+
 function collectWave(nova, wave_burst){
     wave_burst.kill();
     burst = true;

@@ -1,4 +1,4 @@
-
+var lasCount = 1, content4, lineIndex4, wordIndex4, wordDelay4, lineDelay4;
 demo.planet4 = function(){};
 demo.planet4.prototype = {
     preload: function(){
@@ -55,6 +55,18 @@ demo.planet4.prototype = {
         game.camera.follow(nova);
         
         cursors = game.input.keyboard.createCursorKeys();
+        
+        content4 = ['You have collected the Laser canon.', 'In the final fight, after building up the super meter press X to fire a continuous beam for damage.', 'Press Enter to get back to level select!'];
+
+        line4 = [];
+
+        wordIndex4 = 0;
+        lineIndex4 = 0;
+
+        wordDelay4 = 120;
+        lineDelay4 = 400;
+        textLas = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
+        textLas.fixedToCamera = true;
     },
     update:function(){
         console.log(nova.x);
@@ -105,5 +117,56 @@ demo.planet4.prototype = {
                 }
             }
         }
+        if (lasCount == 0){
+            pauseGame1();
+        }
     }
+}
+function collectLaser(nova, laser_cannon){
+    laser_cannon.kill();
+    laser = true;
+    lasCount -= 1;
+    nextLine4();
+    supers += 1;
+}
+function nextLine4() {
+
+    if (lineIndex4 === content4.length)
+    {
+        //  We're finished
+        return;
+    }
+
+    //  Split the current line on spaces, so one word per array element
+    line4 = content4[lineIndex4].split(' ');
+
+    //  Reset the word index to zero (the first word in the line)
+    wordIndex4 = 0;
+
+    //  Call the 'nextWord' function once for each word in the line (line.length)
+    game.time.events.repeat(wordDelay4, line4.length, nextWord4, this);
+
+    //  Advance to the next line
+    lineIndex4++;
+
+}
+
+function nextWord4() {
+
+    //  Add the next word onto the text string, followed by a space
+    textLas.text = textLas.text.concat(line4[wordIndex4] + " ");
+
+    //  Advance the word index to the next word in the line
+    wordIndex4++;
+
+    //  Last word?
+    if (wordIndex4 === line4.length)
+    {
+        //  Add a carriage return
+        textLas.text = textLas.text.concat("\n");
+
+        //  Get the next line after the lineDelay amount of ms has elapsed
+        game.time.events.add(lineDelay4, nextLine4, this);
+    }
+
 }
