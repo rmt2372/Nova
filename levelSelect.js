@@ -83,7 +83,6 @@ demo.levelSelect.prototype = {
         game.camera.follow(ship)
         
         cursors = game.input.keyboard.createCursorKeys();
-        text = game.add.text(32, 32, 'Pre-alpha side note: only puple world has content right now.', { font: "25px Arial", fill: '#00FFFF' });
         
     },
     update: function(){

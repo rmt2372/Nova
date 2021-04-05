@@ -1,4 +1,4 @@
-
+var bubCount = 1, content2, lineIndex2, wordIndex2, wordDelay2, lineDelay2;
 demo.planet2 = function(){};
 demo.planet2.prototype = {
     preload: function(){
@@ -74,6 +74,18 @@ demo.planet2.prototype = {
         
         game.add.tween(plant1).to({x: '+150'}, 875, 'Linear', 'true', 0, false, true).loop(true);
         
+        content2 = ['You have collected the shields.', 'In the final fight, after building up the super meter press C to become invincible and obtain a speed boost for a brief time.', 'Press Enter to get back to level select!'];
+
+        line2 = [];
+
+        wordIndex2 = 0;
+        lineIndex2 = 0;
+
+        wordDelay2 = 120;
+        lineDelay2 = 400;
+        textBub = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
+        textBub.fixedToCamera = true;
+        
     },
     update:function(){
         console.log(nova.x);
@@ -126,5 +138,56 @@ demo.planet2.prototype = {
                 }
             }
         }
+        if (bubCount == 0){
+            pauseGame1();
+        }
     }
+}
+function collectShield(nova, bub_shield){
+    bub_shield.kill();
+    shield = true;
+    supers += 1;
+    bubCount -= 1;
+    nextLine2();
+}
+function nextLine2() {
+
+    if (lineIndex2 === content2.length)
+    {
+        //  We're finished
+        return;
+    }
+
+    //  Split the current line on spaces, so one word per array element
+    line2 = content2[lineIndex2].split(' ');
+
+    //  Reset the word index to zero (the first word in the line)
+    wordIndex2 = 0;
+
+    //  Call the 'nextWord' function once for each word in the line (line.length)
+    game.time.events.repeat(wordDelay2, line2.length, nextWord2, this);
+
+    //  Advance to the next line
+    lineIndex2++;
+
+}
+
+function nextWord2() {
+
+    //  Add the next word onto the text string, followed by a space
+    textBub.text = textBub.text.concat(line2[wordIndex2] + " ");
+
+    //  Advance the word index to the next word in the line
+    wordIndex2++;
+
+    //  Last word?
+    if (wordIndex2 === line2.length)
+    {
+        //  Add a carriage return
+        textBub.text = textBub.text.concat("\n");
+
+        //  Get the next line after the lineDelay amount of ms has elapsed
+        game.time.events.add(lineDelay2, nextLine2, this);
+    }
+
 }
