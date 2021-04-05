@@ -290,6 +290,18 @@ function hitEnemy(boss, bullet){
     if (boss_life >= 0){
         fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
     }
+    if (boss_life === Math.floor(start_boss_life / 2)){
+        console.log(boss_life)
+        console.log("bish")
+        tweenTintHelper(0);
+        game.time.events.add(300, tweenTintHelperEnemy, this, 1);
+        game.time.events.add(500, tweenTintHelperEnemy, this, 0);
+        game.time.events.add(750, tweenTintHelperEnemy, this, 1);
+        game.time.events.add(1000, tweenTintHelperEnemy, this, 0);
+        game.time.events.add(1300, tweenTintHelperEnemy, this, 1);
+        game.time.events.add(1500, tweenTintHelperEnemy, this, 0);
+        game.time.events.add(1750, tweenTintHelperEnemy, this, 1);
+    }
     if (boss_life < 0){
         fill.scale.setTo(0, 2)
     }
@@ -353,18 +365,32 @@ function tweenTint(obj, startColor, endColor, time){
     obj.tint = startColor;
     colorTween.start();
 }
-function tweenTintHelper(num){
+function tweenTintHelperEnemy(num){
     if (num == 0){
-        tweenTint(ship, 0xffffff, 0xbbbbbb, 300);
+        tweenTint(boss, 0xffffff, 0xFF0000, 250);
     }
     if (num == 1){
-        tweenTint(ship, 0xbbbbbb, 0xffffff, 300);
+        tweenTint(boss, 0xFF0000, 0xffffff, 250);
     }
     if (num == 2){
-        tweenTint(ship, 0xffffff, 0x00FFFF, 300);
+        tweenTint(boss, 0xffffff, 0x00FFFF, 250);
     }
     if (num == 3){
-        tweenTint(ship, 0x00FFFF, 0xffffff, 300);
+        tweenTint(boss, 0x00FFFF, 0xffffff, 250);
+    }
+}
+function tweenTintHelper(num){
+    if (num == 0){
+        tweenTint(ship, 0xffffff, 0xbbbbbb, 250);
+    }
+    if (num == 1){
+        tweenTint(ship, 0xbbbbbb, 0xffffff, 250);
+    }
+    if (num == 2){
+        tweenTint(ship, 0xffffff, 0x00FFFF, 250);
+    }
+    if (num == 3){
+        tweenTint(ship, 0x00FFFF, 0xffffff, 250);
     }
 }
 function endGame(){
