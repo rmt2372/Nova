@@ -25,7 +25,7 @@ demo.planet4.prototype = {
         map.setCollisionBetween(22,23,true,"ground");
         
         nova = game.add.sprite(128, 1015, 'nova');
-        nova.scale.setTo(0.7, 0.7);
+        nova.scale.setTo(0.6, 0.6);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
@@ -72,6 +72,13 @@ demo.planet4.prototype = {
         console.log(nova.x);
         console.log(nova.y);
         
+        if (nova.y > 1360){
+            nova.body.collideWorldBounds = false;
+        }
+        else{
+            nova.body.collideWorldBounds = true;
+        }
+        
         game.physics.arcade.collide(nova, ground);
         game.physics.arcade.overlap(nova, laser_cannon, collectLaser, null, this);
         game.physics.arcade.collide(enemies, ground);
@@ -81,7 +88,7 @@ demo.planet4.prototype = {
         nova.body.velocity.x = 0;
         
         if(cursors.left.isDown){
-            nova.scale.setTo(-0.7, 0.7)
+            nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
             if (fireButton.isDown){
@@ -92,7 +99,7 @@ demo.planet4.prototype = {
             }
         }
         else if(cursors.right.isDown){
-            nova.scale.setTo(0.7, 0.7)
+            nova.scale.setTo(0.6, 0.6)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
             if (fireButton.isDown){
