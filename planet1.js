@@ -33,7 +33,7 @@ demo.planet1.prototype = {
         map.setCollisionBetween(1,34,true,"ground");
         
         nova = game.add.sprite(31, 1017, 'nova');
-        nova.scale.setTo(0.7, 0.7);
+        nova.scale.setTo(0.6, 0.6);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
@@ -72,68 +72,68 @@ demo.planet1.prototype = {
         game.physics.enable(enemies);
 
         frog1 = enemies.create(200, 1000, 'frog');
-        frog1.scale.setTo(-0.5, 0.5);
+        frog1.scale.setTo(-0.4, 0.4);
         frog1.body.gravity.y = 500;
         frog1.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         frog2 = enemies.create(1000, 825, 'frog');
-        frog2.scale.setTo(-0.5, 0.5);
+        frog2.scale.setTo(-0.4, 0.4);
         frog2.body.gravity.y = 500;
         frog2.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         frog3 = enemies.create(1500, 970, 'frog');
-        frog3.scale.setTo(-0.5, 0.5);
+        frog3.scale.setTo(-0.4, 0.4);
         frog3.body.gravity.y = 500;
         frog3.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         frog4 = enemies.create(2000, 970, 'frog');
-        frog4.scale.setTo(-0.5, 0.5);
+        frog4.scale.setTo(-0.4, 0.4);
         frog4.body.gravity.y = 500;
         frog4.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         frog5 = enemies.create(2165, 825, 'frog');
-        frog5.scale.setTo(-0.5, 0.5);
+        frog5.scale.setTo(-0.4, 0.4);
         frog5.body.gravity.y = 500;
         frog5.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         frog6 = enemies.create(3224, 925, 'frog');
-        frog6.scale.setTo(-0.5, 0.5);
+        frog6.scale.setTo(-0.4, 0.4);
         frog6.body.gravity.y = 500;
         frog6.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         frog7 = enemies.create(4650, 925, 'frog');
-        frog7.scale.setTo(-0.5, 0.5);
+        frog7.scale.setTo(-0.4, 0.4);
         frog7.body.gravity.y = 500;
         frog7.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
         game.physics.enable(enemies);
         //enemies.body.gravity.y = 500;
         plant1 = enemies.create(350, 800, 'plant');
-        plant1.scale.setTo(0.5, 0.5);
+        plant1.scale.setTo(0.4, 0.4);
         plant1.body.gravity.y = 500;
         
         plant2 = enemies.create(575, 700, 'plant');
-        plant2.scale.setTo(0.5, 0.5);
+        plant2.scale.setTo(0.4, 0.4);
         plant2.body.gravity.y = 500;
         
         plant3 = enemies.create(1750, 990, 'plant');
-        plant3.scale.setTo(0.5, 0.5);
+        plant3.scale.setTo(0.4, 0.4);
         plant3.body.gravity.y = 500;
         
         plant4 = enemies.create(2250, 700, 'plant');
-        plant4.scale.setTo(0.5, 0.5);
+        plant4.scale.setTo(0.4, 0.4);
         plant4.body.gravity.y = 500;
         
         plant5 = enemies.create(2785, 875, 'plant');
-        plant5.scale.setTo(0.5, 0.5);
+        plant5.scale.setTo(0.4, 0.4);
         plant5.body.gravity.y = 500;
         
         plant7 = enemies.create(4125, 865, 'plant');
-        plant7.scale.setTo(0.5, 0.5);
+        plant7.scale.setTo(0.4, 0.4);
         plant7.body.gravity.y = 500;
         
         plant6 = enemies.create(3470, 930, 'plant');
-        plant6.scale.setTo(0.5, 0.5);
+        plant6.scale.setTo(0.4, 0.4);
         plant6.body.gravity.y = 500;
         
         birds = game.add.group();
@@ -214,45 +214,52 @@ demo.planet1.prototype = {
         game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         nova.body.velocity.x = 0;
         
+        if (nova.y > 1050){
+            nova.body.collideWorldBounds = false;
+        }
+        else{
+            nova.body.collideWorldBounds = true;
+        }
+        
         if (nova.x > plant1.x){
-            plant1.scale.setTo(-0.5, 0.5);
+            plant1.scale.setTo(-0.4, 0.4);
         }
         else if(nova.x < plant1.x){
-            plant1.scale.setTo(0.5, 0.5);
+            plant1.scale.setTo(0.4, 0.4);
         }
         if (nova.x > plant2.x){
-            plant2.scale.setTo(-0.5, 0.5);
+            plant2.scale.setTo(-0.4, 0.4);
         }
         else if(nova.x < plant2.x){
-            plant2.scale.setTo(0.5, 0.5);
+            plant2.scale.setTo(0.4, 0.4);
         }
         if (nova.x > plant3.x){
-            plant3.scale.setTo(-0.5, 0.5);
+            plant3.scale.setTo(-0.4, 0.4);
         }
         else if(nova.x < plant3.x){
-            plant3.scale.setTo(0.5, 0.5);
+            plant3.scale.setTo(0.4, 0.4);
         }
         if (nova.x > plant4.x){
-            plant4.scale.setTo(-0.5, 0.5);
+            plant4.scale.setTo(-0.4, 0.4);
         }
         else if(nova.x < plant4.x){
-            plant4.scale.setTo(0.5, 0.5);
+            plant4.scale.setTo(0.4, 0.4);
         }
         if (nova.x > plant5.x){
-            plant5.scale.setTo(-0.5, 0.5);
+            plant5.scale.setTo(-0.4, 0.4);
         }
         else if(nova.x < plant5.x){
-            plant5.scale.setTo(0.5, 0.5);
+            plant5.scale.setTo(0.4, 0.4);
         }
         if (nova.x > plant6.x){
-            plant6.scale.setTo(-0.5, 0.5);
+            plant6.scale.setTo(-0.4, 0.4);
         }
         else if(nova.x < plant5.x){
-            plant6.scale.setTo(0.5, 0.5);
+            plant6.scale.setTo(0.4, 0.4);
         }
         
         if(cursors.left.isDown){
-            nova.scale.setTo(-0.7, 0.7)
+            nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
             if (fireButton.isDown){
@@ -263,7 +270,7 @@ demo.planet1.prototype = {
             }
         }
         else if(cursors.right.isDown){
-            nova.scale.setTo(0.7, 0.7)
+            nova.scale.setTo(0.6, 0.6)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
             if (fireButton.isDown){

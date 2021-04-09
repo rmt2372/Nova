@@ -25,7 +25,7 @@ demo.planet3.prototype = {
         map.setCollisionBetween(22,23,true,"ground");
         
         nova = game.add.sprite(0, 0, 'nova');
-        nova.scale.setTo(0.7, 0.7);
+        nova.scale.setTo(0.6, 0.6);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
@@ -59,9 +59,16 @@ demo.planet3.prototype = {
         
         game.physics.arcade.collide(nova, ground);
         
+        if (nova.y > 1375){
+            nova.body.collideWorldBounds = false;
+        }
+        else{
+            nova.body.collideWorldBounds = true;
+        }
+        
         nova.body.velocity.x = 0;
         if(cursors.left.isDown){
-            nova.scale.setTo(-0.7, 0.7)
+            nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
             if (fireButton.isDown){
@@ -72,7 +79,7 @@ demo.planet3.prototype = {
             }
         }
         else if(cursors.right.isDown){
-            nova.scale.setTo(0.7, 0.7)
+            nova.scale.setTo(0.6, 0.6)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
             if (fireButton.isDown){

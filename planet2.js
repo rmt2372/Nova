@@ -34,7 +34,7 @@ demo.planet2.prototype = {
         map.setCollisionBetween(5,20,true,"ground");
         
         nova = game.add.sprite(31, 1017, 'nova');
-        nova.scale.setTo(0.7, 0.7);
+        nova.scale.setTo(0.6, 0.6);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
@@ -62,7 +62,7 @@ demo.planet2.prototype = {
         game.physics.enable(enemies);
         
         plant1 = enemies.create(385, 1275, 'plant');
-        plant1.scale.setTo(0.5, 0.5);
+        plant1.scale.setTo(0.4, 0.4);
         plant1.body.gravity.y = 500;
         
         
@@ -92,7 +92,15 @@ demo.planet2.prototype = {
         console.log(nova.x);
         console.log(nova.y);
         
+        
         text3.setText('Lives ' + nova_life);
+        
+        if (nova.y > 1350){
+            nova.body.collideWorldBounds = false;
+        }
+        else{
+            nova.body.collideWorldBounds = true;
+        }
         
         game.physics.arcade.collide(nova, ground);
         game.physics.arcade.overlap(nova, bub_shield, collectShield, null, this);
@@ -103,7 +111,7 @@ demo.planet2.prototype = {
         
         nova.body.velocity.x = 0;
         if(cursors.left.isDown){
-            nova.scale.setTo(-0.7, 0.7)
+            nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
             if (fireButton.isDown){
@@ -114,7 +122,7 @@ demo.planet2.prototype = {
             }
         }
         else if(cursors.right.isDown){
-            nova.scale.setTo(0.7, 0.7)
+            nova.scale.setTo(0.6, 0.6)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
             if (fireButton.isDown){
@@ -142,6 +150,7 @@ demo.planet2.prototype = {
         if (bubCount == 0){
             pauseGame1();
         }
+        
     }
 }
 function collectShield(nova, bub_shield){
