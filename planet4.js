@@ -4,7 +4,7 @@ demo.planet4.prototype = {
     preload: function(){
         game.load.tilemap("map", "assets/map/level_4_map.json",null,Phaser.Tilemap.TILED_JSON);
         game.load.image("map_sky_night2","assets/map/map_sky_night2.png");
-        game.load.image("Level_4_Ground","assets/map/level_4_Ground.png");
+        game.load.image("Level_4_Ground","assets/map/Level_4_Ground.png");
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
         game.load.spritesheet('nova', 'assets/sprites/nova_.png', 91, 110);
         game.load.image('laser', 'assets/sprites/Laser_cannon.png');

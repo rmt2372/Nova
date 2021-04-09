@@ -12,7 +12,8 @@ demo.planet2.prototype = {
         
         game.load.tilemap("map", "assets/map/level_2_map.json",null,Phaser.Tilemap.TILED_JSON);
         game.load.image("map_sky_night2","assets/map/map_sky_night2.png");
-        game.load.image("level_2_ground","assets/map/level_2_Ground.png");
+        game.load.image("level_2_ground","assets/map/Level_2_ground.png");
+        
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
         
         
