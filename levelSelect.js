@@ -4,7 +4,7 @@ demo.levelSelect.prototype = {
     preload: function(){
         addChangeStateEventListeners();
         
-        game.load.audio('selectSong', 'assets/sounds/Vastanberg.wav');
+        game.load.audio('selectSong', 'assets/sounds/Piano.wav');
         game.load.spritesheet('ship', 'assets/sprites/spaceshipSheet2.png', 98, 94);
         game.load.image('blackhole', 'assets/sprites/blackHole.png');
         
@@ -70,7 +70,7 @@ demo.levelSelect.prototype = {
         
         
         selectSong = game.add.audio('selectSong');
-        selectSong.addMarker('select', 0.5, 22.5, 0.1, true);
+        selectSong.addMarker('select', 3, 160, 0.03, true);
         selectSong.play('select');
         
         ship = game.add.sprite(256, 200, 'ship');

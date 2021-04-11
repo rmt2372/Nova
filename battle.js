@@ -67,11 +67,11 @@ demo.battle.prototype = {
         
         boss.animations.add('attack', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         
-        sound = game.add.audio('shot');
+        sound = game.add.audio('shot', 0.09);
         
-        fire = game.add.audio('fire');
+        fire = game.add.audio('fire', 0.09);
         fightSong = game.add.audio('fightSong');
-        fightSong.addMarker('fight', 82, 140, 0.1, true);
+        fightSong.addMarker('fight', 82, 140, 0.03, true);
         fightSong.play('fight');
         
         weapon = game.add.weapon(50, 'bullet');
@@ -86,25 +86,25 @@ demo.battle.prototype = {
         beam.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         beam.fireRate = 25;
         beam.bulletSpeed = 1000;
-        beamFire = this.input.keyboard.addKey(Phaser.KeyCode.X);
+        beamFire = this.input.keyboard.addKey(Phaser.KeyCode.E);
         beam.trackSprite(ship, 0, 0, true);
         
         smart_missle = game.add.weapon(1, 'missle');
         smart_missle.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         smart_missle.fireRate = 400;
         smart_missle.bulletSpeed = 700;
-        missle_fire = this.input.keyboard.addKey(Phaser.KeyCode.Z);
+        missle_fire = this.input.keyboard.addKey(Phaser.KeyCode.Q);
         smart_missle.trackSprite(ship, 0, 0, true);
         
         wave = game.add.weapon(1, 'wave');
         wave.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         wave.fireRate = 400;
         wave.bulletSpeed = 250;
-        wave_fire = this.input.keyboard.addKey(Phaser.KeyCode.V);
+        wave_fire = this.input.keyboard.addKey(Phaser.KeyCode.F);
         wave.trackSprite(ship, 0, 0, true);
         wave.bulletRotateToVelocity = true;
         
-        shield_active = this.input.keyboard.addKey(Phaser.KeyCode.C);
+        shield_active = this.input.keyboard.addKey(Phaser.KeyCode.SHIFT);
         
         flame1 = game.add.weapon (10, 'flame');
         flame1.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -141,6 +141,11 @@ demo.battle.prototype = {
         boss.body.collideWorldBounds = true;
         game.camera.follow(ship);
         
+        up = this.input.keyboard.addKey(Phaser.KeyCode.W);
+        down = this.input.keyboard.addKey(Phaser.KeyCode.S);
+        left = this.input.keyboard.addKey(Phaser.KeyCode.A);
+        right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        
         cursors = game.input.keyboard.createCursorKeys();
         text = game.add.text(0, 0, 'Lives ' + ship_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
         text.fixedToCamera = true;
@@ -153,7 +158,7 @@ demo.battle.prototype = {
             boss.animations.play('attack', 10, true);
         }
         
-        if (cursors.right.isDown){
+        if (right.isDown){
             ship.x += speed;
             ship.scale.setTo(0.7, 0.7);
             weapon.bulletSpeed = 500;
@@ -161,7 +166,7 @@ demo.battle.prototype = {
             wave.bulletSpeed = 250;
             ship.animations.play('walk', 12, true);
         } 
-        else if (cursors.left.isDown){
+        else if (left.isDown){
             ship.scale.setTo(-0.7, 0.7);
             ship.x -= speed;
             weapon.bulletSpeed = -500;
@@ -173,11 +178,11 @@ demo.battle.prototype = {
             ship.animations.stop('walk');
             ship.frame = 0;
         }
-        if (cursors.up.isDown){
+        if (up.isDown){
             ship.animations.play('walk', 12, true)
             ship.y -= speed;
         }
-        else if(cursors.down.isDown){
+        else if(down.isDown){
             ship.animations.play('walk', 12, true)
             ship.y += speed;
         }

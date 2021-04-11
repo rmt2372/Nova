@@ -15,6 +15,7 @@ demo.planet2.prototype = {
         game.load.image("level_2_ground","assets/map/Level_2_ground.png");
         
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
+        game.load.audio('level2song', 'assets/sounds/Vastanberg.wav');
         
         
     },
@@ -68,6 +69,15 @@ demo.planet2.prototype = {
         
         game.camera.follow(nova);
         
+        up = this.input.keyboard.addKey(Phaser.KeyCode.W);
+        left = this.input.keyboard.addKey(Phaser.KeyCode.A);
+        right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        
+        
+        song2 = game.add.audio('level2song');
+        song2.addMarker('song2', 0.5, 22.5, 0.03, true);
+        song2.play('song2');
+        
         cursors = game.input.keyboard.createCursorKeys();
         
         text3 = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
@@ -75,7 +85,7 @@ demo.planet2.prototype = {
         
         game.add.tween(plant1).to({x: '+150'}, 875, 'Linear', 'true', 0, false, true).loop(true);
         
-        content2 = ['You have collected the shields.', 'In the final fight, after building up the super meter press C to become invincible and obtain a speed boost for a brief time.', 'Press Enter to get back to level select!'];
+        content2 = ['You have collected the shields.', 'In the final fight, after building up the super meter press SHIFT to become invincible and obtain a speed boost for a brief time.', 'Press Enter to get back to level select!'];
 
         line2 = [];
 
@@ -110,7 +120,7 @@ demo.planet2.prototype = {
         game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         
         nova.body.velocity.x = 0;
-        if(cursors.left.isDown){
+        if(left.isDown){
             nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
@@ -121,7 +131,7 @@ demo.planet2.prototype = {
                 nova.animations.play('move', 12, true);
             }
         }
-        else if(cursors.right.isDown){
+        else if(right.isDown){
             nova.scale.setTo(0.6, 0.6)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
@@ -136,7 +146,7 @@ demo.planet2.prototype = {
             nova.animations.stop('move');
             nova.animations.play('idle', 3, true);
         }
-        if(cursors.up.isDown && nova.body.blocked.down){
+        if(up.isDown && nova.body.blocked.down){
             nova.body.velocity.y = -510;
         }
         if (fireButton.isDown){
