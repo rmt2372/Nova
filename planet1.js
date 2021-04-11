@@ -47,14 +47,7 @@ demo.planet1.prototype = {
         
         
         cursors = game.input.keyboard.createCursorKeys();
-        /*
-        laser_cannon = game.add.sprite(500, 200, 'laser');
-        game.physics.enable(laser_cannon);
-        bub_shield = game.add.sprite(650, 200, 'bubble_shield');
-        game.physics.enable(bub_shield);
-        wave_burst = game.add.sprite(750, 200, 'burst');
-        game.physics.enable(wave_burst);
-        */
+    
         mis = game.add.sprite(4760, 920, 'missle');
         mis.anchor.setTo(0.5, 0.5);
         mis.scale.setTo(1.3);
@@ -170,11 +163,15 @@ demo.planet1.prototype = {
         
         game.camera.follow(nova);
         
+        up = this.input.keyboard.addKey(Phaser.KeyCode.W);
+        left = this.input.keyboard.addKey(Phaser.KeyCode.A);
+        right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        
         song1 = game.add.audio('level1Song');
-        song1.addMarker('song1', 0, 235, 0.1, true);
+        song1.addMarker('song1', 6.5, 235, 0.03, true);
         song1.play('song1');
         
-        content1 = ['You have collected the smart missle.', 'In the final fight, after building up the super meter press Z to fire the tracker missle for extra damage.', 'Press Enter to get back to level select!'];
+        content1 = ['You have collected the smart missle.', 'In the final fight, after building up the super meter press Q to fire the tracker missle for extra damage.', 'Press Enter to get back to level select!'];
 
         line1 = [];
 
@@ -258,7 +255,50 @@ demo.planet1.prototype = {
             plant6.scale.setTo(0.4, 0.4);
         }
         
-        if(cursors.left.isDown){
+        if (nova.x > bird1.x){
+            bird1.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird1.x){
+            bird1.scale.setTo(1, 1);
+        }
+        if (nova.x > bird2.x){
+            bird2.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird2.x){
+            bird2.scale.setTo(1, 1);
+        }
+        if (nova.x > bird3.x){
+            bird3.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird3.x){
+            bird3.scale.setTo(1, 1);
+        }
+        if (nova.x > bird4.x){
+            bird4.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird4.x){
+            bird4.scale.setTo(1, 1);
+        }
+        if (nova.x > bird5.x){
+            bird5.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird5.x){
+            bird5.scale.setTo(1, 1);
+        }
+        if (nova.x > bird6.x){
+            bird6.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird6.x){
+            bird6.scale.setTo(1, 1);
+        }
+        if (nova.x > bird7.x){
+            bird7.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird7.x){
+            bird7.scale.setTo(1, 1);
+        }
+        
+        if(left.isDown){
             nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
@@ -269,7 +309,7 @@ demo.planet1.prototype = {
                 nova.animations.play('move', 12, true);
             }
         }
-        else if(cursors.right.isDown){
+        else if(right.isDown){
             nova.scale.setTo(0.6, 0.6)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
@@ -284,7 +324,7 @@ demo.planet1.prototype = {
             nova.animations.stop('move');
             nova.animations.play('idle', 3, true);
         }
-        if(cursors.up.isDown && nova.body.blocked.down){
+        if(up.isDown && nova.body.blocked.down){
             nova.body.velocity.y = -510;
         }
         if (fireButton.isDown){
