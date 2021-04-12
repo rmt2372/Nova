@@ -109,6 +109,7 @@ demo.planet2.prototype = {
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
                 nova.kill();
+                nova_life = 0;
             }
         }
         else{

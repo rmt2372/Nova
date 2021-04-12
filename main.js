@@ -7,4 +7,5 @@ game.state.add("planet1", demo.planet1);
 game.state.add("planet2", demo.planet2);
 game.state.add("planet3", demo.planet3);
 game.state.add("planet4", demo.planet4);
+game.state.add("reminder", demo.reminder);
 game.state.start("menu");

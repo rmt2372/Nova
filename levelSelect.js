@@ -71,6 +71,11 @@ demo.levelSelect.prototype = {
         
         cursors = game.input.keyboard.createCursorKeys();
         
+        up = this.input.keyboard.addKey(Phaser.KeyCode.W);
+        left = this.input.keyboard.addKey(Phaser.KeyCode.A);
+        right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        down = this.input.keyboard.addKey(Phaser.KeyCode.S);
+        
     },
     update: function(){
         game.physics.arcade.collide(ship, planet_1, changeLevel);
@@ -79,13 +84,13 @@ demo.levelSelect.prototype = {
         game.physics.arcade.collide(ship, planet_4, changeLevel);
         game.physics.arcade.collide(ship, blackhole, bossBattle);
         
-        if (cursors.left.isDown){
+        if (left.isDown){
             ship.angle -= 2;
         }
-        else if (cursors.right.isDown){
+        else if (right.isDown){
             ship.angle += 2;
         }
-        if (cursors.up.isDown){
+        if (up.isDown){
             currentSpeed = 200;
             ship.animations.play('walk', 6, true);
         } 
@@ -94,7 +99,7 @@ demo.levelSelect.prototype = {
             ship.animations.stop('walk');
             ship.frame = 0;
         }
-        if (cursors.down.isDown){
+        if (down.isDown){
             currentSpeed = -200;
         }
         else if (currentSpeed < 0){
@@ -109,7 +114,7 @@ demo.levelSelect.prototype = {
         if (currentSpeed < 0){
             game.physics.arcade.velocityFromRotation(ship.rotation, currentSpeed, ship.body.velocity);
         }
-        if (cursors.up.isDown == false){
+        if (up.isDown == false){
             ship.animations.stop('walk');
         }
     }
@@ -150,5 +155,5 @@ function changeLevel(n, m){
 function bossBattle(){
     game.sound.stopAll();
     resetHealth();
-    game.state.start('battle');
+    game.state.start('reminder');
 }

@@ -85,10 +85,15 @@ demo.planet3.prototype = {
         textWav = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
         textWav.fixedToCamera = true;
         
+        textlife = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
+        textlife.fixedToCamera = true;
+        
     },
     update:function(){
         console.log(nova.x);
         console.log(nova.y);
+        
+        textlife.setText('Lives ' + nova_life);
         
         game.physics.arcade.overlap(nova, wave_burst, collectWave, null, this);
         game.physics.arcade.collide(nova, ground);
@@ -97,6 +102,7 @@ demo.planet3.prototype = {
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
                 nova.kill();
+                nova_life = 0;
             }
         }
         else{

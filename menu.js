@@ -1,5 +1,5 @@
 var demo = {};
-var centerX = 1024/2, centerY = 576/2, boss, speed = 4, boss_life = 20, ship_life = 5, max_ship_life = 5, title, missle = false, laser = false, shield = false, burst = false, counter = 0, nova_life = 2, start_boss_life = 20, nova, supers = 0;
+var centerX = 1024/2, centerY = 576/2, boss, speed = 4, boss_life = 20, ship_life = 5, max_ship_life = 5, title, missle = true, laser = true, shield = true, burst = true, counter = 0, nova_life = 2, start_boss_life = 20, nova, supers = 0;
 demo.menu = function(){};
 demo.menu.prototype = {
     preload: function(){
@@ -45,12 +45,15 @@ function changeState(i, stateNum){
         game.state.start('planet1');
     } if (stateNum == '2'){
         console.log('planet2');
+        resetHealth();
         game.state.start('planet2');
     } if (stateNum == '3'){
         console.log('planet3');
+        resetHealth();
         game.state.start('planet3');
     } if (stateNum == '4'){
         console.log('planet4');
+        resetHealth();
         game.state.start('planet4');
     } if (stateNum == 't'){
         console.log('tutorial');

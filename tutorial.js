@@ -50,7 +50,11 @@ demo.tutorial.prototype = {
         
         game.camera.follow(nova);
         
-        var txt = game.add.text(50, 200, 'Move with Arrow keys \nand Jump with up arrow', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        up = this.input.keyboard.addKey(Phaser.KeyCode.W);
+        left = this.input.keyboard.addKey(Phaser.KeyCode.A);
+        right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        
+        var txt = game.add.text(50, 200, 'Move with WASD', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
         var txt = game.add.text(325, 200, 'Shoot with Spacebar', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
@@ -78,7 +82,7 @@ demo.tutorial.prototype = {
         game.physics.arcade.overlap(nova, frogs, hitNova, null, this);
         game.physics.arcade.overlap(weapon.bullets, frogs, hitVilTut, null, this);
         nova.body.velocity.x = 0;
-        if(cursors.left.isDown){
+        if(left.isDown){
             nova.scale.setTo(-0.7, 0.7)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
@@ -89,7 +93,7 @@ demo.tutorial.prototype = {
                 nova.animations.play('move', 12, true);
             }
         }
-        else if(cursors.right.isDown){
+        else if(right.isDown){
             nova.scale.setTo(0.7, 0.7)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
@@ -104,13 +108,13 @@ demo.tutorial.prototype = {
             nova.animations.stop('move');
             nova.animations.play('idle', 3, true);
         }
-        if(cursors.up.isDown){
+        if(up.isDown){
             nova.body.velocity.y = -425;
         }
         if (fireButton.isDown){
             if (nova.alive == true){
                 weapon.fire();
-                if (cursors.left.isDown == false && cursors.right.isDown == false){
+                if (left.isDown == false && right.isDown == false){
                     nova.animations.play('shoot', 5, false);
                 }
             }
