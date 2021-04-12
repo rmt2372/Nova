@@ -220,7 +220,6 @@ demo.planet2.prototype = {
         game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         
         nova.body.velocity.x = 0;
-<<<<<<< HEAD
 
         if (nova.x > bird1.x){
             bird1.scale.setTo(-1, 1);
@@ -290,8 +289,6 @@ demo.planet2.prototype = {
         else if(nova.x < bird11.x){
             bird11.scale.setTo(1, 1);
         } 
-=======
->>>>>>> cd1aee1230e197a397a8f8082ea334954414fff7
         
         if(left.isDown){
             nova.scale.setTo(-0.6, 0.6)
@@ -333,7 +330,6 @@ demo.planet2.prototype = {
         if (bubCount == 0){
             pauseGame1();
         }
-<<<<<<< HEAD
 
         if(bird1.inCamera){
             bird1.animations.play('fly', 12, true);
@@ -380,8 +376,6 @@ demo.planet2.prototype = {
             game.physics.arcade.moveToObject(bird11, nova, 120, null);
         }
         
-=======
->>>>>>> cd1aee1230e197a397a8f8082ea334954414fff7
     }
 }
 function collectShield(nova, bub_shield){
