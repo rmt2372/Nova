@@ -1,4 +1,4 @@
-var laser_cannon, bub_shield, wave_burst, mis, enemies, enemies, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1;
+var laser_cannon, bub_shield, wave_burst, mis, enemies, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1;
 demo.planet1 = function(){};
 demo.planet1.prototype = {
     preload: function(){
@@ -99,8 +99,7 @@ demo.planet1.prototype = {
         frog7.body.gravity.y = 500;
         frog7.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
-        game.physics.enable(enemies);
-        //enemies.body.gravity.y = 500;
+        
         plant1 = enemies.create(350, 800, 'plant');
         plant1.scale.setTo(0.4, 0.4);
         plant1.body.gravity.y = 500;
@@ -183,8 +182,8 @@ demo.planet1.prototype = {
         text1 = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
         text1.fixedToCamera = true;
         
-        text2 = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
-        text2.fixedToCamera = true;
+        textlife = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
+        textlife.fixedToCamera = true;
         
         game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
         game.add.tween(plant2).to({x: '+50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
@@ -199,7 +198,7 @@ demo.planet1.prototype = {
         
         console.log(nova.x);
         console.log(nova.y);
-        text2.setText('Lives ' + nova_life);
+        textlife.setText('Lives ' + nova_life);
 
         game.physics.arcade.collide(nova, ground);
     
@@ -215,6 +214,7 @@ demo.planet1.prototype = {
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
                 nova.kill();
+                nova_life = 0;
             }
         }
         else{
