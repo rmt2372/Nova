@@ -36,37 +36,24 @@ demo.levelSelect.prototype = {
         blackhole.body.immovable = true;
         
         //Planet 1 collision
-        map.setCollisionBetween(13,18,true,"planet_1");
-        map.setCollisionBetween(31,36,true,"planet_1");
-        map.setCollisionBetween(49,54,true,"planet_1");
-        map.setCollisionBetween(67,72,true,"planet_1");
-        map.setCollisionBetween(85,90,true,"planet_1");
-        map.setCollisionBetween(103,108,true,"planet_1");
+        map.setCollisionBetween(37,43,true,"planet_1");
+        map.setCollisionBetween(55,61,true,"planet_1");
+        map.setCollisionBetween(71,77,true,"planet_1");
+        map.setCollisionBetween(91,97,true,"planet_1");
+        map.setCollisionBetween(109,117,true,"planet_1");
+        map.setCollisionBetween(127,133,true,"planet_1");
         
         //Planet 2 Collision
-        map.setCollisionBetween(21,24,true,"planet_2");
-        map.setCollisionBetween(39,42,true,"planet_2");
-        map.setCollisionBetween(57,60,true,"planet_2");
-        map.setCollisionBetween(75,78,true,"planet_2");
+        map.setCollisionBetween(45,49,true,"planet_2");
+        map.setCollisionBetween(63,67,true,"planet_2");
+        map.setCollisionBetween(79,83,true,"planet_2");
+        map.setCollisionBetween(99,103,true,"planet_2");
         
         //Planet 3 Collision
-        map.setCollisionBetween(159,164,true,"planet_3");
-        map.setCollisionBetween(177,182,true,"planet_3");
-        map.setCollisionBetween(195,200,true,"planet_3");
-        map.setCollisionBetween(213,218,true,"planet_3");
-        map.setCollisionBetween(231,236,true,"planet_3");
-        map.setCollisionBetween(249,254,true,"planet_3");
+        map.setCollisionBetween(37,360,true,"planet_3");
         
         //Planet 4 Collision
-        map.setCollisionBetween(131,138,true,"planet_4");
-        map.setCollisionBetween(149,156,true,"planet_4");
-        map.setCollisionBetween(167,174,true,"planet_4");
-        map.setCollisionBetween(185,192,true,"planet_4");
-        map.setCollisionBetween(203,210,true,"planet_4");
-        map.setCollisionBetween(221,228,true,"planet_4");
-        map.setCollisionBetween(239,246,true,"planet_4");
-        map.setCollisionBetween(257,264,true,"planet_4");
-        map.setCollisionBetween(275,282,true,"planet_4");
+        map.setCollisionBetween(37,360,true,"planet_4");
         
         
         selectSong = game.add.audio('selectSong');

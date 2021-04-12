@@ -30,7 +30,7 @@ demo.planet1.prototype = {
         
         sky.resizeWorld();
         
-        map.setCollisionBetween(1,34,true,"ground");
+        map.setCollisionBetween(1,36,true,"ground");
         
         nova = game.add.sprite(31, 1017, 'nova');
         nova.scale.setTo(0.6, 0.6);

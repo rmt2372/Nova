@@ -25,8 +25,10 @@ demo.planet4.prototype = {
         ground = map.createLayer("ground");
         
         sky.resizeWorld();
-        map.setCollisionBetween(14,15,true,"ground");
-        map.setCollisionBetween(22,23,true,"ground");
+        map.setCollisionBetween(37,40,true,"ground");
+        map.setCollisionBetween(45,48,true,"ground");
+        map.setCollisionBetween(53,56,true,"ground");
+        map.setCollisionBetween(61,64,true,"ground");
         
         nova = game.add.sprite(128, 1015, 'nova');
         nova.scale.setTo(0.6, 0.6);
