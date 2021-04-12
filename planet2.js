@@ -107,6 +107,9 @@ demo.planet2.prototype = {
         
         if (nova.y > 1350){
             nova.body.collideWorldBounds = false;
+            if (nova.inCamera == false){
+                nova.kill();
+            }
         }
         else{
             nova.body.collideWorldBounds = true;
@@ -120,6 +123,7 @@ demo.planet2.prototype = {
         game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
         
         nova.body.velocity.x = 0;
+        
         if(left.isDown){
             nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
@@ -152,7 +156,7 @@ demo.planet2.prototype = {
         if (fireButton.isDown){
             if (nova.alive == true){
                 weapon.fire();
-                if (cursors.left.isDown == false && cursors.right.isDown == false){
+                if (left.isDown == false && right.isDown == false){
                     nova.animations.play('shoot', 5, false);
                 }
             }
@@ -160,7 +164,6 @@ demo.planet2.prototype = {
         if (bubCount == 0){
             pauseGame1();
         }
-        
     }
 }
 function collectShield(nova, bub_shield){

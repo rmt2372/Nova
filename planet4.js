@@ -89,6 +89,9 @@ demo.planet4.prototype = {
         
         if (nova.y > 1360){
             nova.body.collideWorldBounds = false;
+            if (nova.inCamera == false){
+                nova.kill();
+            }
         }
         else{
             nova.body.collideWorldBounds = true;
@@ -134,7 +137,7 @@ demo.planet4.prototype = {
         if (fireButton.isDown){
             if (nova.alive == true){
                 weapon.fire();
-                if (cursors.left.isDown == false && cursors.right.isDown == false){
+                if (left.isDown == false && right.isDown == false){
                     nova.animations.play('shoot', 5, false);
                 }
             }
