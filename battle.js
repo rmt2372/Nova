@@ -20,6 +20,10 @@ demo.battle.prototype = {
         game.load.audio('shot', 'assets/sounds/blaster.mp3');
         game.load.audio('fire', 'assets/sounds/fire.mp3');
         game.load.audio('fightSong', 'assets/sounds/Sommarfgel.wav');
+        game.load.image('end', 'assets/sprites/GameOver.png');
+        game.load.image('reset', 'assets/sprites/reset.png');
+        game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
+        game.load.image('resume', 'assets/sprites/resume.png');
     },
     create:function(){
         addChangeStateEventListeners();
@@ -86,25 +90,25 @@ demo.battle.prototype = {
         beam.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         beam.fireRate = 25;
         beam.bulletSpeed = 1000;
-        beamFire = this.input.keyboard.addKey(Phaser.KeyCode.E);
+        beamFire = this.input.keyboard.addKey(Phaser.KeyCode.K);
         beam.trackSprite(ship, 0, 0, true);
         
         smart_missle = game.add.weapon(1, 'missle');
         smart_missle.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         smart_missle.fireRate = 400;
         smart_missle.bulletSpeed = 700;
-        missle_fire = this.input.keyboard.addKey(Phaser.KeyCode.Q);
+        missle_fire = this.input.keyboard.addKey(Phaser.KeyCode.H);
         smart_missle.trackSprite(ship, 0, 0, true);
         
         wave = game.add.weapon(1, 'wave');
         wave.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         wave.fireRate = 400;
         wave.bulletSpeed = 250;
-        wave_fire = this.input.keyboard.addKey(Phaser.KeyCode.F);
+        wave_fire = this.input.keyboard.addKey(Phaser.KeyCode.L);
         wave.trackSprite(ship, 0, 0, true);
         wave.bulletRotateToVelocity = true;
         
-        shield_active = this.input.keyboard.addKey(Phaser.KeyCode.SHIFT);
+        shield_active = this.input.keyboard.addKey(Phaser.KeyCode.J);
         
         flame1 = game.add.weapon (10, 'flame');
         flame1.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -149,6 +153,38 @@ demo.battle.prototype = {
         cursors = game.input.keyboard.createCursorKeys();
         text = game.add.text(0, 0, 'Lives ' + ship_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
         text.fixedToCamera = true;
+        
+        game.physics.arcade.isPaused = false;
+        
+        
+        pause = game.add.text(975, 0, 'Pause', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        pause.fixedToCamera = true;
+        pause.anchor.setTo(0.5, 0);
+        pause.inputEnabled = true;
+        pause.events.onInputUp.add(function () {
+            game.physics.arcade.isPaused = true;
+            LS = game.add.button(centerX, 400, 'LS', function(){
+                changeState(null, 'l');
+            });
+            LS.anchor.setTo(0.5, 0.5);
+            LS.fixedToCamera = true;
+            LS.scale.setTo(0.5);
+            reset = game.add.button(centerX, 300, 'reset', function(){
+                    changeState(null, 'b');
+                });
+            reset.anchor.setTo(0.5, 0.5);
+            reset.fixedToCamera = true;
+            reset.scale.setTo(0.75);
+            resume = game.add.button(centerX, centerY - 100, 'resume', function(){
+                game.physics.arcade.isPaused = false;
+                LS.destroy();
+                reset.destroy();
+                resume.destroy();
+            });
+            resume.anchor.setTo(0.5, 0.5);
+            resume.fixedToCamera = true;
+            resume.scale.setTo(0.5);
+        });
         
     },
     update: function(){
@@ -270,6 +306,24 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(wave.bullets, flame2.bullets, hitWave, null, this);
         game.physics.arcade.overlap(wave.bullets, flame3.bullets, hitWave, null, this);
         game.physics.arcade.overlap(boss, beam.bullets, beamHit, null, this);
+        
+        if(game.physics.arcade.isPaused){
+            flame1.autofire = false;
+            flame2.autofire = false;
+            flame3.autofire = false;
+            up = this.input.keyboard.addKey(Phaser.KeyCode.P);
+            down = this.input.keyboard.addKey(Phaser.KeyCode.O);
+            left = this.input.keyboard.addKey(Phaser.KeyCode.I);
+            right = this.input.keyboard.addKey(Phaser.KeyCode.U);
+        } else{
+            flame1.autofire = true;
+            flame2.autofire = true;
+            flame3.autofire = true;
+            up = this.input.keyboard.addKey(Phaser.KeyCode.W);
+            down = this.input.keyboard.addKey(Phaser.KeyCode.S);
+            left = this.input.keyboard.addKey(Phaser.KeyCode.A);
+            right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        }
     }
 }
 function missleHit(boss, bullet){
@@ -404,6 +458,22 @@ function endGame(){
     flame1.autofire = false;
     flame2.autofire = false;
     flame3.autofire = false;
+    end = game.add.sprite(1024/2, 576/2 - 100, 'end');
+    end.anchor.setTo(0.5, 0.5);
+    end.fixedToCamera = true;
+    game.add.tween(end).to({alpha: 0}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+    reset = game.add.button(centerX, 300, 'reset', function(){
+            changeState(null, 'b')
+        });
+    reset.anchor.setTo(0.5, 0.5);
+    reset.fixedToCamera = true;
+    reset.scale.setTo(0.75);
+    LS = game.add.button(centerX, 400, 'LS', function(){
+        changeState(null, 'l');
+    });
+    LS.anchor.setTo(0.5, 0.5);
+    LS.fixedToCamera = true;
+    LS.scale.setTo(0.5);
 }
 function toggleAutoFire(){
     game.physics.arcade.moveToObject(boss, ship, null, 3000);
@@ -429,3 +499,4 @@ function beamHit(boss, bullet){
         boss.kill();
     }
 }
+

@@ -12,6 +12,11 @@ demo.planet3.prototype = {
         game.load.spritesheet('bird', 'assets/sprites/bird_enemy.png', 56, 52);
         game.load.image('plant', 'assets/sprites/plant_enemy.png');
         game.load.audio('level3Song', 'assets/sounds/Slottskogen.wav');
+        game.load.image('end', 'assets/sprites/GameOver.png');
+        game.load.image('reset', 'assets/sprites/reset.png');
+        game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
+        game.load.image('resume', 'assets/sprites/resume.png');
+        
     },
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -156,16 +161,20 @@ demo.planet3.prototype = {
         
         game.physics.arcade.overlap(nova, wave_burst, collectWave, null, this);
         game.physics.arcade.collide(nova, ground);
+        game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
+        game.physics.arcade.collide(weapon.bullets, ground, killBull);
         game.physics.arcade.collide(enemies, ground);
         game.physics.arcade.collide(weapon.bullets, ground, killBull);
         game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
         game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
 
+      
+      
         
         if (nova.y > 1375){
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
-                nova.kill();
+                endGameLevel();
                 nova_life = 0;
             }
         }
@@ -285,6 +294,10 @@ demo.planet3.prototype = {
                 }
             }
         }
+        if (wavCount == 0){
+            pauseGame1();
+        }
+
         if(bird1.inCamera){
             bird1.animations.play('fly', 12, true);
             game.physics.arcade.moveToObject(bird1, nova, 120, null);
