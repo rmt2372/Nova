@@ -254,8 +254,14 @@ demo.planet1.prototype = {
         if (nova.x > plant6.x){
             plant6.scale.setTo(-0.4, 0.4);
         }
-        else if(nova.x < plant5.x){
+        else if(nova.x < plant6.x){
             plant6.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant7.x){
+            plant7.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant7.x){
+            plant7.scale.setTo(0.4, 0.4);
         }
         
         if (nova.x > bird1.x){
