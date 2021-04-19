@@ -12,6 +12,10 @@ demo.planet4.prototype = {
         game.load.spritesheet('bird', 'assets/sprites/bird_enemy.png', 56, 52);
         game.load.image('plant', 'assets/sprites/plant_enemy.png');
         game.load.audio('level4Song', 'assets/sounds/Valentine.wav');
+        game.load.image('end', 'assets/sprites/GameOver.png');
+        game.load.image('reset', 'assets/sprites/reset.png');
+        game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
+        game.load.image('resume', 'assets/sprites/resume.png');
         
     },
     create: function(){
@@ -198,15 +202,77 @@ demo.planet4.prototype = {
         song4.addMarker('song4', 0, 74, 0.03, true);
         song4.play('song4');
         
-        game.add.tween(plant1).to({x: '+50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant2).to({x: '+75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant3).to({x: '+75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant4).to({x: '+150'}, 800, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant5).to({x: '+100'}, 775, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant6).to({x: '+400'}, 2000, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant7).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant8).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant9).to({x: '-200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        tween1 = game.add.tween(plant1).to({x: '+50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween2 = game.add.tween(plant2).to({x: '+75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween3 = game.add.tween(plant3).to({x: '+75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween4 = game.add.tween(plant4).to({x: '+150'}, 800, 'Linear', 'true', 0, false, true).loop(true);
+        tween5 = game.add.tween(plant5).to({x: '+100'}, 775, 'Linear', 'true', 0, false, true).loop(true);
+        tween6 = game.add.tween(plant6).to({x: '+400'}, 2000, 'Linear', 'true', 0, false, true).loop(true);
+        tween7 = game.add.tween(plant7).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        tween8 = game.add.tween(plant8).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        tween9 = game.add.tween(plant9).to({x: '-200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        
+        game.physics.arcade.isPaused = false;
+        
+        
+        pause = game.add.text(975, 0, 'Pause', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        pause.fixedToCamera = true;
+        pause.anchor.setTo(0.5, 0);
+        pause.inputEnabled = true;
+        pause.events.onInputUp.add(function () {
+        // When the paus button is pressed, we pause the game
+            game.physics.arcade.isPaused = true;
+            tween1.pause();
+            tween2.pause();
+            tween3.pause();
+            tween4.pause();
+            tween5.pause();
+            tween6.pause();
+            tween7.pause();
+            tween8.pause();
+            tween9.pause();
+            LS = game.add.button(centerX, 400, 'LS', function(){
+                changeState(null, 'l');
+            });
+            LS.anchor.setTo(0.5, 0.5);
+            LS.fixedToCamera = true;
+            LS.scale.setTo(0.5);
+            reset = game.add.button(centerX, 300, 'reset', function(){
+                    if(game.state.getCurrentState().key == 'planet1'){
+                        changeState(null, '1');
+                    }
+                    if(game.state.getCurrentState().key == 'planet2'){
+                        changeState(null, '2');
+                    }
+                    if(game.state.getCurrentState().key == 'planet3'){
+                        changeState(null, '3');
+                    }
+                    if(game.state.getCurrentState().key == 'planet4'){
+                        changeState(null, '4');
+                    }
+                });
+            reset.anchor.setTo(0.5, 0.5);
+            reset.fixedToCamera = true;
+            reset.scale.setTo(0.75);
+            resume = game.add.button(centerX, centerY - 100, 'resume', function(){
+                game.physics.arcade.isPaused = false;
+                tween1.resume();
+                tween2.resume();
+                tween3.resume();
+                tween4.resume();
+                tween5.resume();
+                tween6.resume();
+                tween7.resume();
+                tween8.resume();
+                tween9.resume();
+                LS.destroy();
+                reset.destroy();
+                resume.destroy();
+            });
+            resume.anchor.setTo(0.5, 0.5);
+            resume.fixedToCamera = true;
+            resume.scale.setTo(0.5);
+        });
         
         cursors = game.input.keyboard.createCursorKeys();
         
@@ -242,7 +308,7 @@ demo.planet4.prototype = {
         if (nova.y > 1360){
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
-                nova.kill();
+                endGameLevel();
                 nova_life = 0;
             }
         }
@@ -290,6 +356,63 @@ demo.planet4.prototype = {
         if (lasCount == 0){
             pauseGame1();
         }
+        
+        if (nova.x > plant1.x){
+            plant1.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant1.x){
+            plant1.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant2.x){
+            plant2.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant2.x){
+            plant2.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant3.x){
+            plant3.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant3.x){
+            plant3.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant4.x){
+            plant4.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant4.x){
+            plant4.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant5.x){
+            plant5.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant5.x){
+            plant5.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant6.x){
+            plant6.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant6.x){
+            plant6.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant7.x){
+            plant7.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant7.x){
+            plant7.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant8.x){
+            plant8.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant8.x){
+            plant8.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant9.x){
+            plant9.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant9.x){
+            plant9.scale.setTo(0.4, 0.4);
+        }
+        
+        
         if(frog1.body.blocked.down){
             frog1.body.velocity.y = -300;
             frog1.animations.play('hop', 6, false);

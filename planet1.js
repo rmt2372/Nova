@@ -1,4 +1,4 @@
-var laser_cannon, bub_shield, wave_burst, mis, enemies, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1;
+var laser_cannon, bub_shield, wave_burst, mis, enemies, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1, end, reset, frag, LS, resume;
 demo.planet1 = function(){};
 demo.planet1.prototype = {
     preload: function(){
@@ -8,6 +8,10 @@ demo.planet1.prototype = {
         game.load.spritesheet('missle', 'assets/sprites/Smart_missle.png', 75, 75);
         game.load.image('burst', 'assets/sprites/Debris_burst.png');
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
+        game.load.image('end', 'assets/sprites/GameOver.png');
+        game.load.image('reset', 'assets/sprites/reset.png');
+        game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
+        game.load.image('resume', 'assets/sprites/resume.png');
         
         game.load.tilemap('map', 'assets/map/level_1_map.json',null,Phaser.Tilemap.TILED_JSON);
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
@@ -53,6 +57,7 @@ demo.planet1.prototype = {
         mis.scale.setTo(1.3);
         game.physics.enable(mis);
         
+
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         weapon.fireRate = 600;
@@ -185,19 +190,76 @@ demo.planet1.prototype = {
         textlife = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
         textlife.fixedToCamera = true;
         
-        game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant2).to({x: '+50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant3).to({x: '+25'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant4).to({x: '+20'}, 700, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant6).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant7).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        tween1 = game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween2 = game.add.tween(plant2).to({x: '+50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween3 = game.add.tween(plant3).to({x: '+25'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween4 = game.add.tween(plant4).to({x: '+20'}, 700, 'Linear', 'true', 0, false, true).loop(true);
+        tween5 = game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
+        tween6 = game.add.tween(plant6).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        tween7 = game.add.tween(plant7).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        
+        game.physics.arcade.isPaused = false;
+        
+        
+        
+        pause = game.add.text(975, 0, 'Pause', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        pause.fixedToCamera = true;
+        pause.anchor.setTo(0.5, 0);
+        pause.inputEnabled = true;
+        pause.events.onInputUp.add(function () {
+            game.physics.arcade.isPaused = true;
+            tween1.pause();
+            tween2.pause();
+            tween3.pause();
+            tween4.pause();
+            tween5.pause();
+            tween6.pause();
+            tween7.pause();
+            LS = game.add.button(centerX, 400, 'LS', function(){
+                changeState(null, 'l');
+            });
+            LS.anchor.setTo(0.5, 0.5);
+            LS.fixedToCamera = true;
+            LS.scale.setTo(0.5);
+            reset = game.add.button(centerX, 300, 'reset', function(){
+                    if(game.state.getCurrentState().key == 'planet1'){
+                        changeState(null, '1');
+                    }
+                    if(game.state.getCurrentState().key == 'planet2'){
+                        changeState(null, '2');
+                    }
+                    if(game.state.getCurrentState().key == 'planet3'){
+                        changeState(null, '3');
+                    }
+                    if(game.state.getCurrentState().key == 'planet4'){
+                        changeState(null, '4');
+                    }
+                });
+            reset.anchor.setTo(0.5, 0.5);
+            reset.fixedToCamera = true;
+            reset.scale.setTo(0.75);
+            resume = game.add.button(centerX, centerY - 100, 'resume', function(){
+                game.physics.arcade.isPaused = false;
+                tween1.resume();
+                tween2.resume();
+                tween3.resume();
+                tween4.resume();
+                tween5.resume();
+                tween6.resume();
+                tween7.resume();
+                LS.destroy();
+                reset.destroy();
+                resume.destroy();
+            });
+            resume.anchor.setTo(0.5, 0.5);
+            resume.fixedToCamera = true;
+            resume.scale.setTo(0.5);
+        });
         
     },
     update:function(){
         
-        console.log(nova.x);
-        console.log(nova.y);
+        
         textlife.setText('Lives ' + nova_life);
 
         game.physics.arcade.collide(nova, ground);
@@ -213,7 +275,7 @@ demo.planet1.prototype = {
         if (nova.y > 1050){
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
-                nova.kill();
+                endGameLevel();
                 nova_life = 0;
             }
         }
@@ -254,9 +316,16 @@ demo.planet1.prototype = {
         if (nova.x > plant6.x){
             plant6.scale.setTo(-0.4, 0.4);
         }
-        else if(nova.x < plant5.x){
+        else if(nova.x < plant6.x){
             plant6.scale.setTo(0.4, 0.4);
         }
+        if (nova.x > plant7.x){
+            plant7.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant7.x){
+            plant7.scale.setTo(0.4, 0.4);
+        }
+        
         
         if (nova.x > bird1.x){
             bird1.scale.setTo(-1, 1);
@@ -430,7 +499,7 @@ function hitNova(nova, enemy){
         game.time.events.add(1500, tweenTintHelperNova, this, 0);
         game.time.events.add(1750, tweenTintHelperNova, this, 1);
     } 
-    if (nova_life <= 0){
+    if (nova_life == 0){
         endGameLevel();
     }
 }
@@ -460,6 +529,33 @@ function tweenTintHelperNova(num){
 }
 function endGameLevel(){
     nova.kill();
+    end = game.add.sprite(1024/2, 576/2 - 100, 'end');
+    end.anchor.setTo(0.5, 0.5);
+    end.fixedToCamera = true;
+    game.add.tween(end).to({alpha: 0}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+    LS = game.add.button(centerX, 400, 'LS', function(){
+        changeState(null, 'l');
+    });
+    LS.anchor.setTo(0.5, 0.5);
+    LS.fixedToCamera = true;
+    LS.scale.setTo(0.5);
+    reset = game.add.button(centerX, 300, 'reset', function(){
+            if(game.state.getCurrentState().key == 'planet1'){
+                changeState(null, '1');
+            }
+            if(game.state.getCurrentState().key == 'planet2'){
+                changeState(null, '2');
+            }
+            if(game.state.getCurrentState().key == 'planet3'){
+                changeState(null, '3');
+            }
+            if(game.state.getCurrentState().key == 'planet4'){
+                changeState(null, '4');
+            }
+        });
+    reset.anchor.setTo(0.5, 0.5);
+    reset.fixedToCamera = true;
+    reset.scale.setTo(0.75);
 }
 function nextLine1() {
 
@@ -510,5 +606,4 @@ function pauseGame1 (){
         changeState(null, 'l');
     }
 }
-
 
