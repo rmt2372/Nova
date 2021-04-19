@@ -326,7 +326,6 @@ demo.planet1.prototype = {
             plant7.scale.setTo(0.4, 0.4);
         }
         
-        
         if (nova.x > bird1.x){
             bird1.scale.setTo(-1, 1);
         }

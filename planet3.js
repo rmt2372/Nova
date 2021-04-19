@@ -64,8 +64,59 @@ demo.planet3.prototype = {
         enemies = game.add.group();
         enemies.enableBody = true;
         game.physics.enable(enemies);
-        
+        birds = game.add.group();
+        birds.enableBody = true;
+        game.physics.enable(birds);
+
+        bird1 = enemies.create(850, 900, 'bird');
+        bird1.scale.setTo(1, 1);
+        bird1.animations.add('fly', [0, 1, 2, 3]);
+
+        bird2 = enemies.create(2815, 1220, 'bird');
+        bird2.scale.setTo(1, 1);
+        bird2.animations.add('fly', [0, 1, 2, 3]);
+
+        bird3 = enemies.create(4650, 425, 'bird');
+        bird3.scale.setTo(1, 1);
+        bird3.animations.add('fly', [0, 1, 2, 3]);
+
+        bird4 = enemies.create(5050, 300, 'bird');
+        bird4.scale.setTo(1, 1);
+        bird4.animations.add('fly', [0, 1, 2, 3]);
+
+        bird5 = enemies.create(5500, 250, 'bird');
+        bird5.scale.setTo(1, 1);
+        bird5.animations.add('fly', [0, 1, 2, 3]);
+
+        bird6 = enemies.create(6880, 800, 'bird');
+        bird6.scale.setTo(1, 1);
+        bird6.animations.add('fly', [0, 1, 2, 3]);
+
         game.camera.follow(nova);
+
+        plant1 = enemies.create(2100, 1200, 'plant');
+        plant1.scale.setTo(0.4, 0.4);
+        plant1.body.gravity.y = 500;
+
+        plant2 = enemies.create(4620, 550, 'plant');
+        plant2.scale.setTo(0.4, 0.4);
+        plant2.body.gravity.y = 500;
+
+        plant3 = enemies.create(5480, 975, 'plant');
+        plant3.scale.setTo(0.4, 0.4);
+        plant3.body.gravity.y = 500;
+
+        plant4 = enemies.create(5780, 1000, 'plant');
+        plant4.scale.setTo(0.4, 0.4);
+        plant4.body.gravity.y = 500;
+
+        plant5 = enemies.create(5500, 580, 'plant');
+        plant5.scale.setTo(0.4, 0.4);
+        plant5.body.gravity.y = 500;
+
+        plant6 = enemies.create(6300, 550, 'plant');
+        plant6.scale.setTo(0.4, 0.4);
+        plant6.body.gravity.y = 500;
         
         up = this.input.keyboard.addKey(Phaser.KeyCode.W);
         left = this.input.keyboard.addKey(Phaser.KeyCode.A);
@@ -93,6 +144,14 @@ demo.planet3.prototype = {
         textlife = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
         textlife.fixedToCamera = true;
         
+        game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant2).to({x: '-75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant3).to({x: '-75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant4).to({x: '-30'}, 700, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
+        game.add.tween(plant6).to({x: '-100'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+
+
     },
     update:function(){
         console.log(nova.x);
@@ -104,6 +163,13 @@ demo.planet3.prototype = {
         game.physics.arcade.collide(nova, ground);
         game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
         game.physics.arcade.collide(weapon.bullets, ground, killBull);
+        game.physics.arcade.collide(enemies, ground);
+        game.physics.arcade.collide(weapon.bullets, ground, killBull);
+        game.physics.arcade.overlap(weapon.bullets, enemies, hitVil, null, this);
+        game.physics.arcade.overlap(nova, enemies, hitNova, null, this);
+
+      
+      
         
         if (nova.y > 1375){
             nova.body.collideWorldBounds = false;
@@ -116,6 +182,80 @@ demo.planet3.prototype = {
             nova.body.collideWorldBounds = true;
         }
         
+        if (nova.x > plant1.x){
+            plant1.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant1.x){
+            plant1.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant2.x){
+            plant2.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant2.x){
+            plant2.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant3.x){
+            plant3.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant3.x){
+            plant3.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant4.x){
+            plant4.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant4.x){
+            plant4.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant5.x){
+            plant5.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant5.x){
+            plant5.scale.setTo(0.4, 0.4);
+        }
+        if (nova.x > plant6.x){
+            plant6.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant6.x){
+            plant6.scale.setTo(0.4, 0.4);
+        }
+
+        if (nova.x > bird1.x){
+            bird1.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird1.x){
+            bird1.scale.setTo(1, 1);
+        } 
+        if (nova.x > bird2.x){
+            bird2.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird2.x){
+            bird2.scale.setTo(1, 1);
+        }
+        if (nova.x > bird3.x){
+            bird3.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird3.x){
+            bird3.scale.setTo(1, 1);
+        }
+        if (nova.x > bird4.x){
+            bird4.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird4.x){
+            bird4.scale.setTo(1, 1);
+        }
+        if (nova.x > bird5.x){
+            bird5.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird5.x){
+            bird5.scale.setTo(1, 1);
+        }
+        if (nova.x > bird6.x){
+            bird6.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird6.x){
+            bird6.scale.setTo(1, 1);
+        }
+
         nova.body.velocity.x = 0;
         if(left.isDown){
             nova.scale.setTo(-0.6, 0.6)
@@ -158,6 +298,30 @@ demo.planet3.prototype = {
             pauseGame1();
         }
 
+        if(bird1.inCamera){
+            bird1.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird1, nova, 120, null);
+        }
+        if(bird2.inCamera){
+            bird2.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird2, nova, 120, null);
+        }
+        if(bird3.inCamera){
+            bird3.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird3, nova, 120, null);
+        }
+        if(bird4.inCamera){
+            bird4.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird4, nova, 120, null);
+        }
+        if(bird5.inCamera){
+            bird5.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird5, nova, 120, null);
+        }
+        if(bird6.inCamera){
+            bird6.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird6, nova, 120, null);
+        }
         
     }
 }
@@ -208,4 +372,9 @@ function nextWord3() {
         game.time.events.add(lineDelay3, nextLine3 , this);
     }
 
+}
+
+function hitVil(shot, villain){
+    shot.kill();
+    villain.kill();
 }
