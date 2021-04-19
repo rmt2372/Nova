@@ -144,13 +144,67 @@ demo.planet3.prototype = {
         textlife = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
         textlife.fixedToCamera = true;
         
-        game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant2).to({x: '-75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant3).to({x: '-75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant4).to({x: '-30'}, 700, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
-        game.add.tween(plant6).to({x: '-100'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
-
+        tween1 = game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween2 = game.add.tween(plant2).to({x: '-75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween3 = game.add.tween(plant3).to({x: '-75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
+        tween4 = game.add.tween(plant4).to({x: '-30'}, 700, 'Linear', 'true', 0, false, true).loop(true);
+        tween5 = game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
+        tween6 = game.add.tween(plant6).to({x: '-100'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        
+        game.physics.arcade.isPaused = false;
+        
+        
+        pause = game.add.text(975, 0, 'Pause', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        pause.fixedToCamera = true;
+        pause.anchor.setTo(0.5, 0);
+        pause.inputEnabled = true;
+        pause.events.onInputUp.add(function () {
+            game.physics.arcade.isPaused = true;
+            tween1.pause();
+            tween2.pause();
+            tween3.pause();
+            tween4.pause();
+            tween5.pause();
+            tween6.pause();
+            LS = game.add.button(centerX, 400, 'LS', function(){
+                changeState(null, 'l');
+            });
+            LS.anchor.setTo(0.5, 0.5);
+            LS.fixedToCamera = true;
+            LS.scale.setTo(0.5);
+            reset = game.add.button(centerX, 300, 'reset', function(){
+                    if(game.state.getCurrentState().key == 'planet1'){
+                        changeState(null, '1');
+                    }
+                    if(game.state.getCurrentState().key == 'planet2'){
+                        changeState(null, '2');
+                    }
+                    if(game.state.getCurrentState().key == 'planet3'){
+                        changeState(null, '3');
+                    }
+                    if(game.state.getCurrentState().key == 'planet4'){
+                        changeState(null, '4');
+                    }
+                });
+            reset.anchor.setTo(0.5, 0.5);
+            reset.fixedToCamera = true;
+            reset.scale.setTo(0.75);
+            resume = game.add.button(centerX, centerY - 100, 'resume', function(){
+                game.physics.arcade.isPaused = false;
+                tween1.resume();
+                tween2.resume();
+                tween3.resume();
+                tween4.resume();
+                tween5.resume();
+                tween6.resume();
+                LS.destroy();
+                reset.destroy();
+                resume.destroy();
+            });
+            resume.anchor.setTo(0.5, 0.5);
+            resume.fixedToCamera = true;
+            resume.scale.setTo(0.5);
+        });
 
     },
     update:function(){
