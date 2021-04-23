@@ -307,7 +307,7 @@ demo.battle.prototype = {
         game.physics.arcade.overlap(wave.bullets, flame3.bullets, hitWave, null, this);
         game.physics.arcade.overlap(boss, beam.bullets, beamHit, null, this);
         
-        if(game.physics.arcade.isPaused){
+        if(game.physics.arcade.isPaused || boss.alive == false){
             flame1.autofire = false;
             flame2.autofire = false;
             flame3.autofire = false;
