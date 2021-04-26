@@ -367,7 +367,6 @@ function hitEnemy(boss, bullet){
         fill.scale.setTo((boss_life/ start_boss_life) * 2, 2)
     }
     if (boss_life === Math.floor(start_boss_life / 2)){
-        console.log(boss_life)
         tweenTintHelper(0);
         game.time.events.add(300, tweenTintHelperEnemy, this, 1);
         game.time.events.add(500, tweenTintHelperEnemy, this, 0);

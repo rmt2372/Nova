@@ -70,6 +70,42 @@ demo.planet2.prototype = {
         enemies.enableBody = true;
         game.physics.enable(enemies);
         
+        frog1 = enemies.create(975, 1300, 'frog');
+        frog1.scale.setTo(-0.4, 0.4);
+        frog1.anchor.setTo(0.5, 0.5);
+        frog1.body.gravity.y = 500;
+        frog1.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog2 = enemies.create(2276, 1300, 'frog');
+        frog2.scale.setTo(-0.4, 0.4);
+        frog2.anchor.setTo(0.5, 0.5);
+        frog2.body.gravity.y = 500;
+        frog2.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog3 = enemies.create(2514, 1200, 'frog');
+        frog3.scale.setTo(-0.4, 0.4);
+        frog3.anchor.setTo(0.5, 0.5);
+        frog3.body.gravity.y = 500;
+        frog3.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog4 = enemies.create(3293, 1045, 'frog');
+        frog4.scale.setTo(-0.4, 0.4);
+        frog4.anchor.setTo(0.5, 0.5);
+        frog4.body.gravity.y = 500;
+        frog4.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog5 = enemies.create(4775, 660, 'frog');
+        frog5.scale.setTo(-0.4, 0.4);
+        frog5.anchor.setTo(0.5, 0.5);
+        frog5.body.gravity.y = 500;
+        frog5.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog6 = enemies.create(7268, 1075, 'frog');
+        frog6.scale.setTo(-0.4, 0.4);
+        frog6.anchor.setTo(0.5, 0.5);
+        frog6.body.gravity.y = 500;
+        frog6.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
         plant1 = enemies.create(385, 1275, 'plant');
         plant1.scale.setTo(0.4, 0.4);
         plant1.body.gravity.y = 500;
@@ -114,11 +150,12 @@ demo.planet2.prototype = {
         plant11.scale.setTo(0.4, 0.4);
         plant11.body.gravity.y = 500;
         
+        
         birds = game.add.group();
         birds.enableBody = true;
         game.physics.enable(birds);
 
-        bird1 = enemies.create(385, 750, 'bird');
+        bird1 = enemies.create(385, 1000, 'bird');
         bird1.scale.setTo(1, 1);
         bird1.animations.add('fly', [0, 1, 2, 3]);
         game.camera.follow(nova);
@@ -271,10 +308,6 @@ demo.planet2.prototype = {
     },
     update:function(){
         
-        console.log(nova.x);
-        console.log(nova.y);
-        
-        
         text3.setText('Lives ' + nova_life);
         
         if (nova.y > 1350){
@@ -363,6 +396,7 @@ demo.planet2.prototype = {
         else if(nova.x < plant11.x){
             plant11.scale.setTo(0.4, 0.4);
         }
+
 
         if (nova.x > bird1.x){
             bird1.scale.setTo(-1, 1);
@@ -521,6 +555,31 @@ demo.planet2.prototype = {
         if(bird11.inCamera){
             bird11.animations.play('fly', 12, true);
             game.physics.arcade.moveToObject(bird11, nova, 120, null);
+        }
+        
+        if(frog1.body.blocked.down){
+            frog1.body.velocity.y = -300;
+            frog1.animations.play('hop', 6, false);
+        }
+        if(frog2.body.blocked.down){
+            frog2.body.velocity.y = -300;
+            frog2.animations.play('hop', 6, false);
+        }
+        if(frog3.body.blocked.down){
+            frog3.body.velocity.y = -300;
+            frog3.animations.play('hop', 6, false);
+        }
+        if(frog4.body.blocked.down){
+            frog4.body.velocity.y = -300;
+            frog4.animations.play('hop', 6, false);
+        }
+        if(frog5.body.blocked.down){
+            frog5.body.velocity.y = -300;
+            frog5.animations.play('hop', 6, false);
+        }
+        if(frog6.body.blocked.down){
+            frog6.body.velocity.y = -300;
+            frog6.animations.play('hop', 6, false);
         }
         
     }
