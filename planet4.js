@@ -17,6 +17,8 @@ demo.planet4.prototype = {
         game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
         game.load.image('resume', 'assets/sprites/resume.png');
         
+        game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
+        
     },
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -46,6 +48,8 @@ demo.planet4.prototype = {
         nova.animations.add('move', [2, 3, 4, 5, 6, 7, 8, 9, 10]);
         nova.animations.add('shoot_move', [20, 21, 22, 23, 24, 25]);
         nova.animations.add('shoot', [15, 16, 17]);
+        
+        nova_shot = game.add.audio('nova_shot', 0.04);
         
         enemy = game.add.group();
         enemy.enableBody = true;
@@ -353,6 +357,10 @@ demo.planet4.prototype = {
                 }
             }
         }
+        weapon.onFire.add(function(){
+            nova_shot.play();
+        })
+        
         if (lasCount == 0){
             pauseGame1();
         }

@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam, outline, fill, wave;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam, outline, fill, wave, laser_sound, wave_sound, missle_sound, shield_sound;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -24,6 +24,11 @@ demo.battle.prototype = {
         game.load.image('reset', 'assets/sprites/reset.png');
         game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
         game.load.image('resume', 'assets/sprites/resume.png');
+        
+        game.load.audio('laser_sound', 'assets/sounds/laser_sound.mp3');
+        game.load.audio('missle_sound', 'assets/sounds/missle_sound.wav');
+        game.load.audio('shield_sound', 'assets/sounds/shield_sound.wav');
+        game.load.audio('wave_sound', 'assets/sounds/wave_sound.wav');
     },
     create:function(){
         addChangeStateEventListeners();
@@ -71,7 +76,12 @@ demo.battle.prototype = {
         
         boss.animations.add('attack', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         
-        sound = game.add.audio('shot', 0.09);
+        sound = game.add.audio('shot', 0.06);
+        laser_sound = game.add.audio('laser_sound', 0.03);
+        missle_sound = game.add.audio('missle_sound', 0.03);
+        laser_sound.addMarker('short_las', 0, 1.5, 0.03, false);
+        shield_sound = game.add.audio('shield_sound', 0.03);
+        wave_sound = game.add.audio('wave_sound', 0.03);
         
         fire = game.add.audio('fire', 0.09);
         fightSong = game.add.audio('fightSong');
@@ -234,15 +244,18 @@ demo.battle.prototype = {
         if(missle_fire.isDown && missle == true && counter >= 5){
             smart_missle.fireAtSprite(boss);
             counter = 0;
+            missle_sound.play();
             superMeter.scale.setTo(0, 1);
         }
         if(beamFire.isDown && laser == true && counter >= 5){
             game.time.events.repeat(0, 75, fireBeam, this);
             counter = 0;
+            laser_sound.play('short_las');
             superMeter.scale.setTo(0, 1);
         }
-        if(shield_active.isDown && shield == true && counter >= 5){
+        if(shield_active.isDown && shield == true && counter >= 5 && ship.invincibility == false){
             counter = 0;
+            shield_sound.play();
             superMeter.scale.setTo(0, 1);
             if(ship.invincibility == false){
                 speed = 6;
@@ -262,6 +275,7 @@ demo.battle.prototype = {
         if(wave_fire.isDown && burst == true && counter >= 5){
             wave.fire();
             counter = 0;
+            wave_sound.play();
             superMeter.scale.setTo(0, 1);
             
         }
@@ -351,7 +365,6 @@ function hitEnemy(boss, bullet){
     }
     if (boss_life === Math.floor(start_boss_life / 2)){
         console.log(boss_life)
-        console.log("bish")
         tweenTintHelper(0);
         game.time.events.add(300, tweenTintHelperEnemy, this, 1);
         game.time.events.add(500, tweenTintHelperEnemy, this, 0);
