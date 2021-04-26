@@ -1,4 +1,4 @@
-var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam, outline, fill, wave, laser_sound, wave_sound, missle_sound, shield_sound;
+var weapon, flame1, sound, ground, map, sky, ship, flame2, flame3, gameOver, fightSong, smart_missle, beam, outline, fill, wave, laser_sound, wave_sound, missle_sound, shield_sound, win;
 demo.battle = function(){};
 demo.battle.prototype = {
     preload: function(){
@@ -24,6 +24,7 @@ demo.battle.prototype = {
         game.load.image('reset', 'assets/sprites/reset.png');
         game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
         game.load.image('resume', 'assets/sprites/resume.png');
+        game.load.image('win', 'assets/sprites/win.png');
         
         game.load.audio('laser_sound', 'assets/sounds/laser_sound.mp3');
         game.load.audio('missle_sound', 'assets/sounds/missle_sound.wav');
@@ -383,6 +384,8 @@ function hitEnemy(boss, bullet){
         boss.kill();
     }
     if(boss.alive == false && ship.alive == true){
+        win = game.add.sprite(centerX, centerY, 'win');
+        win.anchor.setTo(0.5, 0.5);
         game.camera.fade(0x000000, 4000);
     }
 }
