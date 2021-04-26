@@ -71,6 +71,36 @@ demo.planet3.prototype = {
         birds = game.add.group();
         birds.enableBody = true;
         game.physics.enable(birds);
+        
+        frog1 = enemies.create(1101, 1105, 'frog');
+        frog1.scale.setTo(-0.4, 0.4);
+        frog1.anchor.setTo(0.5, 0.5);
+        frog1.body.gravity.y = 500;
+        frog1.animations.add('hop', [0, 1, 2, 3, 2, 1, 0])
+        
+        frog2 = enemies.create(1645, 1300, 'frog');
+        frog2.scale.setTo(-0.4, 0.4);
+        frog2.anchor.setTo(0.5, 0.5);
+        frog2.body.gravity.y = 500;
+        frog2.animations.add('hop', [0, 1, 2, 3, 2, 1, 0])
+        
+        frog3 = enemies.create(2797, 1350, 'frog');
+        frog3.scale.setTo(-0.4, 0.4);
+        frog3.anchor.setTo(0.5, 0.5);
+        frog3.body.gravity.y = 500;
+        frog3.animations.add('hop', [0, 1, 2, 3, 2, 1, 0])
+        
+        frog4 = enemies.create(5264, 625, 'frog');
+        frog4.scale.setTo(-0.4, 0.4);
+        frog4.anchor.setTo(0.5, 0.5);
+        frog4.body.gravity.y = 500;
+        frog4.animations.add('hop', [0, 1, 2, 3, 2, 1, 0])
+        
+        frog5 = enemies.create(6480, 1350, 'frog');
+        frog5.scale.setTo(-0.4, 0.4);
+        frog5.anchor.setTo(0.5, 0.5);
+        frog5.body.gravity.y = 500;
+        frog5.animations.add('hop', [0, 1, 2, 3, 2, 1, 0])
 
         bird1 = enemies.create(850, 900, 'bird');
         bird1.scale.setTo(1, 1);
@@ -95,6 +125,22 @@ demo.planet3.prototype = {
         bird6 = enemies.create(6880, 800, 'bird');
         bird6.scale.setTo(1, 1);
         bird6.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird7 = enemies.create(6560, 1300, 'bird');
+        bird7.scale.setTo(1, 1);
+        bird7.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird8 = enemies.create(7070, 490, 'bird');
+        bird8.scale.setTo(1, 1);
+        bird8.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird9 = enemies.create(7275, 250, 'bird');
+        bird9.scale.setTo(1, 1);
+        bird9.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird10 = enemies.create(7550, 200, 'bird');
+        bird10.scale.setTo(1, 1);
+        bird10.animations.add('fly', [0, 1, 2, 3]);
 
         game.camera.follow(nova);
 
@@ -121,6 +167,10 @@ demo.planet3.prototype = {
         plant6 = enemies.create(6300, 550, 'plant');
         plant6.scale.setTo(0.4, 0.4);
         plant6.body.gravity.y = 500;
+        
+        plant7 = enemies.create(7455, 1190, 'plant');
+        plant7.scale.setTo(0.4, 0.4);
+        plant7.body.gravity.y = 500;
         
         up = this.input.keyboard.addKey(Phaser.KeyCode.W);
         left = this.input.keyboard.addKey(Phaser.KeyCode.A);
@@ -154,6 +204,7 @@ demo.planet3.prototype = {
         tween4 = game.add.tween(plant4).to({x: '-30'}, 700, 'Linear', 'true', 0, false, true).loop(true);
         tween5 = game.add.tween(plant5).to({x: '-40'}, 725, 'Linear', 'true', 0, false, true).loop(true);
         tween6 = game.add.tween(plant6).to({x: '-100'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        tween7 = game.add.tween(plant7).to({x: '+250'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
         
         game.physics.arcade.isPaused = false;
         
@@ -170,6 +221,7 @@ demo.planet3.prototype = {
             tween4.pause();
             tween5.pause();
             tween6.pause();
+            tween7.pause();
             LS = game.add.button(centerX, 400, 'LS', function(){
                 changeState(null, 'l');
             });
@@ -201,6 +253,7 @@ demo.planet3.prototype = {
                 tween4.resume();
                 tween5.resume();
                 tween6.resume();
+                tween6.resume();
                 LS.destroy();
                 reset.destroy();
                 resume.destroy();
@@ -212,9 +265,7 @@ demo.planet3.prototype = {
 
     },
     update:function(){
-        console.log(nova.x);
-        console.log(nova.y);
-        
+    
         textlife.setText('Lives ' + nova_life);
         
         game.physics.arcade.overlap(nova, wave_burst, collectWave, null, this);
@@ -276,6 +327,12 @@ demo.planet3.prototype = {
         else if(nova.x < plant6.x){
             plant6.scale.setTo(0.4, 0.4);
         }
+        if (nova.x > plant7.x){
+            plant7.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant7.x){
+            plant7.scale.setTo(0.4, 0.4);
+        }
 
         if (nova.x > bird1.x){
             bird1.scale.setTo(-1, 1);
@@ -313,6 +370,32 @@ demo.planet3.prototype = {
         else if(nova.x < bird6.x){
             bird6.scale.setTo(1, 1);
         }
+        if (nova.x > bird7.x){
+            bird7.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird7.x){
+            bird7.scale.setTo(1, 1);
+        } 
+        if (nova.x > bird8.x){
+            bird8.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird8.x){
+            bird8.scale.setTo(1, 1);
+        } 
+        if (nova.x > bird9.x){
+            bird9.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird9.x){
+            bird9.scale.setTo(1, 1);
+        } 
+
+        if (nova.x > bird10.x){
+            bird10.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird10.x){
+            bird10.scale.setTo(1, 1);
+        } 
+
 
         nova.body.velocity.x = 0;
         if(left.isDown){
@@ -384,7 +467,43 @@ demo.planet3.prototype = {
             bird6.animations.play('fly', 12, true);
             game.physics.arcade.moveToObject(bird6, nova, 120, null);
         }
+        if(bird7.inCamera){
+            bird7.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird7, nova, 120, null);
+        }
+        if(bird8.inCamera){
+            bird8.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird8, nova, 120, null);
+        }
+        if(bird9.inCamera){
+            bird9.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird9, nova, 120, null);
+        }
+        if(bird10.inCamera){
+            bird10.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird10, nova, 120, null);
+        }
         
+        if(frog1.body.blocked.down){
+            frog1.body.velocity.y = -300;
+            frog1.animations.play('hop', 6, false);
+        }
+        if(frog2.body.blocked.down){
+            frog2.body.velocity.y = -300;
+            frog2.animations.play('hop', 6, false);
+        }
+        if(frog3.body.blocked.down){
+            frog3.body.velocity.y = -300;
+            frog3.animations.play('hop', 6, false);
+        }
+        if(frog4.body.blocked.down){
+            frog4.body.velocity.y = -300;
+            frog4.animations.play('hop', 6, false);
+        }
+        if(frog5.body.blocked.down){
+            frog5.body.velocity.y = -300;
+            frog5.animations.play('hop', 6, false);
+        }
     }
 }
 function collectWave(nova, wave_burst){

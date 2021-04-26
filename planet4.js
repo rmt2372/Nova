@@ -100,6 +100,11 @@ demo.planet4.prototype = {
         plant9.anchor.setTo(0.5, 0.5);
         plant9.body.gravity.y = 500;
         
+        plant10 = enemy.create(7431, 880, 'plant');
+        plant10.scale.setTo(0.4, 0.4);
+        plant10.anchor.setTo(0.5, 0.5);
+        plant10.body.gravity.y = 500;
+        
         frog1 = enemy.create(1000, 815, 'frog');
         frog1.scale.setTo(-0.4, 0.4);
         frog1.anchor.setTo(0.5, 0.5)
@@ -148,6 +153,18 @@ demo.planet4.prototype = {
         frog8.body.gravity.y = 500;
         frog8.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
         
+        frog9 = enemy.create(451, 1343, 'frog');
+        frog9.scale.setTo(-0.4, 0.4);
+        frog9.anchor.setTo(0.5, 0.5)
+        frog9.body.gravity.y = 500;
+        frog9.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
+        frog10 = enemy.create(718, 1343, 'frog');
+        frog10.scale.setTo(-0.4, 0.4);
+        frog10.anchor.setTo(0.5, 0.5)
+        frog10.body.gravity.y = 500;
+        frog10.animations.add('hop', [0, 1, 2, 3, 2, 1, 0]);
+        
         bird1 = enemy.create(2114, 800, 'bird');
         bird1.scale.setTo(1, 1);
         bird1.animations.add('fly', [0, 1, 2, 3]);
@@ -179,6 +196,10 @@ demo.planet4.prototype = {
         bird8 = enemy.create(4350, 850, 'bird');
         bird8.scale.setTo(1, 1);
         bird8.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird9 = enemy.create(7541, 880, 'bird');
+        bird9.scale.setTo(1, 1);
+        bird9.animations.add('fly', [0, 1, 2, 3]);
         
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -215,6 +236,7 @@ demo.planet4.prototype = {
         tween7 = game.add.tween(plant7).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
         tween8 = game.add.tween(plant8).to({x: '+200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
         tween9 = game.add.tween(plant9).to({x: '-200'}, 1000, 'Linear', 'true', 0, false, true).loop(true);
+        tween10 = game.add.tween(plant9).to({x: '+200'}, 800, 'Linear', 'true', 0, false, true).loop(true);
         
         game.physics.arcade.isPaused = false;
         
@@ -235,6 +257,7 @@ demo.planet4.prototype = {
             tween7.pause();
             tween8.pause();
             tween9.pause();
+            tween10.pause();
             LS = game.add.button(centerX, 400, 'LS', function(){
                 changeState(null, 'l');
             });
@@ -269,6 +292,7 @@ demo.planet4.prototype = {
                 tween7.resume();
                 tween8.resume();
                 tween9.resume();
+                tween10.resume();
                 LS.destroy();
                 reset.destroy();
                 resume.destroy();
@@ -296,8 +320,6 @@ demo.planet4.prototype = {
         textlife.fixedToCamera = true;
     },
     update:function(){
-        console.log(nova.x);
-        console.log(nova.y);
         
         textlife.setText('Lives ' + nova_life);
         
@@ -419,6 +441,12 @@ demo.planet4.prototype = {
         else if(nova.x < plant9.x){
             plant9.scale.setTo(0.4, 0.4);
         }
+        if (nova.x > plant10.x){
+            plant10.scale.setTo(-0.4, 0.4);
+        }
+        else if(nova.x < plant10.x){
+            plant10.scale.setTo(0.4, 0.4);
+        }
         
         
         if(frog1.body.blocked.down){
@@ -453,6 +481,14 @@ demo.planet4.prototype = {
             frog8.body.velocity.y = -300;
             frog8.animations.play('hop', 6, false);
         }
+        if(frog9.body.blocked.down){
+            frog9.body.velocity.y = -300;
+            frog9.animations.play('hop', 6, false);
+        }
+        if(frog10.body.blocked.down){
+            frog10.body.velocity.y = -300;
+            frog10.animations.play('hop', 6, false);
+        }
         
         if(bird1.inCamera){
             bird1.animations.play('fly', 12, true);
@@ -485,6 +521,10 @@ demo.planet4.prototype = {
         if(bird8.inCamera){
             bird8.animations.play('fly', 12, true);
             game.physics.arcade.moveToObject(bird8, nova, 120, null);
+        }
+        if(bird9.inCamera){
+            bird9.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird9, nova, 120, null);
         }
         if (nova.x > bird1.x){
             bird1.scale.setTo(-1, 1);
@@ -534,6 +574,12 @@ demo.planet4.prototype = {
         else if(nova.x < bird8.x){
             bird8.scale.setTo(1, 1);
         }
+        if (nova.x > bird9.x){
+            bird9.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird9.x){
+            bird9.scale.setTo(1, 1);
+        } 
     }
 }
 function collectLaser(nova, laser_cannon){
