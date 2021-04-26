@@ -2,6 +2,14 @@ var enemy_num = 0, content, lineIndex, wordIndex, wordDelay, lineDelay;
 demo.tutorial = function(){};
 demo.tutorial.prototype = {
     preload: function(){
+        
+        game.load.tilemap('map', 'assets/map/tutorialmap.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('sky', 'assets/map/map_sky_night.png');
+        game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
+        game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
+        game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
+        
+        
         game.load.spritesheet('nova', 'assets/sprites/nova_.png', 91, 110);
         game.load.image('frog', 'assets/sprites/Frog_villan.png');
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
@@ -10,6 +18,19 @@ demo.tutorial.prototype = {
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
         addChangeStateEventListeners();
+        
+        map = game.add.tilemap('map');
+        map.addTilesetImage('map_sky_night2');
+        map.addTilesetImage('map_ground_dirt');
+        map.addTilesetImage('map_ground_grass');
+        
+        
+        sky = map.createLayer("sky");
+        Ground = map.createLayer("Ground");
+        
+        sky.resizeWorld();
+        
+        map.setCollisionBetween(1,8,true,"Ground");
         
         game.paused = false;
         
@@ -79,6 +100,8 @@ demo.tutorial.prototype = {
         
     },
     update:function(){
+        game.physics.arcade.collide(nova, Ground);
+        
         game.physics.arcade.overlap(nova, frogs, hitNova, null, this);
         game.physics.arcade.overlap(weapon.bullets, frogs, hitVilTut, null, this);
         nova.body.velocity.x = 0;
