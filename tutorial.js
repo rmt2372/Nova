@@ -35,7 +35,7 @@ demo.tutorial.prototype = {
         game.paused = false;
         
         nova = game.add.sprite(25, 475, 'nova');
-        nova.scale.setTo(0.7, 0.7);
+        nova.scale.setTo(0.6, 0.6);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
         nova.body.collideWorldBounds = true;
@@ -54,17 +54,17 @@ demo.tutorial.prototype = {
         frogs.enableBody = true;
         game.physics.enable(frogs);
         var frog = frogs.create(300, 425, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
+        frog.scale.setTo(-0.4, 0.4);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
         enemy_num += 1;
         frog = frogs.create(750, 425, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
+        frog.scale.setTo(-0.4, 0.4);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
         enemy_num += 1;
         frog = frogs.create(1000, 425, 'frog');
-        frog.scale.setTo(-0.5, 0.5);
+        frog.scale.setTo(-0.4, 0.4);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
         enemy_num += 1;
@@ -101,12 +101,13 @@ demo.tutorial.prototype = {
     },
     update:function(){
         game.physics.arcade.collide(nova, Ground);
+        game.physics.arcade.collide(frogs, Ground);
         
         game.physics.arcade.overlap(nova, frogs, hitNova, null, this);
         game.physics.arcade.overlap(weapon.bullets, frogs, hitVilTut, null, this);
         nova.body.velocity.x = 0;
         if(left.isDown){
-            nova.scale.setTo(-0.7, 0.7)
+            nova.scale.setTo(-0.6, 0.6)
             nova.body.velocity.x = -200;
             weapon.bulletSpeed = -500;
             if (fireButton.isDown){
@@ -117,7 +118,7 @@ demo.tutorial.prototype = {
             }
         }
         else if(right.isDown){
-            nova.scale.setTo(0.7, 0.7)
+            nova.scale.setTo(0.6, 0.6)
             nova.body.velocity.x = 200;
             weapon.bulletSpeed = 500;
             if (fireButton.isDown){
@@ -131,8 +132,8 @@ demo.tutorial.prototype = {
             nova.animations.stop('move');
             nova.animations.play('idle', 3, true);
         }
-        if(up.isDown){
-            nova.body.velocity.y = -425;
+        if(up.isDown && nova.body.blocked.down){
+            nova.body.velocity.y = -510;
         }
         if (fireButton.isDown){
             if (nova.alive == true){

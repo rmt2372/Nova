@@ -1,4 +1,4 @@
-var laser_cannon, bub_shield, wave_burst, mis, enemies, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1, end, reset, frag, LS, resume;
+var laser_cannon, bub_shield, wave_burst, mis, enemies, song1, content1, lineIndex1, wordIndex1, wordDelay1, lineDelay1, misCount = 1, end, reset, frag, LS, resume, nova_shot;
 demo.planet1 = function(){};
 demo.planet1.prototype = {
     preload: function(){
@@ -20,6 +20,8 @@ demo.planet1.prototype = {
         game.load.spritesheet('bird', 'assets/sprites/bird_enemy.png', 56, 52);
         game.load.image('plant', 'assets/sprites/plant_enemy.png');
         game.load.audio('level1Song', 'assets/sounds/Starmachine.wav');
+        
+        game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
     },
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -49,6 +51,7 @@ demo.planet1.prototype = {
         nova.animations.add('shoot_move', [20, 21, 22, 23, 24, 25]);
         nova.animations.add('shoot', [15, 16, 17]);
         
+        nova_shot = game.add.audio('nova_shot', 0.04);
         
         cursors = game.input.keyboard.createCursorKeys();
     
@@ -283,6 +286,7 @@ demo.planet1.prototype = {
             nova.body.collideWorldBounds = true;
         }
         
+        
         if (nova.x > plant1.x){
             plant1.scale.setTo(-0.4, 0.4);
         }
@@ -406,6 +410,9 @@ demo.planet1.prototype = {
                 }
             }
         }
+        weapon.onFire.add(function(){
+            nova_shot.play();
+        })
         if (misCount == 0){
             pauseGame1();
         }

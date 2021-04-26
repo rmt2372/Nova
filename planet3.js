@@ -17,6 +17,8 @@ demo.planet3.prototype = {
         game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
         game.load.image('resume', 'assets/sprites/resume.png');
         
+        game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
+        
     },
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -36,7 +38,7 @@ demo.planet3.prototype = {
         map.setCollisionBetween(53,56,true,"ground");
         map.setCollisionBetween(61,64,true,"ground");
         
-        nova = game.add.sprite(0, 0, 'nova');
+        nova = game.add.sprite(27, 500, 'nova');
         nova.scale.setTo(0.6, 0.6);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
@@ -48,6 +50,8 @@ demo.planet3.prototype = {
         nova.animations.add('move', [2, 3, 4, 5, 6, 7, 8, 9, 10]);
         nova.animations.add('shoot_move', [20, 21, 22, 23, 24, 25]);
         nova.animations.add('shoot', [15, 16, 17]);
+        
+        nova_shot = game.add.audio('nova_shot', 0.04);
         
         wave_burst = game.add.sprite(6406, 1375, 'burst');
         game.physics.enable(wave_burst);
@@ -348,6 +352,10 @@ demo.planet3.prototype = {
                 }
             }
         }
+        weapon.onFire.add(function(){
+            nova_shot.play();
+        })
+        
         if (wavCount == 0){
             pauseGame1();
         }
