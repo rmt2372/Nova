@@ -178,7 +178,7 @@ demo.planet1.prototype = {
         song1.addMarker('song1', 6.5, 235, 0.03, true);
         song1.play('song1');
         
-        content1 = ['You have collected the smart missle.', 'In the final fight, after building up the super meter press Q to fire the tracker missle for extra damage.', 'Press Enter to get back to level select!'];
+        content1 = ['You have collected the smart missle.', 'In the final fight, after building up the super meter press H to fire the tracker missle for extra damage.', 'Press Enter to get back to level select!'];
 
         line1 = [];
 

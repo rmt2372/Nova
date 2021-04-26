@@ -196,6 +196,8 @@ demo.battle.prototype = {
             resume.scale.setTo(0.5);
         });
         
+        game.camera.onFadeComplete.add(win_game, this);
+        
     },
     update: function(){
         game.time.events.add(1000, toggleAutoFire, this);
@@ -380,6 +382,9 @@ function hitEnemy(boss, bullet){
     if (boss_life <= 0){
         boss.kill();
     }
+    if(boss.alive == false && ship.alive == true){
+        game.camera.fade(0x000000, 4000);
+    }
 }
 function hitWave(wave, bullet){
     bullet.kill();
@@ -511,5 +516,9 @@ function beamHit(boss, bullet){
     if (boss_life <= 0){
         boss.kill();
     }
+}
+function win_game(){
+    game.sound.stopAll();
+    game.state.start('credits'); 
 }
 

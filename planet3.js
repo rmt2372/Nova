@@ -133,7 +133,7 @@ demo.planet3.prototype = {
         
         cursors = game.input.keyboard.createCursorKeys();
         
-        content3 = ['You have collected the wave burst.', 'In the final fight, after building up the super meter press F to fire a wave blocking all projectiles!', 'Press Enter to get back to level select!'];
+        content3 = ['You have collected the wave burst.', 'In the final fight, after building up the super meter press L to fire a wave blocking all projectiles!', 'Press Enter to get back to level select!'];
 
         line3 = [];
 

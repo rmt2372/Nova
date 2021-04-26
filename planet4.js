@@ -280,7 +280,7 @@ demo.planet4.prototype = {
         
         cursors = game.input.keyboard.createCursorKeys();
         
-        content4 = ['You have collected the Laser canon.', 'In the final fight, after building up the super meter press E to fire a continuous beam for damage.', 'Press Enter to get back to level select!'];
+        content4 = ['You have collected the Laser canon.', 'In the final fight, after building up the super meter press K to fire a continuous beam for damage.', 'Press Enter to get back to level select!'];
 
         line4 = [];
 

@@ -15,24 +15,35 @@ demo.reminder.prototype = {
         else{
             text = game.add.text(1024/2, 576/2 - 100, 'Supers', {fontSize: 20 + 'px', fill: '#00FFFF'});
             text.anchor.setTo(0.5, 0.5);
+            text = game.add.text(1024/2, 576/2, 'Press corresponding button when blue super meter is filled to use super.', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            text.anchor.setTo(0.5, 0.5);
         }
-        text = game.add.text(1024/2, 576/2, 'Press Enter when ready for boss battle!', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        
+        text = game.add.text(1024/2, 576/2 + 100, 'Press Enter when ready for boss battle!', {fontSize: 20 + 'px', fill: '#00FFFF'});
         text.anchor.setTo(0.5, 0.5);
         if (missle == true){
-            mis = game.add.sprite(32, 32, 'missle');
-            text = game.add.text(32, 75, 'H', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            mis = game.add.sprite(32, 82, 'missle');
+            mis.anchor.setTo(0.5, 0.5);
+            text = game.add.text(32, 125, 'H', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            text.anchor.setTo(0.5, 0.5);
         }
         if (laser == true){
-            lase = game.add.sprite(332, 32, 'laser');
-            text = game.add.text(632, 75, 'K', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            lase = game.add.sprite(332, 82, 'laser');
+            lase.anchor.setTo(0.5, 0.5);
+            text = game.add.text(632, 125, 'K', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            text.anchor.setTo(0.5, 0.5);
         }
         if (shield == true){
-            bub = game.add.sprite(632, 32, 'bubble_shield');
-            text = game.add.text(332, 75, 'J', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            bub = game.add.sprite(632, 82, 'bubble_shield');
+            bub.anchor.setTo(0.5, 0.5);
+            text = game.add.text(332, 125, 'J', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            text.anchor.setTo(0.5, 0.5);
         }
         if (burst == true){
-            wav = game.add.sprite(932, 32, 'burst');
-            text = game.add.text(932, 75, 'L', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            wav = game.add.sprite(932, 82, 'burst');
+            wav.anchor.setTo(0.5, 0.5);
+            text = game.add.text(932, 125, 'L', {fontSize: 20 + 'px', fill: '#00FFFF'});
+            text.anchor.setTo(0.5, 0.5);
         }
     },
     update: function(){

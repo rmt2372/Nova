@@ -190,7 +190,7 @@ demo.planet2.prototype = {
         tween11 = game.add.tween(plant11).to({x: '+125'}, 900, 'Linear', 'true', 0, false, true).loop(true);
 
 
-        content2 = ['You have collected the shields.', 'In the final fight, after building up the super meter press SHIFT to become invincible and obtain a speed boost for a brief time.', 'Press Enter to get back to level select!'];
+        content2 = ['You have collected the shields.', 'In the final fight, after building up the super meter press J to become invincible and obtain a speed boost for a brief time.', 'Press Enter to get back to level select!'];
 
         line2 = [];
 
