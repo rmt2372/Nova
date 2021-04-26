@@ -385,6 +385,7 @@ function hitEnemy(boss, bullet){
     if(boss.alive == false && ship.alive == true){
         win = game.add.sprite(centerX, centerY, 'win');
         win.anchor.setTo(0.5, 0.5);
+        win.fixedToCamera = true;
         game.camera.fade(0x000000, 4000);
     }
 }
