@@ -34,7 +34,7 @@ demo.tutorial.prototype = {
         
         game.paused = false;
         
-        nova = game.add.sprite(25, 475, 'nova');
+        nova = game.add.sprite(25, 620, 'nova');
         nova.scale.setTo(0.6, 0.6);
         nova.anchor.setTo(0.5, 0.5);
         game.physics.enable(nova);
@@ -53,17 +53,27 @@ demo.tutorial.prototype = {
         frogs = game.add.group();
         frogs.enableBody = true;
         game.physics.enable(frogs);
-        var frog = frogs.create(300, 425, 'frog');
+        var frog = frogs.create(1000, 625, 'frog');
         frog.scale.setTo(-0.4, 0.4);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
         enemy_num += 1;
-        frog = frogs.create(750, 425, 'frog');
+        frog = frogs.create(1450, 625, 'frog');
         frog.scale.setTo(-0.4, 0.4);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
         enemy_num += 1;
-        frog = frogs.create(1000, 425, 'frog');
+        frog = frogs.create(1700, 625, 'frog');
+        frog.scale.setTo(-0.4, 0.4);
+        frog.body.gravity.y = 500;
+        frog.body.collideWorldBounds = true;
+        enemy_num += 1;
+        frog = frogs.create(2400, 625, 'frog');
+        frog.scale.setTo(-0.4, 0.4);
+        frog.body.gravity.y = 500;
+        frog.body.collideWorldBounds = true;
+        enemy_num += 1;
+        frog = frogs.create(2200, 625, 'frog');
         frog.scale.setTo(-0.4, 0.4);
         frog.body.gravity.y = 500;
         frog.body.collideWorldBounds = true;
@@ -75,9 +85,11 @@ demo.tutorial.prototype = {
         left = this.input.keyboard.addKey(Phaser.KeyCode.A);
         right = this.input.keyboard.addKey(Phaser.KeyCode.D);
         
-        var txt = game.add.text(50, 200, 'Move with WASD', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        var txt = game.add.text(50, 400, 'Move with WASD', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
-        var txt = game.add.text(325, 200, 'Shoot with Spacebar', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        var txt = game.add.text(1025, 400, 'Shoot with Spacebar', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        
+        var txt = game.add.text(1725, 400, 'Play through each world and find the\nsupers that will aid in the final fight.\nOr head stright to the boss fight.', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
         
         weapon = game.add.weapon(50, 'shot');
@@ -87,7 +99,7 @@ demo.tutorial.prototype = {
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(nova, 0, 0, true);
         
-        content = ['You Have finished the tutorial. Press Enter to head to the level select screen. Be careful the black hole will suck you into the final fight.'];
+        content = ['You Have finished the tutorial!\nPress Enter to head to the level select screen.\nHold W and press Enter on the planet to enter planet.\nBe careful the black hole will suck you into the final fight.'];
 
         line = [];
 
@@ -97,9 +109,14 @@ demo.tutorial.prototype = {
         wordDelay = 120;
         lineDelay = 400;
         text = game.add.text(32, 32, '', { font: "15px Arial", fill: '#00FFFF' });
+        text.fixedToCamera = true;
         
     },
     update:function(){
+        
+        console.log(nova.x);
+        console.log(nova.y);
+        
         game.physics.arcade.collide(nova, Ground);
         game.physics.arcade.collide(frogs, Ground);
         
@@ -155,8 +172,6 @@ function hitVilTut(shot, villain){
     enemy_num -= 1;
 }
 function pauseGame (){
-    nova.body.velocity.x = 0;
-    nova.body.velocity.y = 0;
     nextLine();
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
         changeState(null, 'l');
