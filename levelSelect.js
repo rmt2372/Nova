@@ -67,6 +67,8 @@ demo.levelSelect.prototype = {
         game.physics.enable(ship);
         ship.body.collideWorldBounds = true;
         
+        text = game.add.text(0, 0, 'Press W and enter to select planet when touching planet', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        
         game.camera.follow(ship)
         
         cursors = game.input.keyboard.createCursorKeys();
@@ -83,6 +85,7 @@ demo.levelSelect.prototype = {
         game.physics.arcade.collide(ship, planet_3, changeLevel);
         game.physics.arcade.collide(ship, planet_4, changeLevel);
         game.physics.arcade.collide(ship, blackhole, bossBattle);
+
         
         if (left.isDown){
             ship.angle -= 2;
@@ -105,9 +108,11 @@ demo.levelSelect.prototype = {
         else if (currentSpeed < 0){
             currentSpeed += 5;
         }
+        
         if (currentSpeed == 0){
             game.physics.arcade.velocityFromRotation(ship.rotation, currentSpeed, ship.body.velocity);
         }
+        
         if (currentSpeed > 0){
             game.physics.arcade.velocityFromRotation(ship.rotation, currentSpeed, ship.body.velocity);
         }
@@ -120,7 +125,7 @@ demo.levelSelect.prototype = {
     }
 }
 function changeLevel(n, m){
-    
+    console.log('hi');
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)){
         
         console.log(m.layer.name);
@@ -152,6 +157,7 @@ function changeLevel(n, m){
         }
     }
 }
+
 function bossBattle(){
     game.sound.stopAll();
     resetHealth();

@@ -99,7 +99,7 @@ demo.tutorial.prototype = {
         fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         weapon.trackSprite(nova, 0, 0, true);
         
-        content = ['You Have finished the tutorial!\nPress Enter to head to the level select screen.\nHold W and press Enter on the planet to enter planet.\nBe careful the black hole will suck you into the final fight.'];
+        content = ['You Have finished the tutorial!\nPress Enter to head to the level select screen.\nBe careful the black hole will suck you into the final fight.'];
 
         line = [];
 
