@@ -98,7 +98,7 @@ demo.planet3.prototype = {
         frog4.animations.add('hop', [0, 1, 2, 3, 2, 1, 0])
         
         frog5 = enemies.create(6480, 1350, 'frog');
-        frog5.scale.setTo(-0.4, 0.4);
+        frog5.scale.setTo(0.4, 0.4);
         frog5.anchor.setTo(0.5, 0.5);
         frog5.body.gravity.y = 500;
         frog5.animations.add('hop', [0, 1, 2, 3, 2, 1, 0])
