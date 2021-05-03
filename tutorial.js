@@ -1,4 +1,4 @@
-var enemy_num = 0, content, lineIndex, wordIndex, wordDelay, lineDelay;
+var enemy_num = 0, content, lineIndex, wordIndex, wordDelay, lineDelay, jump = 0, jumping = false;
 demo.tutorial = function(){};
 demo.tutorial.prototype = {
     preload: function(){
@@ -8,11 +8,17 @@ demo.tutorial.prototype = {
         game.load.image('map_sky_night2', 'assets/map/map_sky_night2.png');
         game.load.image('map_ground_dirt', 'assets/map/map_ground_dirt.png');
         game.load.image('map_ground_grass', 'assets/map/map_ground_grass.png');
+        game.load.image('heart', 'assets/sprites/Heart.png');
+        game.load.image('reset', 'assets/sprites/reset.png');
+        game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
+        game.load.image('resume', 'assets/sprites/resume.png');
+        game.load.image('end', 'assets/sprites/GameOver.png');
         
         
         game.load.spritesheet('nova', 'assets/sprites/nova_.png', 91, 110);
         game.load.image('frog', 'assets/sprites/Frog_villan.png');
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
+        game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
 
     },
     create: function(){
@@ -46,6 +52,8 @@ demo.tutorial.prototype = {
         nova.animations.add('move', [2, 3, 4, 5, 6, 7, 8, 9, 10]);
         nova.animations.add('shoot', [15, 16, 17]);
         nova.animations.add('shoot_move', [20, 21, 22, 23, 24, 25]);
+        
+        nova_shot = game.add.audio('nova_shot', 0.04);
         
         cursors = game.input.keyboard.createCursorKeys();
         
@@ -85,12 +93,59 @@ demo.tutorial.prototype = {
         left = this.input.keyboard.addKey(Phaser.KeyCode.A);
         right = this.input.keyboard.addKey(Phaser.KeyCode.D);
         
-        var txt = game.add.text(50, 400, 'Move with WASD', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        var txt = game.add.text(50, 400, 'Move with WASD.\nJump in the air to double jump.', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
         var txt = game.add.text(1025, 400, 'Shoot with Spacebar', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
         var txt = game.add.text(1725, 400, 'Play through each world and find the\nsupers that will aid in the final fight.\nOr head stright to the boss fight.', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
+        heart1 = game.add.sprite(0, 0, 'heart');
+        heart1.fixedToCamera = true;
+        heart2 = game.add.sprite(18, 0, 'heart');
+        heart2.fixedToCamera = true;
+        
+        pause = game.add.text(975, 0, 'Pause', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        pause.fixedToCamera = true;
+        pause.anchor.setTo(0.5, 0);
+        pause.inputEnabled = true;
+        pause.events.onInputUp.add(function () {
+            game.physics.arcade.isPaused = true;
+            LS = game.add.button(centerX, 400, 'LS', function(){
+                changeState(null, 'l');
+            });
+            LS.anchor.setTo(0.5, 0.5);
+            LS.fixedToCamera = true;
+            LS.scale.setTo(0.5);
+            reset = game.add.button(centerX, 300, 'reset', function(){
+                    if(game.state.getCurrentState().key == 'tutorial'){
+                        changeState(null, 't');
+                    }
+                    if(game.state.getCurrentState().key == 'planet1'){
+                        changeState(null, '1');
+                    }
+                    if(game.state.getCurrentState().key == 'planet2'){
+                        changeState(null, '2');
+                    }
+                    if(game.state.getCurrentState().key == 'planet3'){
+                        changeState(null, '3');
+                    }
+                    if(game.state.getCurrentState().key == 'planet4'){
+                        changeState(null, '4');
+                    }
+                });
+            reset.anchor.setTo(0.5, 0.5);
+            reset.fixedToCamera = true;
+            reset.scale.setTo(0.75);
+            resume = game.add.button(centerX, centerY - 100, 'resume', function(){
+                game.physics.arcade.isPaused = false;
+                LS.destroy();
+                reset.destroy();
+                resume.destroy();
+            });
+            resume.anchor.setTo(0.5, 0.5);
+            resume.fixedToCamera = true;
+            resume.scale.setTo(0.5);
+        });
         
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -114,8 +169,6 @@ demo.tutorial.prototype = {
     },
     update:function(){
         
-        console.log(nova.x);
-        console.log(nova.y);
         
         game.physics.arcade.collide(nova, Ground);
         game.physics.arcade.collide(frogs, Ground);
@@ -149,8 +202,18 @@ demo.tutorial.prototype = {
             nova.animations.stop('move');
             nova.animations.play('idle', 3, true);
         }
-        if(up.isDown && nova.body.blocked.down){
-            nova.body.velocity.y = -510;
+        if(up.isDown && jump < 2 && jumping == false){
+            nova.body.velocity.y = -375;
+            jumping = true;
+
+        }
+        if(nova.body.blocked.down){
+            jump = 0;
+            jumping = false;
+        }
+        if (jumping && up.isDown == false) {
+            jump += 1;
+            jumping = false;
         }
         if (fireButton.isDown){
             if (nova.alive == true){
@@ -160,6 +223,9 @@ demo.tutorial.prototype = {
                 }
             }
         }
+        weapon.onFire.add(function(){
+            nova_shot.play();
+        })
         if (enemy_num == 0){
             pauseGame();
             nextLine();
