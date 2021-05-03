@@ -1,4 +1,4 @@
-var enemy_num = 0, content, lineIndex, wordIndex, wordDelay, lineDelay, jump = 0, jumping = false;
+var enemy_num = 0, content, lineIndex, wordIndex, wordDelay, lineDelay, jump = 0, jumping = false, tut_song;
 demo.tutorial = function(){};
 demo.tutorial.prototype = {
     preload: function(){
@@ -19,6 +19,7 @@ demo.tutorial.prototype = {
         game.load.image('frog', 'assets/sprites/Frog_villan.png');
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
         game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
+        game.load.audio('tutSong', 'assets/sounds/Paradise.wav');
 
     },
     create: function(){
@@ -92,6 +93,10 @@ demo.tutorial.prototype = {
         up = this.input.keyboard.addKey(Phaser.KeyCode.W);
         left = this.input.keyboard.addKey(Phaser.KeyCode.A);
         right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        
+        tutSong = game.add.audio('tutSong');
+        tutSong.addMarker('tutSong', 75, 80, 0.03, true);
+        tutSong.play('tutSong');
         
         var txt = game.add.text(50, 400, 'Move with WASD.\nJump in the air to double jump.', {fontSize: 20 + 'px', fill: '#00FFFF'});
         

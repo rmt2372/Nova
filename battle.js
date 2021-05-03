@@ -366,6 +366,11 @@ demo.battle.prototype = {
         if (ship_life == 4){
             heart5.kill();
         }
+        if (ship.alive == false){
+            flame1.autofire = false;
+            flame2.autofire = false;
+            flame3.autofire = false;
+        }
     }
 }
 function missleHit(boss, bullet){
