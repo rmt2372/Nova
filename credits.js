@@ -7,6 +7,7 @@ demo.credits.prototype = {
         game.load.image('names', 'assets/sprites/names.png');
         game.load.image('thanks', 'assets/sprites/thanks.png');
         game.load.image('menu', 'assets/sprites/menu.png');
+        game.load.audio('creditSong', 'assets/sounds/Piano.wav');
     },
     create: function(){
         addChangeStateEventListeners();
@@ -43,6 +44,9 @@ demo.credits.prototype = {
         game.add.tween(names).to({y: -500}, 10000, 'Linear', 'true');
         game.add.tween(thanks).to({y: 188}, 10000, 'Linear', 'true');
         game.add.tween(menu).to({y: 388}, 10000, 'Linear', 'true');
+        
+        song = game.add.audio('creditSong', 0.03, true);
+        song.play();
     },
     update: function(){}
 }
