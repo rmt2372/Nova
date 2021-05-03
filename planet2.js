@@ -20,7 +20,7 @@ demo.planet2.prototype = {
         game.load.image('heart', 'assets/sprites/Heart.png');
         
         game.load.image('shot', 'assets/sprites/Nova_shot.png');
-        game.load.audio('level2song', 'assets/sounds/Vastanberg.wav');
+        game.load.audio('level2song', 'assets/sounds/Paradise.wav');
         game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
         
         
@@ -207,7 +207,7 @@ demo.planet2.prototype = {
         
         
         song2 = game.add.audio('level2song');
-        song2.addMarker('song2', 0.5, 22.5, 0.03, true);
+        song2.addMarker('song2', 75, 80, 0.03, true);
         song2.play('song2');
         
         cursors = game.input.keyboard.createCursorKeys();
