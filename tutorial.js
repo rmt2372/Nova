@@ -230,6 +230,12 @@ demo.tutorial.prototype = {
             pauseGame();
             nextLine();
         }
+        if (nova_life == 0){
+            heart1.kill();
+        }
+        if (nova_life == 1){
+            heart2.kill();
+        }
     }
 }
 function hitVilTut(shot, villain){

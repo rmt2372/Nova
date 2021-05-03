@@ -26,6 +26,7 @@ demo.menu.prototype = {
     update: function(){}
 }
 function changeState(i, stateNum){
+    resetHealth();
     game.sound.stopAll();
     if (stateNum == 'm'){
         console.log("menu");

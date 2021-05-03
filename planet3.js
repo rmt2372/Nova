@@ -16,6 +16,7 @@ demo.planet3.prototype = {
         game.load.image('reset', 'assets/sprites/reset.png');
         game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
         game.load.image('resume', 'assets/sprites/resume.png');
+        game.load.image('heart', 'assets/sprites/Heart.png');
         
         game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
         
@@ -195,8 +196,10 @@ demo.planet3.prototype = {
         textWav = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
         textWav.fixedToCamera = true;
         
-        textlife = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
-        textlife.fixedToCamera = true;
+        heart1 = game.add.sprite(0, 0, 'heart');
+        heart1.fixedToCamera = true;
+        heart2 = game.add.sprite(18, 0, 'heart');
+        heart2.fixedToCamera = true;
         
         tween1 = game.add.tween(plant1).to({x: '-50'}, 750, 'Linear', 'true', 0, false, true).loop(true);
         tween2 = game.add.tween(plant2).to({x: '-75'}, 750, 'Linear', 'true', 0, false, true).loop(true);
@@ -266,7 +269,6 @@ demo.planet3.prototype = {
     },
     update:function(){
     
-        textlife.setText('Lives ' + nova_life);
         
         game.physics.arcade.overlap(nova, wave_burst, collectWave, null, this);
         game.physics.arcade.collide(nova, ground);
@@ -283,6 +285,8 @@ demo.planet3.prototype = {
         if (nova.y > 1375){
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
+                heart1.kill();
+                heart2.kill();
                 endGameLevel();
                 nova_life = 0;
             }
@@ -424,8 +428,18 @@ demo.planet3.prototype = {
             nova.animations.stop('move');
             nova.animations.play('idle', 3, true);
         }
-        if(up.isDown && nova.body.blocked.down){
-            nova.body.velocity.y = -510;
+        if(up.isDown && jump < 2 && jumping == false){
+            nova.body.velocity.y = -375;
+            jumping = true;
+
+        }
+        if(nova.body.blocked.down){
+            jump = 0;
+            jumping = false;
+        }
+        if (jumping && up.isDown == false) {
+            jump += 1;
+            jumping = false;
         }
         if (fireButton.isDown){
             if (nova.alive == true){
@@ -503,6 +517,12 @@ demo.planet3.prototype = {
         if(frog5.body.blocked.down){
             frog5.body.velocity.y = -300;
             frog5.animations.play('hop', 6, false);
+        }
+        if (nova_life == 0){
+            heart1.kill();
+        }
+        if (nova_life == 1){
+            heart2.kill();
         }
     }
 }
