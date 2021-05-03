@@ -16,6 +16,7 @@ demo.planet4.prototype = {
         game.load.image('reset', 'assets/sprites/reset.png');
         game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
         game.load.image('resume', 'assets/sprites/resume.png');
+        game.load.image('heart', 'assets/sprites/Heart.png');
         
         game.load.audio('nova_shot', 'assets/sounds/nova_shot.wav');
         
@@ -316,12 +317,13 @@ demo.planet4.prototype = {
         textLas = game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65" });
         textLas.fixedToCamera = true;
         
-        textlife = game.add.text(0, 0, 'Lives ' + nova_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
-        textlife.fixedToCamera = true;
+        heart1 = game.add.sprite(0, 0, 'heart');
+        heart1.fixedToCamera = true;
+        heart2 = game.add.sprite(18, 0, 'heart');
+        heart2.fixedToCamera = true;
     },
     update:function(){
         
-        textlife.setText('Lives ' + nova_life);
         
         game.physics.arcade.collide(nova, ground);
         game.physics.arcade.overlap(nova, laser_cannon, collectLaser, null, this);
@@ -334,6 +336,8 @@ demo.planet4.prototype = {
         if (nova.y > 1360){
             nova.body.collideWorldBounds = false;
             if (nova.inCamera == false){
+                heart1.kill();
+                heart2.kill();
                 endGameLevel();
                 nova_life = 0;
             }
@@ -368,8 +372,18 @@ demo.planet4.prototype = {
             nova.animations.stop('move');
             nova.animations.play('idle', 3, true);
         }
-        if(up.isDown && nova.body.blocked.down){
-            nova.body.velocity.y = -510;
+        if(up.isDown && jump < 2 && jumping == false){
+            nova.body.velocity.y = -375;
+            jumping = true;
+
+        }
+        if(nova.body.blocked.down){
+            jump = 0;
+            jumping = false;
+        }
+        if (jumping && up.isDown == false) {
+            jump += 1;
+            jumping = false;
         }
         if (fireButton.isDown){
             if (nova.alive == true){
@@ -580,6 +594,12 @@ demo.planet4.prototype = {
         else if(nova.x < bird9.x){
             bird9.scale.setTo(1, 1);
         } 
+        if (nova_life == 0){
+            heart1.kill();
+        }
+        if (nova_life == 1){
+            heart2.kill();
+        }
     }
 }
 function collectLaser(nova, laser_cannon){

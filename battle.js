@@ -25,6 +25,7 @@ demo.battle.prototype = {
         game.load.image('LS', 'assets/sprites/LevelSelectBut.png');
         game.load.image('resume', 'assets/sprites/resume.png');
         game.load.image('win', 'assets/sprites/win.png');
+        game.load.image('heart', 'assets/sprites/Heart.png');
         
         game.load.audio('laser_sound', 'assets/sounds/laser_sound.mp3');
         game.load.audio('missle_sound', 'assets/sounds/missle_sound.wav');
@@ -162,8 +163,17 @@ demo.battle.prototype = {
         right = this.input.keyboard.addKey(Phaser.KeyCode.D);
         
         cursors = game.input.keyboard.createCursorKeys();
-        text = game.add.text(0, 0, 'Lives ' + ship_life, {fontSize: 20 + 'px', fill: '#00FFFF'});
-        text.fixedToCamera = true;
+        
+        heart1 = game.add.sprite(0, 0, 'heart');
+        heart1.fixedToCamera = true;
+        heart2 = game.add.sprite(18, 0, 'heart');
+        heart2.fixedToCamera = true;
+        heart3 = game.add.sprite(36, 0, 'heart');
+        heart3.fixedToCamera = true;
+        heart4 = game.add.sprite(54, 0, 'heart');
+        heart4.fixedToCamera = true;
+        heart5 = game.add.sprite(72, 0, 'heart');
+        heart5.fixedToCamera = true;
         
         game.physics.arcade.isPaused = false;
         
@@ -202,7 +212,7 @@ demo.battle.prototype = {
     },
     update: function(){
         game.time.events.add(1000, toggleAutoFire, this);
-        text.setText('Lives ' + ship_life);
+
         if (boss.alive == true){
             boss.animations.play('attack', 10, true);
         }
@@ -340,6 +350,21 @@ demo.battle.prototype = {
             down = this.input.keyboard.addKey(Phaser.KeyCode.S);
             left = this.input.keyboard.addKey(Phaser.KeyCode.A);
             right = this.input.keyboard.addKey(Phaser.KeyCode.D);
+        }
+        if (ship_life == 0){
+            heart1.kill();
+        }
+        if (ship_life == 1){
+            heart2.kill();
+        }
+        if (ship_life == 2){
+            heart3.kill();
+        }
+        if (ship_life == 3){
+            heart4.kill();
+        }
+        if (ship_life == 4){
+            heart5.kill();
         }
     }
 }
