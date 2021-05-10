@@ -57,6 +57,7 @@ function changeState(i, stateNum){
         resetHealth();
         game.state.start('planet4');
     } if (stateNum == 't'){
+        enemy_num = 0;
         console.log('tutorial');
         game.state.start('tutorial');
     }
@@ -69,12 +70,14 @@ function addKeyCallback(key, fn, args){
 
 function addChangeStateEventListeners(){
     addKeyCallback(Phaser.Keyboard.M, changeState, 'm');
+    /*
     addKeyCallback(Phaser.Keyboard.B, changeState, 'b');
     addKeyCallback(Phaser.Keyboard.N, changeState, 'l');
     addKeyCallback(Phaser.Keyboard.ONE, changeState, 1);
     addKeyCallback(Phaser.Keyboard.TWO, changeState, 2);
     addKeyCallback(Phaser.Keyboard.THREE, changeState, 3);
     addKeyCallback(Phaser.Keyboard.FOUR, changeState, 4);
+    */
 }
 function resetHealth(){
     ship_life = 5;
