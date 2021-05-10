@@ -28,13 +28,13 @@ demo.reminder.prototype = {
             text.anchor.setTo(0.5, 0.5);
         }
         if (laser == true){
-            lase = game.add.sprite(332, 82, 'laser');
+            lase = game.add.sprite(632, 82, 'laser');
             lase.anchor.setTo(0.5, 0.5);
             text = game.add.text(632, 125, 'K', {fontSize: 20 + 'px', fill: '#00FFFF'});
             text.anchor.setTo(0.5, 0.5);
         }
         if (shield == true){
-            bub = game.add.sprite(632, 82, 'bubble_shield');
+            bub = game.add.sprite(332, 82, 'bubble_shield');
             bub.anchor.setTo(0.5, 0.5);
             text = game.add.text(332, 125, 'J', {fontSize: 20 + 'px', fill: '#00FFFF'});
             text.anchor.setTo(0.5, 0.5);

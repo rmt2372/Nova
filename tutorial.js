@@ -100,7 +100,7 @@ demo.tutorial.prototype = {
         
         var txt = game.add.text(50, 400, 'Move with WASD.\nJump in the air to double jump.', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
-        var txt = game.add.text(1025, 400, 'Shoot with Spacebar', {fontSize: 20 + 'px', fill: '#00FFFF'});
+        var txt = game.add.text(1025, 400, 'Shoot with Spacebar\nKill all frogs to move on.', {fontSize: 20 + 'px', fill: '#00FFFF'});
         
         var txt = game.add.text(1725, 400, 'Play through each world and find the\nsupers that will aid in the final fight.\nOr head stright to the boss fight.', {fontSize: 20 + 'px', fill: '#00FFFF'});
         

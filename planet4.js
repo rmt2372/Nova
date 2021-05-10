@@ -202,6 +202,14 @@ demo.planet4.prototype = {
         bird9.scale.setTo(1, 1);
         bird9.animations.add('fly', [0, 1, 2, 3]);
         
+        bird10 = enemy.create(2829, 1300, 'bird');
+        bird10.scale.setTo(1, 1);
+        bird10.animations.add('fly', [0, 1, 2, 3]);
+        
+        bird11 = enemy.create(3550, 1360, 'bird');
+        bird11.scale.setTo(1, 1);
+        bird11.animations.add('fly', [0, 1, 2, 3]);
+        
         weapon = game.add.weapon(50, 'shot');
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
         weapon.fireRate = 600;
@@ -540,6 +548,14 @@ demo.planet4.prototype = {
             bird9.animations.play('fly', 12, true);
             game.physics.arcade.moveToObject(bird9, nova, 120, null);
         }
+        if(bird10.inCamera){
+            bird10.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird10, nova, 120, null);
+        }
+        if(bird11.inCamera){
+            bird11.animations.play('fly', 12, true);
+            game.physics.arcade.moveToObject(bird11, nova, 120, null);
+        }
         if (nova.x > bird1.x){
             bird1.scale.setTo(-1, 1);
         }
@@ -593,6 +609,18 @@ demo.planet4.prototype = {
         }
         else if(nova.x < bird9.x){
             bird9.scale.setTo(1, 1);
+        } 
+        if (nova.x > bird10.x){
+            bird10.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird10.x){
+            bird10.scale.setTo(1, 1);
+        }
+        if (nova.x > bird11.x){
+            bird11.scale.setTo(-1, 1);
+        }
+        else if(nova.x < bird11.x){
+            bird11.scale.setTo(1, 1);
         } 
         if (nova_life == 0){
             heart1.kill();
